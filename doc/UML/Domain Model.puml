@@ -1,0 +1,85 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class User{
+id
+firstName
+lastName
+email
+}
+
+class Administrator{
+}
+
+class Airline{
+}
+
+class Customer{
+}
+
+Administrator "1" <|-- User
+Customer <|-- User
+Airline <|-- User
+
+class Airport{
+referenceCode
+address
+}
+
+class Flight{
+code
+time
+date
+}
+
+class Airplane{
+id
+type
+}
+
+class Ticket{
+id
+price
+time
+date
+}
+
+class Seat{
+seatNumber
+}
+
+class Reservation{
+id
+}
+
+enum ReservationType{
+OneWay
+Return
+}
+
+enum TicketClass{
+First
+Business
+Economy
+}
+
+Airline "1" o-- "*" Flight : creates >
+Reservation "1" o-- "*" Flight
+Reservation "1" *-- "*" Ticket
+TicketClass "1" -- "*" Ticket : categorise >
+ReservationType "1" -- "*" Reservation : type >
+Airplane "1" -- "*" Seat : has >
+Seat "1" -- "*" Ticket : generates >
+Customer "1" o-- "*" Reservation: creates >
+
+Flight "1" *-- "1" Airport : source >
+Flight "1" *-- "1" Airport : destination >
+Flight "1" o-- "0..*" Airport : stopovers >
+
+Administrator -- "*" Airport : create >
+
+Customer "*" -- "*" Flight : previous >
+Customer "*" -- "*" Flight : upcoming >
+
+
+@enduml
