@@ -3,8 +3,6 @@
 
 class User{
 id
-firstName
-lastName
 email
 }
 
@@ -12,9 +10,12 @@ class Administrator{
 }
 
 class Airline{
+name
 }
 
 class Customer{
+firstName
+lastName
 }
 
 Administrator "1" <|-- User
@@ -27,14 +28,19 @@ address
 }
 
 class Flight{
+id
 code
 time
 date
+availableSeats
 }
 
 class Airplane{
-id
 type
+}
+
+class Seat{
+seatNumber
 }
 
 class Ticket{
@@ -42,10 +48,10 @@ id
 price
 time
 date
-}
-
-class Seat{
-seatNumber
+firstName
+lastName
+identificationType
+identificationNumber
 }
 
 class Reservation{
@@ -57,29 +63,30 @@ OneWay
 Return
 }
 
-enum TicketClass{
+enum Class{
 First
 Business
 Economy
 }
 
-Airline "1" o-- "*" Flight : creates >
-Reservation "1" o-- "*" Flight
-Reservation "1" *-- "*" Ticket
-TicketClass "1" -- "*" Ticket : categorise >
-ReservationType "1" -- "*" Reservation : type >
-Airplane "1" -- "*" Seat : has >
-Seat "1" -- "*" Ticket : generates >
-Customer "1" o-- "*" Reservation: creates >
+Airline "1" o-- "*" Flight : create >
+Reservation "1" --o "*" Flight
+Reservation "1" --* "*" Ticket
+Seat "1" *-- "1" Ticket
+ReservationType "1" *-- "*" Reservation : type >
+Flight "1" --* "1" Airplane : type >
+Customer "1" o-- "*" Reservation: create >
 
-Flight "1" *-- "1" Airport : source >
-Flight "1" *-- "1" Airport : destination >
-Flight "1" o-- "0..*" Airport : stopovers >
+Flight "*" --* "1" Airport : from >
+Flight "*" --* "1" Airport : to >
+Flight "*" --o "*" Airport : stops at >
 
-Administrator -- "*" Airport : create >
+Administrator -- Airport : create >
 
 Customer "*" -- "*" Flight : previous >
 Customer "*" -- "*" Flight : upcoming >
 
+Seat "*" --* "1" Class : class >
+Seat "*" --* "1" Airplane : has <
 
 @enduml
