@@ -16,6 +16,7 @@ name
 class Customer{
 firstName
 lastName
+password
 }
 
 Administrator "1" <|-- User
