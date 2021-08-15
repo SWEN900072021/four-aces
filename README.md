@@ -10,4 +10,4 @@
 1006014 - yuxiang2@student.unimelb.edu.au 
 
 # Part1
-Release tag: https://github.com/SWEN900072021/four-aces/releases/tag/1.0
+Release tag: https://github.com/SWEN900072021/four-aces/releases/tag/SWEN90007_2021_Part1_four-aces
