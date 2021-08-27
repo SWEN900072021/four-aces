@@ -3,9 +3,9 @@ package com.example.four_aces;
 import java.sql.*;
 
 public class JDBCtest {
-    private final String url = "jdbc:postgresql://localhost:5432/myDB";
-    private final String user = "postgres";
-    private final String password = "admin";
+    private final String url = "jdbc:postgresql://localhost:5432/myDB"; // Replace it by your url
+    private final String user = "postgres"; // Replace it by your user name
+    private final String password = "admin"; // Replace it by your password
     /**
      * Connect to the PostgreSQL database
      * @return a Connection object
