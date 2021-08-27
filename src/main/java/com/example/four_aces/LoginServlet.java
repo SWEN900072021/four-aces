@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
         String pass = request.getParameter("passWord");
         PrintWriter writer = response.getWriter();
         writer.println("<h3> Hello! We are team Four Aces! </h3>");
-        writer.println("<h3> Your user name is: " + user + "</h3>");
+        writer.println("<h3> Your username is: " + user + "</h3>");
         writer.println("<h3> Your password is: " + pass + "</h3>");
     }
 }
