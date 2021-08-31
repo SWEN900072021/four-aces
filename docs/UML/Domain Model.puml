@@ -2,7 +2,6 @@
 'https://plantuml.com/class-diagram
 
 class User{
-id
 email
 }
 
@@ -19,9 +18,16 @@ lastName
 password
 }
 
-Administrator "1" <|-- User
-Customer <|-- User
-Airline <|-- User
+class Passenger{
+firstName
+lastName
+identificationType
+identificationNumber
+}
+
+Administrator "1" --|> User
+Customer --|> User
+Airline --|> User
 
 class Airport{
 referenceCode
@@ -29,11 +35,9 @@ address
 }
 
 class Flight{
-id
 code
 time
 date
-availableSeats
 }
 
 class Airplane{
@@ -45,24 +49,9 @@ seatNumber
 }
 
 class Ticket{
-id
 price
-time
-date
-firstName
-lastName
-identificationType
-identificationNumber
 }
 
-class Reservation{
-id
-}
-
-enum ReservationType{
-OneWay
-Return
-}
 
 enum Class{
 First
@@ -71,16 +60,18 @@ Economy
 }
 
 Airline "1" o-- "*" Flight : create >
-Reservation "1" --o "*" Flight
-Reservation "1" --* "*" Ticket
+
 Seat "1" *-- "1" Ticket
-ReservationType "1" *-- "*" Reservation : type >
 Flight "1" --* "1" Airplane : type >
-Customer "1" o-- "*" Reservation: create >
+Flight "1" -- "*" Ticket : has >
+Customer "*" --- "*" Passenger : book ticket >
+
+Passenger "*" --- "*" Ticket
 
 Flight "*" --* "1" Airport : from >
 Flight "*" --* "1" Airport : to >
 Flight "*" --o "*" Airport : stops at >
+Flight "1" -- "*" Seat : available >
 
 Administrator -- Airport : create >
 
