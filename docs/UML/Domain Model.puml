@@ -52,6 +52,10 @@ class Ticket{
 price
 }
 
+class Reservation {
+
+}
+
 
 enum Class{
 First
@@ -59,14 +63,17 @@ Business
 Economy
 }
 
+Reservation "*" -- "1..2" Flight : contains >
+Customer "1" -- "*" Reservation : create >
+Reservation "*" -- "*" Passenger : contains >
+
 Airline "1" o-- "*" Flight : create >
 
 Seat "1" *-- "1" Ticket
 Flight "1" --* "1" Airplane : type >
 Flight "1" -- "*" Ticket : has >
-Customer "*" --- "*" Passenger : book ticket >
 
-Passenger "*" --- "*" Ticket
+Passenger "1" --- "*" Ticket : has >
 
 Flight "*" --* "1" Airport : from >
 Flight "*" --* "1" Airport : to >
@@ -80,5 +87,7 @@ Customer "*" -- "*" Flight : upcoming >
 
 Seat "*" --* "1" Class : class >
 Seat "*" --* "1" Airplane : has <
+
+
 
 @enduml
