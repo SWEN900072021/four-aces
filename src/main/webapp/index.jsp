@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>TRS</title>
 </head>
 <body>
 <h1><%= "Travel Reservation System" %>
@@ -10,8 +10,8 @@
 <h2><%= "Four Aces" %></h2>
 <br/>
 <form action = "login" method = "post">
-    User name: <input type = "text" name = "userName"><br/>
-    Password: <input type = "password" name = "passWord"><br/>
+    Username: <input type = "text" name = "username"><br/>
+    Password: <input type = "password" name = "password"><br/>
     <input type = "submit" value = "Login">
 </form>
 </body>
