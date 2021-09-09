@@ -1,4 +1,4 @@
-package com.example.four_aces.controllers;
+package controllers;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

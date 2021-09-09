@@ -1,4 +1,4 @@
-package com.example.four_aces.domain;
+package domain;
 
 public class Customer {
     private int id;
