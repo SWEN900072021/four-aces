@@ -1,10 +1,12 @@
 package datasource;
 
+import domain.Customer;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserMapper {
+public class CustomerMapper {
     private static final String url = "jdbc:postgresql://localhost:5432/myDB";
     private static final String user = "postgres";
     private static final String password = "admin";
@@ -20,8 +22,8 @@ public class UserMapper {
         return conn;
     }
 
-    public List<String> getAllUsers() {
-        List<String> users = new ArrayList<>();
+    public static List<Customer> getAllUsers() {
+        List<Customer> customers = new ArrayList<>();
         String sql = "SELECT * FROM users;";
         PreparedStatement findStatement = null;
         ResultSet rs = null;
@@ -32,10 +34,12 @@ public class UserMapper {
             findStatement = conn.prepareStatement(sql);
             findStatement.execute();
             rs = findStatement.getResultSet();
+            int id = 0;
             while (rs.next()) {
                 String username = rs.getString("username");
                 String password = rs.getString("password");
-                users.add(username + "-" + password);
+                Customer customer = new Customer(id++, username, password);
+                customers.add(customer);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,14 +58,15 @@ public class UserMapper {
                 throwables.printStackTrace();
             }
         }
-        return users;
+        return customers;
     }
 
     public static void main(String[] args) {
-        UserMapper dbConnection = new UserMapper();
-        List <String> users = dbConnection.getAllUsers();
-        for (int i = 0; i < users.size(); i ++) {
-            System.out.println(users.get(i));
+        CustomerMapper dbConnection = new CustomerMapper();
+        List <Customer> customers = dbConnection.getAllUsers();
+        for (int i = 0; i < customers.size(); i ++) {
+            Customer customer = customers.get(i);
+            System.out.println(customer.getId() + "-" + customer.getUsername() + "-" + customer.getPassword());
         }
     }
 }
