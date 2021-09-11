@@ -1,5 +1,7 @@
 package controllers;
 
+import domain.Customer;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -14,8 +16,11 @@ public class LoginController extends HttpServlet {
         System.out.println("Hello from GET method in LoginController");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        PrintWriter writer = response.getWriter();
-        writer.println("<h3> Hello from Get " + username+ " " + password + "</h3>");
+        Customer customer = new Customer(1, username, password);
+
+        request.setAttribute("customer", customer);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+        dispatcher.forward(request, response);
     }
 
     @Override
@@ -24,10 +29,11 @@ public class LoginController extends HttpServlet {
         System.out.println("Hello from Post method in LoginController");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        PrintWriter writer = response.getWriter();
-        writer.println("<h3> Hello! We are team Four Aces! </h3>");
-        writer.println("<h3> Your username is: " + username + "</h3>");
-        writer.println("<h3> Your password is: " + password + "</h3>");
+        Customer customer = new Customer(1, username, password);
+
+        request.setAttribute("customer", customer);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+        dispatcher.forward(request, response);
     }
 }
 
