@@ -1,4 +1,4 @@
-package controllers;
+package controller.commands;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;

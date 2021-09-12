@@ -1,4 +1,7 @@
-package controllers;
+package controller;
+
+import controller.commands.FrontCommand;
+import controller.commands.UnknownCommand;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -33,7 +36,7 @@ public class FrontServlet extends HttpServlet {
         System.out.println(request.getParameter("command"));
         Class result;
         String commandClassName =
-                "controllers." + (String) request.getParameter("command") + "Command";
+                "controller.commands." + (String) request.getParameter("command") + "Command";
         try {
             result = Class.forName(commandClassName);
         } catch (ClassNotFoundException e) {

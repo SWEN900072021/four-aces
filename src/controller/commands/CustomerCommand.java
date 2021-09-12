@@ -1,11 +1,11 @@
-package controllers;
+package controller.commands;
 
 import domain.Customer;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
 
-public class CustomerCommand extends FrontCommand{
+public class CustomerCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         String username = request.getParameter("username");
