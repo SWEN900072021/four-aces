@@ -33,7 +33,6 @@ public class FrontServlet extends HttpServlet {
     }
 
     private Class getCommandClass(HttpServletRequest request) {
-        System.out.println(request.getParameter("command"));
         Class result;
         String commandClassName =
                 "main.java.com.example.four_aces.controller.commands." + (String) request.getParameter("command") + "Command";
