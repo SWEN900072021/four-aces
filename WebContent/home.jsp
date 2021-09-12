@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Customer Login</title>
+    <title>TRS</title>
 </head>
 <body>
 <%
@@ -10,7 +10,7 @@
         Customer customer = (Customer) request.getAttribute("customer");
 %>
 
-<h1>Customer Login</h1>
+<h2>Home Page</h2>
 <div>ID: <%= customer.getId()%></div>
 <div>Username: <%= customer.getUsername()%></div>
 <div>Password: <%= customer.getPassword()%></div>

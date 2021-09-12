@@ -13,6 +13,6 @@ public class CustomerCommand extends FrontCommand{
         Customer customer = new Customer(1, username, password);
         request.setAttribute("customer", customer);
         request.setAttribute("command", "Customer");
-        forward("/login");
+        forward("/home");
     }
 }

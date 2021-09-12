@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Bookshelf: Command unknown</title>
+  <title>TRS</title>
 </head>
 <body>
 <p>Sorry, this command is not known!</p>

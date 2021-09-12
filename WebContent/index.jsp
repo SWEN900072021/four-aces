@@ -8,8 +8,8 @@
 <h1><%= "Travel Reservation System" %>
 </h1>
 <h2><%= "Four Aces" %></h2>
-<br/>
-<form action = "login?command=Customer" method = "post">
+<h3>Login</h3>
+<form action = "frontServlet?command=Customer" method = "post">
     Username: <input type = "text" name = "username"><br/>
     Password: <input type = "password" name = "password"><br/>
     <input type = "submit" value = "Login">
