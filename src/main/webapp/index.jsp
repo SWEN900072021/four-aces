@@ -2,16 +2,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TRS</title>
+    <title>JSP - Hello World</title>
 </head>
 <body>
 <h1><%= "Travel Reservation System" %>
 </h1>
 <h2><%= "Four Aces" %></h2>
-<h3>Login</h3>
-<form action = "frontServlet?command=Customer" method = "post">
-    Username: <input type = "text" name = "username"><br/>
-    Password: <input type = "password" name = "password"><br/>
+<br/>
+<form action = "login" method = "post">
+    User name: <input type = "text" name = "userName"><br/>
+    Password: <input type = "password" name = "passWord"><br/>
     <input type = "submit" value = "Login">
 </form>
 </body>
