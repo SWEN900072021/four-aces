@@ -12,7 +12,6 @@ public class CustomerCommand extends FrontCommand {
         String password = request.getParameter("password");
         Customer customer = new Customer(1, username, password);
         request.setAttribute("customer", customer);
-        request.setAttribute("command", "Customer");
         forward("/home.jsp");
     }
 }
