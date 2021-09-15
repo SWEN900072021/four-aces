@@ -19,8 +19,8 @@
     <input type = "submit" value = "Create Flights">
 </form>
 
-<form action = "frontServlet?command=GetCustomers" method = "post">
-    <input type = "submit" value = "Get Customers">
+<form action = "frontServlet?command=GetFlights" method = "post">
+    <input type = "submit" value = "View All Flights">
 </form>
 <%
 } else {
