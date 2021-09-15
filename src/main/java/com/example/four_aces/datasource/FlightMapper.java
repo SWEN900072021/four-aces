@@ -36,9 +36,9 @@ public class FlightMapper {
             rs = findStatement.getResultSet();
             while (rs.next()) {
                 int id = Integer.parseInt(rs.getString("id"));
-                String flightCode = rs.getString("flightCode");
-                String date = rs.getString("date");
-                String time = rs.getString("time");
+                String flightCode = rs.getString("flight_code");
+                String date = rs.getString("flight_date");
+                String time = rs.getString("flight_time");
                 Flight flight = new Flight(id, flightCode, date,time);
                 flights.add(flight);
             }
@@ -62,13 +62,41 @@ public class FlightMapper {
         return flights;
     }
 
+    public static void addFlight(String flightCode, String flightDate, String flightTime) {
+        String sql = "INSERT INTO flights (id, flight_code, flight_date, flight_time) VALUES (?, ?, ?, ?);";
+        PreparedStatement insertStatement = null;
+        Connection conn = null;
+
+        try {
+            conn = connection();
+            insertStatement = conn.prepareStatement(sql);
+            insertStatement.setInt(1, 3);
+            insertStatement.setString(2, flightCode);
+            insertStatement.setString(3, flightDate);
+            insertStatement.setString(4, flightTime);
+            insertStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String[] args) {
         FlightMapper dbConnection = new FlightMapper();
-        List <Flight> flights = dbConnection.getAllFlights();
-        for (int i = 0; i < flights.size(); i ++) {
-            Flight flight = flights.get(i);
-            System.out.println(flight.getId() + "-" + flight.getDate() + "-" + flight.getTime());
-        }
+//        List <Flight> flights = dbConnection.getAllFlights();
+//        for (int i = 0; i < flights.size(); i ++) {
+//            Flight flight = flights.get(i);
+//            System.out.println(flight.getId() + "-" + flight.getDate() + "-" + flight.getTime());
+//        }
+
+        dbConnection.addFlight("QF180","21/09/09","12:30pm");
     }
 }
 
