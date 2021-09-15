@@ -15,8 +15,12 @@
 <div>Username: <%= customer.getUsername()%></div>
 <div>Password: <%= customer.getPassword()%></div>
 
-<form action = "frontServlet?command=Airline" method = "post">
-    <input type = "submit" value = "Create">
+<form action = "frontServlet?command=FlightCreationForm" method = "post">
+    <input type = "submit" value = "Create Flights">
+</form>
+
+<form action = "frontServlet?command=GetCustomers" method = "post">
+    <input type = "submit" value = "Get Customers">
 </form>
 <%
 } else {
