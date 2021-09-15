@@ -35,7 +35,7 @@ public class FrontServlet extends HttpServlet {
     private Class getCommandClass(HttpServletRequest request) {
         Class result;
         String commandClassName =
-                "main.java.com.example.four_aces.controller.commands." + (String) request.getParameter("command") + "Command";
+            "main.java.com.example.four_aces.controller.commands." + (String) request.getParameter("command") + "Command";
         try {
             result = Class.forName(commandClassName);
         } catch (ClassNotFoundException e) {
