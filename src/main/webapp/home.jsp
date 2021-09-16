@@ -15,13 +15,10 @@
 <div>Username: <%= customer.getUsername()%></div>
 <div>Password: <%= customer.getPassword()%></div>
 
-<form action = "frontServlet?command=FlightCreationForm" method = "post">
-    <input type = "submit" value = "Create Flights">
-</form>
+<button onclick="window.location.href = '<%= request.getContextPath()%>/createFlights.jsp'">Create Flights</button>
 
-<form action = "frontServlet?command=GetFlights" method = "post">
-    <input type = "submit" value = "View All Flights">
-</form>
+<button onclick="window.location.href = '<%= request.getContextPath()%>/frontServlet?command=GetFlights'">View Flights</button>
+
 <%
 } else {
 %>
