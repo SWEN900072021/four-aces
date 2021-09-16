@@ -1,8 +1,9 @@
 package com.example.trs;
 
-import com.example.util.Param;
+import com.example.dataMpper.AdminDataMapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Admin extends User{
 
@@ -10,20 +11,16 @@ public class Admin extends User{
 
     public static Admin getAdmin(){
         if (admin == null){
-            return createAdmin();
+            return new Admin();
         }
         return admin;
-    }
-
-    private static Admin createAdmin(){
-        return null;
     }
 
     public Airport createAirport(String code, String address){
         return null;
     }
 
-    public Airline createAirline(ArrayList<Param> params){
+    public Airline createAirline(HashMap<String, String> params){
         return null;
     }
 
@@ -31,7 +28,7 @@ public class Admin extends User{
 
     }
 
-    public void updateAirport(Airport airport, ArrayList<Param> params){
+    public void updateAirport(Airport airport, HashMap<String, String> params){
 
     }
 
@@ -40,13 +37,10 @@ public class Admin extends User{
     }
 
     @Override
-    public void register(String username, String password) {
-
-    }
-
-    @Override
-    public void login(String username, String password) {
-
+    public int register(HashMap<String, String> params) {
+        params.remove("email");
+        admin = (new AdminDataMapper()).create(params);
+        return admin.id;
     }
 
 }

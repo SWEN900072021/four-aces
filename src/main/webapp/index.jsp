@@ -9,7 +9,7 @@
 </h1>
 <h2><%= "Four Aces" %></h2>
 <br/>
-<form action = "login" method = "post">
+<form action = "testlogin" method = "post">
     User name: <input type = "text" name = "userName"><br/>
     Password: <input type = "password" name = "passWord"><br/>
     <input type = "submit" value = "Login">

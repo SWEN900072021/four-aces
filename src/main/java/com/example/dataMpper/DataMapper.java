@@ -1,12 +1,20 @@
 package com.example.dataMpper;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public interface DataMapper<E> {
 
-    public E create(String...params);
+    public final String SQLInsert = "INSERT INTO %s(%s) VALUES(%s)";
 
-    public void update(String...params);
+    public final String SQLSelect = "SELECT %s FROM %s %s";
 
-    public void delete(String...params);
+    public E create(HashMap<String, String> params) throws SQLException;
 
-    public void find(String...params);
+    public void update(HashMap<String, String> params);
+
+    public void delete(HashMap<String, String> params);
+
+    public E find(HashMap<String, String> params) throws SQLException;
 }

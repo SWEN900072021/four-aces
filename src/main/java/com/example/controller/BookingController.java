@@ -3,13 +3,13 @@ package com.example.controller;
 import com.example.trs.Flight;
 import com.example.trs.Passenger;
 import com.example.trs.Reservation;
-import com.example.util.Param;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BookingController {
 
-    public ArrayList<Flight> searchFlight(ArrayList<Param> params){
+    public ArrayList<Flight> searchFlight(HashMap<String, String> params){
         return null;
     }
 
