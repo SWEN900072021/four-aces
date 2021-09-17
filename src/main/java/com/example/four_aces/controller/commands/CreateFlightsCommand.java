@@ -13,8 +13,8 @@ public class CreateFlightsCommand extends FrontCommand {
         String flightCode = request.getParameter("flightCode");
         String flightDate= request.getParameter("flightDate");
         String flightTime = request.getParameter("flightTime");
-        FlightMapper dbConnection = new FlightMapper();
-        dbConnection.addFlight(flightCode, flightDate, flightTime);
+        FlightMapper flightMapper = new FlightMapper();
+        flightMapper.createFlight(flightCode, flightDate, flightTime);
         forward("/home.jsp");
     }
 }

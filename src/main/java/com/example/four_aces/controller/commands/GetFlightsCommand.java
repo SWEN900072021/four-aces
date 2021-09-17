@@ -10,9 +10,11 @@ import java.util.List;
 public class GetFlightsCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
-        FlightMapper dbConnection = new FlightMapper();
-        List<Flight> flights = dbConnection.getAllFlights();
-        request.setAttribute("flights", flights);
+        FlightMapper flightMapper = new FlightMapper();
+        List<Flight> flights = flightMapper.getAllFlights();
+        if (flights.size() > 0) {
+            request.setAttribute("flights", flights);
+        }
         forward("/flights.jsp");
     }
 }

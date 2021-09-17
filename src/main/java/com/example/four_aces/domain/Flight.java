@@ -1,34 +1,34 @@
 package main.java.com.example.four_aces.domain;
 
 public class Flight {
-    private int id;
+    private int flightId;
 
-    private String code;
+    private String flightCode;
 
-    private String date;
+    private String flightDate;
 
-    private String time;
+    private String flightTime;
 
-    public Flight(int id, String code, String date, String time) {
-        this.id = id;
-        this.code = code;
-        this.date = date;
-        this.time = time;
+    public Flight(int flightId, String flightCode, String flightDate, String flightTime) {
+        this.flightId = flightId;
+        this.flightCode = flightCode;
+        this.flightDate = flightDate;
+        this.flightTime = flightTime;
     }
 
-    public int getId() {
-        return this.id;
+    public int getFlightId() {
+        return this.flightId;
     }
 
-    public String getCode() {
-        return this.code;
+    public String getFlightCode() {
+        return this.flightCode;
     }
 
-    public String getDate() {
-        return this.date;
+    public String getFlightDate() {
+        return this.flightDate;
     }
 
-    public String getTime() { return this.time; }
+    public String getFlightTime() { return this.flightTime; }
 
 }
 

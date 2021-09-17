@@ -24,7 +24,7 @@ public class FlightMapper {
 
     public static List<Flight> getAllFlights() {
         List<Flight> flights = new ArrayList<>();
-        String sql = "SELECT * FROM flights;";
+        String sql = "SELECT * FROM flight;";
         PreparedStatement findStatement = null;
         ResultSet rs = null;
         Connection conn = null;
@@ -35,11 +35,11 @@ public class FlightMapper {
             findStatement.execute();
             rs = findStatement.getResultSet();
             while (rs.next()) {
-                int id = Integer.parseInt(rs.getString("id"));
+                int flightId = Integer.parseInt(rs.getString("flight_id"));
                 String flightCode = rs.getString("flight_code");
-                String date = rs.getString("flight_date");
-                String time = rs.getString("flight_time");
-                Flight flight = new Flight(id, flightCode, date,time);
+                String flightDate = rs.getString("flight_date");
+                String flightTime = rs.getString("flight_time");
+                Flight flight = new Flight(flightId, flightCode, flightDate, flightTime);
                 flights.add(flight);
             }
         } catch (SQLException e) {
@@ -62,18 +62,17 @@ public class FlightMapper {
         return flights;
     }
 
-    public static void addFlight(String flightCode, String flightDate, String flightTime) {
-        String sql = "INSERT INTO flights (id, flight_code, flight_date, flight_time) VALUES (?, ?, ?, ?);";
+    public static void createFlight(String flightCode, String flightDate, String flightTime) {
+        String sql = "INSERT INTO flight (flight_code, flight_date, flight_time) VALUES (?, ?, ?);";
         PreparedStatement insertStatement = null;
         Connection conn = null;
 
         try {
             conn = connection();
             insertStatement = conn.prepareStatement(sql);
-            insertStatement.setInt(1, 3);
-            insertStatement.setString(2, flightCode);
-            insertStatement.setString(3, flightDate);
-            insertStatement.setString(4, flightTime);
+            insertStatement.setString(1, flightCode);
+            insertStatement.setString(2, flightDate);
+            insertStatement.setString(3, flightTime);
             insertStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,13 +89,14 @@ public class FlightMapper {
 
     public static void main(String[] args) {
         FlightMapper dbConnection = new FlightMapper();
-//        List <Flight> flights = dbConnection.getAllFlights();
-//        for (int i = 0; i < flights.size(); i ++) {
-//            Flight flight = flights.get(i);
-//            System.out.println(flight.getId() + "-" + flight.getDate() + "-" + flight.getTime());
-//        }
+        List <Flight> flights = dbConnection.getAllFlights();
+        for (int i = 0; i < flights.size(); i ++) {
+            Flight flight = flights.get(i);
+            System.out.println(flight.getFlightId() + "-" + flight.getFlightDate() + "-" + flight.getFlightTime());
+        }
 
-        dbConnection.addFlight("QF180","21/09/09","12:30pm");
+//        dbConnection.createFlight("QF180","21/09/09","12:30pm");
+//        dbConnection.createFlight("QF170","21/09/09","12:30pm");
     }
 }
 
