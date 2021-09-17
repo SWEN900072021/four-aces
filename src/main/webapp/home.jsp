@@ -7,7 +7,7 @@
 <body>
 <h2>Home Page</h2>
 
-<button onclick="window.location.href = '<%= request.getContextPath()%>/createFlights.jsp'">Create Flights</button>
+<button onclick="window.location.href = 'createFlight.jsp'">Create Flights</button>
 
 <button onclick="window.location.href = '<%= request.getContextPath()%>/frontServlet?command=GetFlights'">View Flights</button>
 

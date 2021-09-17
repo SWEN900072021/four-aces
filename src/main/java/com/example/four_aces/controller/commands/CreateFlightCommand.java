@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.List;
 
-public class CreateFlightsCommand extends FrontCommand {
+public class CreateFlightCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         String flightCode = request.getParameter("flightCode");
