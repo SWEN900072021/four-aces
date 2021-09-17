@@ -5,26 +5,11 @@
     <title>TRS</title>
 </head>
 <body>
-<%
-    if (request.getAttribute("customer") != null) {
-        Customer customer = (Customer) request.getAttribute("customer");
-%>
-
 <h2>Home Page</h2>
-<div>ID: <%= customer.getId()%></div>
-<div>Username: <%= customer.getUsername()%></div>
-<div>Password: <%= customer.getPassword()%></div>
 
 <button onclick="window.location.href = '<%= request.getContextPath()%>/createFlights.jsp'">Create Flights</button>
 
 <button onclick="window.location.href = '<%= request.getContextPath()%>/frontServlet?command=GetFlights'">View Flights</button>
 
-<%
-} else {
-%>
-
-<h1>No customer record found.</h1>
-
-<% } %>
 </body>
 </html>
