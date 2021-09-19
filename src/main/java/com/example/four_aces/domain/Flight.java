@@ -26,9 +26,5 @@ public class Flight extends DomainObject {
 
     public String getFlightTime() { return this.flightTime; }
 
-    public static void main(String[] args) {
-        System.out.println(UnitOfWork.getInstance());
-    }
-
 }
 
