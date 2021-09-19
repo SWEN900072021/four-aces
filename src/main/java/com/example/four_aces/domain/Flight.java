@@ -13,15 +13,15 @@ public class Flight extends DomainObject {
         UnitOfWork.getInstance().registerNew(this);
     }
 
-    public String getFlightCode() {
+    public String getCode() {
         return this.code;
     }
 
-    public String getFlightDate() {
+    public String getDate() {
         return this.date;
     }
 
-    public String getFlightTime() {
+    public String getTime() {
         return this.time;
     }
 

@@ -70,9 +70,9 @@ public class FlightMapper {
         try {
             conn = connection();
             insertStatement = conn.prepareStatement(sql);
-            insertStatement.setString(1, flight.getFlightCode());
-            insertStatement.setString(2, flight.getFlightDate());
-            insertStatement.setString(3, flight.getFlightTime());
+            insertStatement.setString(1, flight.getCode());
+            insertStatement.setString(2, flight.getDate());
+            insertStatement.setString(3, flight.getTime());
             insertStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
