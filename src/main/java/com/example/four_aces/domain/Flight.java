@@ -1,7 +1,6 @@
 package main.java.com.example.four_aces.domain;
 
-public class Flight {
-    private int flightId;
+public class Flight extends DomainObject {
 
     private String flightCode;
 
@@ -10,14 +9,11 @@ public class Flight {
     private String flightTime;
 
     public Flight(int flightId, String flightCode, String flightDate, String flightTime) {
-        this.flightId = flightId;
+        super(flightId);
         this.flightCode = flightCode;
         this.flightDate = flightDate;
         this.flightTime = flightTime;
-    }
-
-    public int getFlightId() {
-        return this.flightId;
+        UnitOfWork.getInstance().registerNew(this);
     }
 
     public String getFlightCode() {
@@ -29,6 +25,10 @@ public class Flight {
     }
 
     public String getFlightTime() { return this.flightTime; }
+
+    public static void main(String[] args) {
+        System.out.println(UnitOfWork.getInstance());
+    }
 
 }
 

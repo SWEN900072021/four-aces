@@ -15,7 +15,7 @@
 <%
     for(int i = 0; i < flights.size(); i++) {
 %>
-    <div>ID: <%= flights.get(i).getFlightId()%></div>
+    <div>ID: <%= flights.get(i).getId()%></div>
     <div>Flight Code: <%= flights.get(i).getFlightCode()%></div>
     <div>Date: <%= flights.get(i).getFlightDate()%></div>
     <div>Time: <%= flights.get(i).getFlightTime()%></div>
