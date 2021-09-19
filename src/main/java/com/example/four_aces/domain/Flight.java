@@ -2,29 +2,31 @@ package main.java.com.example.four_aces.domain;
 
 public class Flight extends DomainObject {
 
-    private String flightCode;
+    private String code;
 
-    private String flightDate;
+    private String date;
 
-    private String flightTime;
+    private String time;
 
-    public Flight(int flightId, String flightCode, String flightDate, String flightTime) {
-        super(flightId);
-        this.flightCode = flightCode;
-        this.flightDate = flightDate;
-        this.flightTime = flightTime;
+    public Flight(int id, String code, String date, String time) {
+        super(id);
+        this.code = code;
+        this.date = date;
+        this.time = time;
         UnitOfWork.getInstance().registerNew(this);
     }
 
     public String getFlightCode() {
-        return this.flightCode;
+        return this.code;
     }
 
     public String getFlightDate() {
-        return this.flightDate;
+        return this.date;
     }
 
-    public String getFlightTime() { return this.flightTime; }
+    public String getFlightTime() {
+        return this.time;
+    }
 
 }
 
