@@ -60,14 +60,5 @@ public class CustomerMapper {
         }
         return customers;
     }
-
-    public static void main(String[] args) {
-        CustomerMapper dbConnection = new CustomerMapper();
-        List <Customer> customers = dbConnection.getAllUsers();
-        for (int i = 0; i < customers.size(); i ++) {
-            Customer customer = customers.get(i);
-            System.out.println(customer.getId() + "-" + customer.getUsername() + "-" + customer.getPassword());
-        }
-    }
 }
 
