@@ -1,7 +1,7 @@
-package main.java.com.example.four_aces.controller;
+package com.example.four_aces.controller;
 
-import main.java.com.example.four_aces.controller.commands.FrontCommand;
-import main.java.com.example.four_aces.controller.commands.UnknownCommand;
+import com.example.four_aces.controller.commands.FrontCommand;
+import com.example.four_aces.controller.commands.UnknownCommand;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -35,7 +35,7 @@ public class FrontServlet extends HttpServlet {
     private Class getCommandClass(HttpServletRequest request) {
         Class result;
         String commandClassName =
-            "main.java.com.example.four_aces.controller.commands." + (String) request.getParameter("command") + "Command";
+            "com.example.four_aces.controller.commands." + (String) request.getParameter("command") + "Command";
         try {
             result = Class.forName(commandClassName);
         } catch (ClassNotFoundException e) {

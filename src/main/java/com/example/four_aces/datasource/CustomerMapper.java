@@ -1,13 +1,13 @@
-package main.java.com.example.four_aces.datasource;
+package com.example.four_aces.datasource;
 
-import main.java.com.example.four_aces.domain.Customer;
+import com.example.four_aces.domain.Customer;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerMapper {
-    private static final String url = "jdbc:postgresql://localhost:5432/myDB";
+    private static final String url = "jdbc:postgresql://localhost:5432/MyDB";
     private static final String user = "postgres";
     private static final String password = "admin";
 
