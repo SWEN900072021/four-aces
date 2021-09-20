@@ -1,4 +1,4 @@
-package main.java.com.example.four_aces.controller.commands;
+package com.example.servlet.commands;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -22,7 +22,9 @@ public abstract class FrontCommand {
         this.response = servletResponse;
     }
 
-    public abstract void process() throws ServletException, IOException;
+    public abstract void processGet() throws ServletException, IOException;
+
+    public abstract void processPost() throws ServletException, IOException;
 
     protected void forward(String target) throws ServletException, IOException {
         RequestDispatcher dispatcher = context.getRequestDispatcher(target);

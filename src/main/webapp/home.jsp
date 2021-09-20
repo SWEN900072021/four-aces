@@ -1,4 +1,4 @@
-<%@ page import="main.java.com.example.four_aces.domain.Customer" %>
+<%@ page import="com.example.four_aces.domain.Customer" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
