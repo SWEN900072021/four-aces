@@ -14,7 +14,7 @@ public class CreateFlightCommand extends FrontCommand {
         String flightCode = request.getParameter("flightCode");
         String flightDate= request.getParameter("flightDate");
         String flightTime = request.getParameter("flightTime");
-        FlightMapper.getInstance().insert(new Flight(0, flightCode, flightDate, flightTime));
+        Flight flight = new Flight(0, flightCode, flightDate, flightTime);
         UnitOfWork.getInstance().commit();
         forward("/home.jsp");
     }
