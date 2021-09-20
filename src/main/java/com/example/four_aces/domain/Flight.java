@@ -5,7 +5,7 @@ public class Flight extends DomainObject {
     private String date;
     private String time;
 
-    public Flight(int id, String code, String date, String time) {
+    public Flight(Integer id, String code, String date, String time) {
         super(id);
         this.code = code;
         this.date = date;

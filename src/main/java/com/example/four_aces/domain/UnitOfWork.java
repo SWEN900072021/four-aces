@@ -4,6 +4,7 @@ import main.java.com.example.four_aces.datasource.FlightMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UnitOfWork {
     private static UnitOfWork _instance = null;
@@ -19,7 +20,7 @@ public class UnitOfWork {
     }
 
     public void registerNew(DomainObject obj) {
-        if (!dirtyObjects.contains(obj) && !deleteObjects.contains(obj) && !newObjects.contains(obj)) {
+        if (Objects.isNull(obj.getId()) && !dirtyObjects.contains(obj) && !deleteObjects.contains(obj) && !newObjects.contains(obj)) {
             newObjects.add(obj);
         }
     }

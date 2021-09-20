@@ -19,6 +19,7 @@ public class EditFlightCommand extends FrontCommand {
         flight.setDate(flightDate);
         flight.setTime(flightTime);
         UnitOfWork.getInstance().commit();
+        forward("/frontServlet?command=GetFlights");
     }
 }
 
