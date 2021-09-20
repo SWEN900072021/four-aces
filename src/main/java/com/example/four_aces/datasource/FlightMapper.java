@@ -22,7 +22,7 @@ public class FlightMapper {
         return conn;
     }
 
-    public static List<Flight> getAllFlights() {
+    public static List<Flight> getAll() {
         List<Flight> flights = new ArrayList<>();
         String sql = "SELECT * FROM flight;";
         PreparedStatement findStatement = null;
@@ -87,16 +87,76 @@ public class FlightMapper {
         }
     }
 
-    public static void main(String[] args) {
-        FlightMapper dbConnection = new FlightMapper();
-        List <Flight> flights = dbConnection.getAllFlights();
-//        for (int i = 0; i < flights.size(); i ++) {
-//            Flight flight = flights.get(i);
-//            System.out.println(flight.getFlightId() + "-" + flight.getFlightDate() + "-" + flight.getFlightTime());
-//        }
+    public static Flight findById(int id) {
+        Flight flight = null;
+        String sql = "SELECT * FROM flight WHERE flight_id = ?;";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Connection conn = null;
 
-//        dbConnection.createFlight("QF180","21/09/09","12:30pm");
-//        dbConnection.createFlight("QF170","21/09/09","12:30pm");
+        try {
+            conn = connection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.execute();
+            rs = stmt.getResultSet();
+            if (rs.next()) {
+                int flightId = Integer.parseInt(rs.getString("flight_id"));
+                String flightCode = rs.getString("flight_code");
+                String flightDate = rs.getString("flight_date");
+                String flightTime = rs.getString("flight_time");
+                flight = new Flight(flightId, flightCode, flightDate, flightTime);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return flight;
+
+    }
+
+    public static void deleteById(int id) {
+        String sql = "DELETE FROM flight WHERE flight_id = ?;";
+        PreparedStatement stmt = null;
+        Connection conn = null;
+
+        try {
+            conn = connection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        FlightMapper flightMapper = new FlightMapper();
+        flightMapper.deleteById(6);
     }
 }
 

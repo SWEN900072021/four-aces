@@ -19,6 +19,8 @@
     <div>Flight Code: <%= flights.get(i).getCode()%></div>
     <div>Date: <%= flights.get(i).getDate()%></div>
     <div>Time: <%= flights.get(i).getTime()%></div>
+    <button >Edit</button>
+    <button onclick="window.location.href = '<%= request.getContextPath()%>/frontServlet?command=DeleteFlight&id=<%= flights.get(i).getId()%>'">Delete</button>
     <br/>
 <%
     }

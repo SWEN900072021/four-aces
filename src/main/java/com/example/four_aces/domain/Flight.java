@@ -24,6 +24,5 @@ public class Flight extends DomainObject {
     public String getTime() {
         return this.time;
     }
-
 }
 
