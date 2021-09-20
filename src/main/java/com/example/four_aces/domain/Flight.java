@@ -24,5 +24,20 @@ public class Flight extends DomainObject {
     public String getTime() {
         return this.time;
     }
+
+    public void setCode(String code) {
+        this.code = code;
+        UnitOfWork.getInstance().registerDirty(this);
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+        UnitOfWork.getInstance().registerDirty(this);
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+        UnitOfWork.getInstance().registerDirty(this);
+    }
 }
 

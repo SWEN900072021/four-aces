@@ -128,6 +128,35 @@ public class FlightMapper {
 
     }
 
+    public static void update(Flight flight) {
+        String sql = "UPDATE flight SET flight_code = ?, flight_date = ?, flight_time = ? WHERE flight_id = ?;";
+        PreparedStatement stmt = null;
+        Connection conn = null;
+
+        try {
+            conn = connection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, flight.getCode());
+            stmt.setString(2, flight.getDate());
+            stmt.setString(3, flight.getTime());
+            stmt.setInt(4, flight.getId());
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
     public static void deleteById(int id) {
         String sql = "DELETE FROM flight WHERE flight_id = ?;";
         PreparedStatement stmt = null;
@@ -156,7 +185,6 @@ public class FlightMapper {
 
     public static void main(String[] args) {
         FlightMapper flightMapper = new FlightMapper();
-        flightMapper.deleteById(6);
     }
 }
 

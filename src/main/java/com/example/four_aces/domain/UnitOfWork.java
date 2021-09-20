@@ -48,7 +48,10 @@ public class UnitOfWork {
             }
         }
         for (DomainObject obj : dirtyObjects) {
-
+            if (obj.getClass().equals(Flight.class)) {
+                FlightMapper flightMapper = new FlightMapper();
+                flightMapper.update((Flight) obj);
+            }
         }
         for (DomainObject obj : deleteObjects) {
 
