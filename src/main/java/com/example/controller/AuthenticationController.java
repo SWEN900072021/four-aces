@@ -1,9 +1,8 @@
 package com.example.controller;
 
-import com.example.exception.KeyNotMatchException;
-import com.example.trs.Admin;
-import com.example.trs.Airline;
-import com.example.trs.Customer;
+import com.example.domain.Admin;
+import com.example.domain.Airline;
+import com.example.domain.Customer;
 import java.util.HashMap;
 
 public class AuthenticationController {
@@ -13,12 +12,14 @@ public class AuthenticationController {
     public final static int LOGIN_FAIL_WRONG_TYPE = -1;
     public static final int LOGIN_FAIL_NO_USER_FOUND = -2;
 
-    public int login(HashMap<String, String> params) throws KeyNotMatchException {
+    public int login(HashMap<String, String> params){
         switch (params.remove("type")){
             case "airline":
                 return new Airline().login(params);
             case "customer":
                 return new Customer().login(params);
+            case "admin":
+                return Admin.getAdmin().login(params);
             default:
                 return LOGIN_FAIL_WRONG_TYPE;
         }

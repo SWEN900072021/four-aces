@@ -1,4 +1,4 @@
-package com.example.trs;
+package com.example.domain;
 
 import com.example.controller.AuthenticationController;
 import com.example.dataMpper.CustomerDataMapper;
@@ -36,7 +36,6 @@ public class Customer extends User{
     public int login(HashMap<String, String> params) {
         // processing params
         String inputPassword = params.remove("password");
-        System.out.println(inputPassword);
         Customer customer = new CustomerDataMapper().find(params);
         // login logic
         if( customer.password.equals(inputPassword) ){

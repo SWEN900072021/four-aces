@@ -1,4 +1,4 @@
-package com.example.trs;
+package com.example.domain;
 
 public class Ticket {
 

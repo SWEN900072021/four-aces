@@ -1,9 +1,8 @@
-package com.example.trs;
+package com.example.domain;
 
 import com.example.controller.AuthenticationController;
 import com.example.dataMpper.AirlineDataMapper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Airline extends User{
@@ -43,7 +42,6 @@ public class Airline extends User{
     @Override
     public int login(HashMap<String, String> params) {
         String inputPassword = params.remove("password");
-        System.out.println(inputPassword);
         Airline airline = new AirlineDataMapper().find(params);
         // login logic
         if( airline.password.equals(inputPassword) ){

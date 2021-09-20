@@ -1,10 +1,9 @@
 package com.example.dataMpper;
 
 import com.example.controller.DBController;
-import com.example.trs.User;
+import com.example.domain.User;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UserDataMapper<T extends User> implements DataMapper<User> {

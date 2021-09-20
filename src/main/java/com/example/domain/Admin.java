@@ -1,8 +1,9 @@
-package com.example.trs;
+package com.example.domain;
 
+import com.example.controller.AuthenticationController;
 import com.example.dataMpper.AdminDataMapper;
+import com.example.dataMpper.AirlineDataMapper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Admin extends User{
@@ -43,4 +44,15 @@ public class Admin extends User{
         return admin.id;
     }
 
+    @Override
+    public int login(HashMap<String, String> params) {
+
+        String inputPassword = params.remove("password");
+        admin = new AdminDataMapper().find(params);
+
+        if( admin.password.equals(inputPassword) ){
+            return admin.id;
+        }
+        return AuthenticationController.LOGIN_FAIL_NO_USER_FOUND;
+    }
 }

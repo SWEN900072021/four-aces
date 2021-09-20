@@ -1,8 +1,8 @@
 package com.example.controller;
 
-import com.example.trs.Flight;
-import com.example.trs.Passenger;
-import com.example.trs.Reservation;
+import com.example.domain.Flight;
+import com.example.domain.Passenger;
+import com.example.domain.Reservation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
