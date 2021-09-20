@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>Login page for Airline and Customer</h1>
-<form action="login" method="post">
+<form action="fourAces?command=Login" method="post">
     <label for="type">Login As: </label><select name="type" id="type">
         <option value="customer">Customer</option>
         <option value="airline">Airline Company</option>

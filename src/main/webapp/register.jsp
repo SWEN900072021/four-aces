@@ -13,7 +13,7 @@
 <body>
 <h1>User Registration</h1>
 <br>
-<form action="register" method="post">
+<form action="fourAces?command=Register" method="post">
     <label for="email">Email:</label><input type="text" id="email" name="email"><br>
     <label for="username">Username:</label><input type="text" id="username" name="username"><br>
     <label for="password">password:</label><input type="text" id="password" name="password"><br>

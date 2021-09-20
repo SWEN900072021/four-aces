@@ -1,4 +1,4 @@
-package main.java.com.example.four_aces.domain;
+package com.example.four_aces.domain;
 
 public class Customer {
     private int id;
