@@ -7,9 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlightMapper {
+    private static FlightMapper _instance = null;
     private static final String url = "jdbc:postgresql://localhost:5432/myDB";
     private static final String user = "postgres";
     private static final String password = "admin";
+
+    public static FlightMapper getInstance() {
+        if (_instance == null) {
+            _instance = new FlightMapper();
+        }
+        return _instance;
+    }
 
     public static Connection connection() {
         Connection conn = null;

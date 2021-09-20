@@ -10,8 +10,7 @@ import java.util.List;
 public class GetFlightsCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
-        FlightMapper flightMapper = new FlightMapper();
-        List<Flight> flights = flightMapper.getAll();
+        List<Flight> flights = FlightMapper.getInstance().getAll();
         if (flights.size() > 0) {
             request.setAttribute("flights", flights);
         }

@@ -43,14 +43,12 @@ public class UnitOfWork {
     public void commit() {
         for (DomainObject obj : newObjects) {
             if (obj.getClass().equals(Flight.class)) {
-                FlightMapper flightMapper = new FlightMapper();
-                flightMapper.insert((Flight) obj);
+                FlightMapper.getInstance().insert((Flight) obj);
             }
         }
         for (DomainObject obj : dirtyObjects) {
             if (obj.getClass().equals(Flight.class)) {
-                FlightMapper flightMapper = new FlightMapper();
-                flightMapper.update((Flight) obj);
+                FlightMapper.getInstance().update((Flight) obj);
             }
         }
         for (DomainObject obj : deleteObjects) {

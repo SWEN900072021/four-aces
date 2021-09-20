@@ -11,8 +11,7 @@ public class DeleteFlightCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        FlightMapper flightMapper = new FlightMapper();
-        flightMapper.deleteById(id);
+        FlightMapper.getInstance().deleteById(id);
         forward("/frontServlet?command=GetFlights");
     }
 }

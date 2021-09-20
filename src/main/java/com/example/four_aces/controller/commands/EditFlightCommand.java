@@ -14,8 +14,7 @@ public class EditFlightCommand extends FrontCommand {
         String flightCode = request.getParameter("flightCode");
         String flightDate= request.getParameter("flightDate");
         String flightTime = request.getParameter("flightTime");
-        FlightMapper flightMapper = new FlightMapper();
-        Flight flight = flightMapper.findById(id);
+        Flight flight = FlightMapper.getInstance().findById(id);
         flight.setCode(flightCode);
         flight.setDate(flightDate);
         flight.setTime(flightTime);
