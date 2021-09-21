@@ -24,7 +24,11 @@ public class LoginCommand extends FrontCommand {
         PrintWriter writer = response.getWriter();
         int result = new AuthenticationController().login(params);
         if (result > 0) {
-            writer.println(String.format("<h2>%s id %d Login successfully.</h2>", request.getParameter("type"), result));
+            if (request.getParameter("type").equals("customer")) {
+                forward("/customer.jsp");
+            } else {
+                forward("/airline.jsp");
+            }
         } else if (result == AuthenticationController.LOGIN_FAIL_NO_USER_FOUND)
             writer.println("<h2>Register first</h2>");
         else writer.println("<h2>Login Failed</h2>");
