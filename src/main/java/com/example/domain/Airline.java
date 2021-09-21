@@ -1,7 +1,7 @@
 package com.example.domain;
 
 import com.example.controller.AuthenticationController;
-import com.example.dataMpper.AirlineDataMapper;
+import com.example.datasource.AirlineDataMapper;
 
 import java.util.HashMap;
 

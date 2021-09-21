@@ -1,10 +1,9 @@
-package com.example.dataMpper;
+package com.example.datasource;
 
 import com.example.domain.Customer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 
 public class CustomerDataMapper extends UserDataMapper<Customer> {
 

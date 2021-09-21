@@ -1,7 +1,6 @@
-package com.example.dataMpper;
+package com.example.datasource;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface DataMapper<E> {

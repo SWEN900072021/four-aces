@@ -1,6 +1,6 @@
-package main.java.com.example.four_aces.domain;
+package com.example.domain;
 
-import main.java.com.example.four_aces.datasource.FlightMapper;
+import com.example.datasource.FlightMapper;
 
 import java.util.ArrayList;
 import java.util.List;

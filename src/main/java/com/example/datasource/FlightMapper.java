@@ -1,6 +1,6 @@
-package main.java.com.example.four_aces.datasource;
+package com.example.datasource;
 
-import main.java.com.example.four_aces.domain.Flight;
+import com.example.domain.Flight;
 
 import java.sql.*;
 import java.util.ArrayList;

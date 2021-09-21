@@ -1,4 +1,4 @@
-package com.example.dataMpper;
+package com.example.datasource;
 
 import com.example.controller.DBController;
 import com.example.domain.User;

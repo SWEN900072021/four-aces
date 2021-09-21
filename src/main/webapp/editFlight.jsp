@@ -5,7 +5,7 @@
 </head>
 <body>
 <h2>Edit Flight</h2>
-<form action = "frontServlet?command=EditFlight&id=<%=request.getParameter("id")%>" method = "post">
+<form action = "fourAces?command=EditFlight&id=<%=request.getParameter("id")%>" method = "post">
     Flight code: <input type = "text" name = "flightCode" value = <%=request.getParameter("code")%>><br/>
     Flight date: <input type = "text" name = "flightDate" value = <%=request.getParameter("date")%>><br/>
     Flight time: <input type = "text" name = "flightTime" value = <%=request.getParameter("time")%>><br/>

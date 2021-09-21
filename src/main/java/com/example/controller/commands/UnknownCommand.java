@@ -1,6 +1,4 @@
-package com.example.four_aces.controller.commands;
-
-import com.example.servlet.commands.FrontCommand;
+package com.example.controller.commands;
 
 import javax.servlet.ServletException;
 import java.io.IOException;

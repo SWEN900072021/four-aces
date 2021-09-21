@@ -1,7 +1,7 @@
 package com.example.domain;
 
 import com.example.controller.AuthenticationController;
-import com.example.dataMpper.CustomerDataMapper;
+import com.example.datasource.CustomerDataMapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;

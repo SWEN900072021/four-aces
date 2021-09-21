@@ -1,4 +1,4 @@
-package main.java.com.example.four_aces.domain;
+package com.example.domain;
 
 public abstract class DomainObject {
     private Integer id;
