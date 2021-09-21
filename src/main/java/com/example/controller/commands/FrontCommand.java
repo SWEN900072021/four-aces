@@ -1,4 +1,4 @@
-package com.example.servlet.commands;
+package com.example.controller.commands;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;

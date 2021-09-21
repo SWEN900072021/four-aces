@@ -1,6 +1,6 @@
-package com.example.servlet;
+package com.example.controller;
 
-import com.example.servlet.commands.FrontCommand;
+import com.example.controller.commands.FrontCommand;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +29,7 @@ public class FrontServlet extends HttpServlet {
 
     private FrontCommand getCommand(String command){
         FrontCommand frontCommand = null;
-        String commandClassName = "com.example.servlet.commands." + command + "Command";
+        String commandClassName = "com.example.controller.commands." + command + "Command";
         try {
             Class<?> commandClass = Class.forName(commandClassName);
             frontCommand = (FrontCommand) commandClass.getConstructor().newInstance();

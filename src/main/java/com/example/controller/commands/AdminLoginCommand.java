@@ -1,4 +1,4 @@
-package com.example.servlet.commands;
+package com.example.controller.commands;
 
 import com.example.controller.AuthenticationController;
 
@@ -7,7 +7,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
-public class RegisterCommand extends FrontCommand{
+public class AdminLoginCommand extends FrontCommand{
+
 
     @Override
     public void processGet() throws ServletException, IOException {
@@ -16,19 +17,17 @@ public class RegisterCommand extends FrontCommand{
 
     @Override
     public void processPost() throws ServletException, IOException {
-        response.setContentType("text/html");
         HashMap<String, String> params = new HashMap<>();
-        params.put("email",request.getParameter("email"));
         params.put("username", request.getParameter("username"));
         params.put("password", request.getParameter("password"));
-        params.put("type", request.getParameter("type"));
-        AuthenticationController authenticationController = new AuthenticationController();
+        params.put("type","admin");
+        response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
-        if (authenticationController.register(params) > 0){
-            response.sendRedirect("login.jsp");
-        }
-        else{
-            writer.println("<p>Failed</p>");
-        }
+        int result = new AuthenticationController().login(params);
+        if (result > 0) {
+            writer.println(String.format("<h2>%s Login successfully.</h2>", "Admin"));
+        } else if (result == AuthenticationController.LOGIN_FAIL_NO_USER_FOUND)
+            writer.println("<h2>No Admin account has been created</h2>");
+        else writer.println("<h2>Login Failed</h2>");
     }
 }
