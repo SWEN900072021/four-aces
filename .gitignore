@@ -2,4 +2,4 @@
 target/
 four-aces.iml
 .DS_Store
-src/main/config.properties
+src/config.properties
