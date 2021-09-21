@@ -1,7 +1,5 @@
 package com.example.controller;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -20,14 +18,18 @@ public class DBController {
     public DBController(){
         try{
             Properties prop = new Properties();
-            InputStream inputStream = new FileInputStream(propertyFile);
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertyFile);
 
-            prop.load(inputStream);
+            if ( inputStream != null ){
+                prop.load(inputStream);
+            }else{
+                throw new IOException(("File not found"));
+            }
 
             this.url = prop.getProperty("url");
             this.name = prop.getProperty("name");
             this.password = prop.getProperty("password");
-        }catch (IOException e){
+        }catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -43,3 +45,4 @@ public class DBController {
         connection.close();
     }
 }
+
