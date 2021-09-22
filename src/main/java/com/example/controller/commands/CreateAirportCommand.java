@@ -14,17 +14,6 @@ public class CreateAirportCommand extends FrontCommand {
 
     @Override
     public void processGet() throws ServletException, IOException {
-
-        String referenceCode = request.getParameter("referenceCode");
-        String address = request.getParameter("address");
-
-        new Airport(referenceCode,address);
-        try {
-            UnitOfWork.getInstance().commit();
-        } catch (Exception e) {
-            request.setAttribute("error", e.getMessage());
-        }
-        forward("/home.jsp");
     }
 
     @Override
@@ -39,7 +28,7 @@ public class CreateAirportCommand extends FrontCommand {
         } catch (Exception e) {
             request.setAttribute("error", e.getMessage());
         }
-        forward("/home.jsp");
+        forward("/admin.jsp");
     }
 }
 
