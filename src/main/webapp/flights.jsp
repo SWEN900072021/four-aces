@@ -13,16 +13,17 @@
 
 <h2>All Flights</h2>
 <%
-  for(int i = 0; i < flights.size(); i++) {
+    for(int i = 0; i < flights.size(); i++) {
 %>
-<div>ID: <%= flights.get(i).getId()%></div>
-<div>Date: <%= flights.get(i).getDate()%></div>
-<div>Time: <%= flights.get(i).getTime()%></div>
-<button onclick="window.location.href = '<%= request.getContextPath()%>/editFlight.jsp?id=<%=flights.get(i).getId()%>&code=<%= flights.get(i).getCode()%>&date=<%=flights.get(i).getDate()%>&time=<%=flights.get(i).getTime()%>'">Edit</button>
-<button onclick="window.location.href = '<%= request.getContextPath()%>/frontServlet?command=DeleteFlight&id=<%= flights.get(i).getId()%>'">Delete</button>
-<br/>
+    <div>ID: <%= flights.get(i).getId()%></div>
+    <div>Flight Code: <%= flights.get(i).getCode()%></div>
+    <div>Date: <%= flights.get(i).getDate()%></div>
+    <div>Time: <%= flights.get(i).getTime()%></div>
+    <button onclick="window.location.href = '<%= request.getContextPath()%>/editFlight.jsp?id=<%=flights.get(i).getId()%>&code=<%= flights.get(i).getCode()%>&date=<%=flights.get(i).getDate()%>&time=<%=flights.get(i).getTime()%>'">Edit</button>
+    <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=DeleteFlight&id=<%= flights.get(i).getId()%>'">Delete</button>
+    <br/>
 <%
-  }
+    }
 %>
 
 <%
