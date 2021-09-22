@@ -1,9 +1,11 @@
 package com.example.domain;
 
-import com.example.controller.AuthenticationController;
 import com.example.dataMpper.AdminDataMapper;
 import com.example.dataMpper.AirlineDataMapper;
+import com.example.exception.TRSException;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Admin extends User{
@@ -21,8 +23,22 @@ public class Admin extends User{
         return null;
     }
 
-    public Airline createAirline(HashMap<String, String> params){
-        return null;
+    public ArrayList<Airline> viewAirlines() throws SQLException {
+        return new AirlineDataMapper().find("*","");
+    }
+
+    public void approveAirlineRegistration(HashMap<String, String> params) throws SQLException, TRSException{
+        if (params.get("id") == null){
+            throw new TRSException("No Airline has been selected");
+        }
+        params.put("condition","id");
+        if (params.get("pending") == null){
+            throw new TRSException("Invalid Approval");
+        }
+        params.put("update","pending");
+        if( new AirlineDataMapper().update(params) == 0 ){
+            throw new TRSException("Failure in updating value");
+        }
     }
 
     public void viewCustomer(Customer customer){
@@ -38,21 +54,19 @@ public class Admin extends User{
     }
 
     @Override
-    public int register(HashMap<String, String> params) {
+    public Admin register(HashMap<String, String> params) throws TRSException, SQLException {
         params.remove("email");
         admin = (new AdminDataMapper()).create(params);
-        return admin.id;
+        return admin;
     }
 
     @Override
-    public int login(HashMap<String, String> params) {
-
+    public Admin login(HashMap<String, String> params) throws TRSException, SQLException {
         String inputPassword = params.remove("password");
-        admin = new AdminDataMapper().find(params);
-
-        if( admin.password.equals(inputPassword) ){
-            return admin.id;
+        admin = new AdminDataMapper().find(params).get(0);
+        if( !admin.password.equals(inputPassword) ){
+            throw new TRSException("Wrong password");
         }
-        return AuthenticationController.LOGIN_FAIL_NO_USER_FOUND;
+        return admin;
     }
 }

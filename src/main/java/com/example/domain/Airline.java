@@ -2,10 +2,13 @@ package com.example.domain;
 
 import com.example.controller.AuthenticationController;
 import com.example.dataMpper.AirlineDataMapper;
+import com.example.exception.TRSException;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Airline extends User{
+public class Airline extends User {
 
     public String name;
 
@@ -15,38 +18,51 @@ public class Airline extends User{
         this.pending = pending;
     }
 
-    public Flight createFlight(HashMap<String, String> params){
+    public boolean isPending() {
+        return this.pending;
+    }
+
+    public Flight createFlight(HashMap<String, String> params) {
         return null;
     }
 
-    public void editFlight(Flight flight, HashMap<String, String> params){
-        
-    }
-    
-    public void deleteFlight(Flight flight){
+    public void editFlight(Flight flight, HashMap<String, String> params) {
 
     }
 
-    public void viewCustomers(Flight flight){
+    public void deleteFlight(Flight flight) {
+
+    }
+
+    public void viewCustomers(Flight flight) {
 
     }
 
     @Override
-    public int register(HashMap<String, String> params) {
+    public Airline register(HashMap<String, String> params) throws TRSException, SQLException {
         params.put("pending", "true");
         params.put("name", params.get("username"));
-        Airline airline = (Airline) new AirlineDataMapper().create(params);
-        return airline.id;
+        return new AirlineDataMapper().create(params);
     }
 
     @Override
-    public int login(HashMap<String, String> params) {
+    public Airline login(HashMap<String, String> params) throws TRSException, SQLException {
         String inputPassword = params.remove("password");
-        Airline airline = new AirlineDataMapper().find(params);
+        ArrayList<Airline> airlines = new AirlineDataMapper().find(params);
         // login logic
-        if( airline.password.equals(inputPassword) ){
-            return airline.id;
+        if (airlines.size() > 1) {
+            throw new TRSException("Multiple account has been found");
         }
-        return AuthenticationController.LOGIN_FAIL_NO_USER_FOUND;
+        if (airlines.size() == 0) {
+            throw new TRSException("Register First");
+        }
+        Airline airline = airlines.get(0);
+        if (!airline.password.equals(inputPassword)) {
+            throw new TRSException("Wrong password");
+        }
+        if (airline.isPending()){
+            throw new TRSException("Waiting for the administrator to approve it.");
+        }
+        return airline;
     }
 }

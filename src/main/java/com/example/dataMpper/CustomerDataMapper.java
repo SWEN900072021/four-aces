@@ -9,13 +9,18 @@ import java.util.HashMap;
 public class CustomerDataMapper extends UserDataMapper<Customer> {
 
     public CustomerDataMapper() {
-        super("customer", "cus_", new Customer());
+        super("customer", "cus_");
     }
 
     @Override
-    public void setAttrs(ResultSet resultSet) throws SQLException {
-        super.setAttrs(resultSet);
-        this.user.setFirstName(resultSet.getString(prefix+"firstname"));
-        this.user.setLastName(resultSet.getString(prefix+"lastname"));
+    public void setAttrs(Customer user, ResultSet resultSet) throws SQLException {
+        super.setAttrs(user, resultSet);
+        user.setFirstName(resultSet.getString(prefix+"firstname"));
+        user.setLastName(resultSet.getString(prefix+"lastname"));
+    }
+
+    @Override
+    public Customer newInstance() {
+        return new Customer();
     }
 }

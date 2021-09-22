@@ -1,10 +1,14 @@
 package com.example.servlet.commands;
 
 import com.example.controller.AuthenticationController;
+import com.example.domain.User;
+import com.example.exception.TRSException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 public class LoginCommand extends FrontCommand {
@@ -21,12 +25,12 @@ public class LoginCommand extends FrontCommand {
         params.put("password", request.getParameter("password"));
         params.put("type", request.getParameter("type"));
         response.setContentType("text/html");
-        PrintWriter writer = response.getWriter();
-        int result = new AuthenticationController().login(params);
-        if (result > 0) {
-            writer.println(String.format("<h2>%s id %d Login successfully.</h2>", request.getParameter("type"), result));
-        } else if (result == AuthenticationController.LOGIN_FAIL_NO_USER_FOUND)
-            writer.println("<h2>Register first</h2>");
-        else writer.println("<h2>Login Failed</h2>");
+        try {
+            User user = new AuthenticationController().login(params);
+            request.setAttribute("user",user);
+            request.getRequestDispatcher("index.jsp").forward(request,response);
+        } catch (TRSException | SQLException e) {
+            response.getWriter().write(e.getMessage());
+        }
     }
 }

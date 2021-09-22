@@ -1,10 +1,13 @@
 package com.example.servlet.commands;
 
 import com.example.controller.AuthenticationController;
+import com.example.domain.User;
+import com.example.exception.TRSException;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 public class RegisterCommand extends FrontCommand{
@@ -22,13 +25,13 @@ public class RegisterCommand extends FrontCommand{
         params.put("username", request.getParameter("username"));
         params.put("password", request.getParameter("password"));
         params.put("type", request.getParameter("type"));
-        AuthenticationController authenticationController = new AuthenticationController();
-        PrintWriter writer = response.getWriter();
-        if (authenticationController.register(params) > 0){
+        try{
+            User user = new AuthenticationController().register(params);
+            request.setAttribute("user",user);
             response.sendRedirect("login.jsp");
-        }
-        else{
-            writer.println("<p>Failed</p>");
+        } catch (TRSException | SQLException e) {
+            request.setAttribute("error",e.getMessage());
+            request.getRequestDispatcher("register.jsp").forward(request,response);
         }
     }
 }
