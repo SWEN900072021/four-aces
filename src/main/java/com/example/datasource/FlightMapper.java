@@ -232,8 +232,4 @@ public class FlightMapper {
         }
         return flights;
     }
-
-    public static void main(String[] args) {
-        FlightMapper flightMapper = new FlightMapper();
-    }
 }
