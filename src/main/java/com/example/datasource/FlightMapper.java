@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FlightMapper {
     private static FlightMapper _instance = null;
-    private static final String url = "jdbc:postgresql://localhost:5432/myDB";
+    private static final String url = "jdbc:postgresql://localhost:5432/MyDB";
     private static final String user = "postgres";
     private static final String password = "admin";
 
@@ -45,8 +45,8 @@ public class FlightMapper {
             while (rs.next()) {
                 int flightId = Integer.parseInt(rs.getString("flight_id"));
                 String flightCode = rs.getString("flight_code");
-                String flightDate = rs.getString("flight_date");
-                String flightTime = rs.getString("flight_time");
+                String flightDate = rs.getString("date");
+                String flightTime = rs.getString("time");
                 Flight flight = new Flight(flightId, flightCode, flightDate, flightTime);
                 flights.add(flight);
             }
@@ -111,8 +111,8 @@ public class FlightMapper {
             if (rs.next()) {
                 int flightId = Integer.parseInt(rs.getString("flight_id"));
                 String flightCode = rs.getString("flight_code");
-                String flightDate = rs.getString("flight_date");
-                String flightTime = rs.getString("flight_time");
+                String flightDate = rs.getString("date");
+                String flightTime = rs.getString("time");
                 flight = new Flight(flightId, flightCode, flightDate, flightTime);
             }
         } catch (SQLException e) {
