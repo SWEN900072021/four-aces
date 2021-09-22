@@ -8,7 +8,7 @@ public class DBController {
 
     private final String url = "jdbc:postgresql://localhost:5432/postgres";
     private final String name = "postgres";
-    private final String password = "jiuk7o98l";
+    private final String password = "admin";
 
     public Connection connect() throws SQLException {
         Connection connection = null;
