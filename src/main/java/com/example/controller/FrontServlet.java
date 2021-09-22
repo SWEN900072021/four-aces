@@ -1,41 +1,48 @@
 package com.example.controller;
 
 import com.example.controller.commands.FrontCommand;
+import com.example.controller.commands.UnknownCommand;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
-@WebServlet(name = "FrontServlet", value = "/fourAces")
+@WebServlet(name = "FrontServlet", value = "/frontServlet")
 public class FrontServlet extends HttpServlet {
-
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        FrontCommand command = getCommand(req.getParameter("command"));
-        command.init(getServletContext(), req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        FrontCommand command = getCommand(request);
+        command.init(getServletContext(), request, response);
         command.processGet();
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        FrontCommand command = getCommand(req.getParameter("command"));
-        command.init(getServletContext(), req, resp);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        FrontCommand command = getCommand(request);
+        command.init(getServletContext(), request, response);
         command.processPost();
     }
 
-    private FrontCommand getCommand(String command){
-        FrontCommand frontCommand = null;
-        String commandClassName = "com.example.controller.commands." + command + "Command";
+    private FrontCommand getCommand(HttpServletRequest request) {
         try {
-            Class<?> commandClass = Class.forName(commandClassName);
-            frontCommand = (FrontCommand) commandClass.getConstructor().newInstance();
-        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+            return (FrontCommand) getCommandClass(request).newInstance();
+        } catch (Exception e) {
+            return new UnknownCommand();
         }
-        return frontCommand;
+    }
+
+    private Class getCommandClass(HttpServletRequest request) {
+        Class result;
+        String commandClassName =
+            "main.java.com.example.four_aces.controller.commands." + (String) request.getParameter("command") + "Command";
+        try {
+            result = Class.forName(commandClassName);
+        } catch (ClassNotFoundException e) {
+            result = UnknownCommand.class;
+        }
+        return result;
     }
 }

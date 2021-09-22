@@ -1,7 +1,7 @@
 package com.example.domain;
 
 public abstract class DomainObject {
-    private Integer id;
+    protected Integer id;
 
     public DomainObject(Integer id) {
         this.id = id;
