@@ -55,5 +55,8 @@ public class UnitOfWork {
         for (DomainObject obj : deleteObjects) {
 
         }
+        newObjects.clear();
+        dirtyObjects.clear();
+        deleteObjects.clear();
     }
 }
