@@ -11,6 +11,14 @@ public class PassengerMapper {
     private static final String url = "jdbc:postgresql://localhost:5432/myDB";
     private static final String user = "postgres";
     private static final String password = "admin";
+    private static CustomerMapper _instance = null;
+
+    public static CustomerMapper getInstance() {
+        if (_instance == null) {
+            _instance = new CustomerMapper();
+        }
+        return _instance;
+    }
 
     public static Connection connection() {
         Connection conn = null;
