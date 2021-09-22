@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FlightMapper {
     private static FlightMapper _instance = null;
-    private static final String url = "jdbc:postgresql://localhost:5432/myDB";
+    private static final String url = "jdbc:postgresql://localhost:5432/MyDB";
     private static final String user = "postgres";
     private static final String password = "admin";
 
@@ -30,7 +30,7 @@ public class FlightMapper {
         return conn;
     }
 
-    public static List<Flight> getAll() {
+    public List<Flight> getAll() {
         List<Flight> flights = new ArrayList<>();
         String sql = "SELECT * FROM flight;";
         PreparedStatement findStatement = null;
@@ -45,8 +45,8 @@ public class FlightMapper {
             while (rs.next()) {
                 int flightId = Integer.parseInt(rs.getString("flight_id"));
                 String flightCode = rs.getString("flight_code");
-                String flightDate = rs.getString("flight_date");
-                String flightTime = rs.getString("flight_time");
+                String flightDate = rs.getString("date");
+                String flightTime = rs.getString("time");
                 Flight flight = new Flight(flightId, flightCode, flightDate, flightTime);
                 flights.add(flight);
             }
@@ -111,8 +111,8 @@ public class FlightMapper {
             if (rs.next()) {
                 int flightId = Integer.parseInt(rs.getString("flight_id"));
                 String flightCode = rs.getString("flight_code");
-                String flightDate = rs.getString("flight_date");
-                String flightTime = rs.getString("flight_time");
+                String flightDate = rs.getString("date");
+                String flightTime = rs.getString("time");
                 flight = new Flight(flightId, flightCode, flightDate, flightTime);
             }
         } catch (SQLException e) {
@@ -191,8 +191,49 @@ public class FlightMapper {
         }
     }
 
+    public static List<com.example.domain.Flight> searchFlights(String flightDate, String flightTime) {
+        List<com.example.domain.Flight> flights = new ArrayList<>();
+        String sql = "SELECT * FROM flight WHERE time=\'" + flightTime + "\' AND date=\'" + flightDate + "\';";
+        System.out.println(sql);
+        PreparedStatement findStatement = null;
+        ResultSet rs = null;
+        Connection conn = null;
+
+        try {
+            conn = connection();
+            findStatement = conn.prepareStatement(sql);
+            findStatement.execute();
+            rs = findStatement.getResultSet();
+            int id = 0;
+            while (rs.next()) {
+                String date = rs.getString("date");
+                String time = rs.getString("time");
+                String code = rs.getString("flight_code");
+                int flightId = rs.getInt("flight_id");
+                com.example.domain.Flight flight = new com.example.domain.Flight(flightId, code, date, time);
+                flights.add(flight);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (findStatement != null) {
+                    findStatement.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return flights;
+    }
+
     public static void main(String[] args) {
         FlightMapper flightMapper = new FlightMapper();
     }
 }
-

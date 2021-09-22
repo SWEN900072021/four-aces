@@ -33,16 +33,5 @@ public class DBController {
             e.printStackTrace();
         }
     }
-
-    public Connection connect() throws SQLException {
-        Connection connection;
-        DriverManager.registerDriver(new org.postgresql.Driver());
-        connection = DriverManager.getConnection(url, name, password);
-        return connection;
-    }
-
-    public void close(Connection connection) throws SQLException {
-        connection.close();
-    }
 }
 
