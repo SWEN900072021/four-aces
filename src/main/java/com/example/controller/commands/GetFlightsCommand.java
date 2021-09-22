@@ -10,14 +10,13 @@ import java.util.List;
 public class GetFlightsCommand extends FrontCommand {
     @Override
     public void processGet() throws ServletException, IOException {
-        List<Flight> flights = null;
         try {
-            flights = FlightDataMapper.getInstance().getAll();
+            List<Flight> flights = FlightDataMapper.getInstance().getAll();
+            if (flights.size() > 0) {
+                request.setAttribute("flights", flights);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        if (flights.size() > 0) {
-            request.setAttribute("flights", flights);
         }
         forward("/flights.jsp");
     }
