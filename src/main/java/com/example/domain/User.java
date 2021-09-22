@@ -5,12 +5,15 @@ import com.example.exception.TRSException;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-public class User {
-    
+public class User extends DomainObject{
+
     protected String username;
     protected String password;
     protected String email;
-    protected int id;
+
+    public User(){
+        super(null);
+    }
 
     public User register(HashMap<String, String> params) throws TRSException, SQLException {
         return null;
@@ -44,7 +47,8 @@ public class User {
         return this.email;
     }
 
-    public int getId(){
+    @Override
+    public Integer getId(){
         if( this.id == 0 ) load();
         return this.id;
     }

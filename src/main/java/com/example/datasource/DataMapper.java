@@ -14,7 +14,7 @@ public interface DataMapper<E> {
 
     String SQLUpdate = "UPDATE %s SET %s WHERE %s";
 
-    E create(HashMap<String, String> params) throws SQLException;
+    E create(HashMap<String, String> params) throws SQLException, TRSException;
 
     int update(HashMap<String, String> params) throws TRSException, SQLException;
 

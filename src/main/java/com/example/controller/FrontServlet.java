@@ -10,7 +10,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "FrontServlet", value = "/frontServlet")
+@WebServlet(name = "FrontServlet", value = "/fourAces")
 public class FrontServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,7 +37,7 @@ public class FrontServlet extends HttpServlet {
     private Class getCommandClass(HttpServletRequest request) {
         Class result;
         String commandClassName =
-            "main.java.com.example.four_aces.controller.commands." + (String) request.getParameter("command") + "Command";
+            "com.example.controller.commands." + (String) request.getParameter("command") + "Command";
         try {
             result = Class.forName(commandClassName);
         } catch (ClassNotFoundException e) {

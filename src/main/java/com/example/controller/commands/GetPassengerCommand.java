@@ -8,12 +8,18 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.List;
 public class GetPassengerCommand extends FrontCommand {
+
     @Override
-    public void process() throws ServletException, IOException {
+    public void processGet() throws ServletException, IOException {
         List<Passenger> passengers = PassengerMapper.getInstance().getAllPassengers();
         if (passengers.size() > 0) {
             request.setAttribute("passenger", passengers);
         }
         forward("/passenger.jsp");
+    }
+
+    @Override
+    public void processPost() throws ServletException, IOException {
+
     }
 }
