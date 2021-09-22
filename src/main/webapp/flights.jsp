@@ -3,12 +3,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>TRS</title>
+  <title>TRS</title>
 </head>
 <body>
 <%
-    if (request.getAttribute("flights") != null) {
-        List<Flight> flights = (List<Flight>) request.getAttribute("flights");
+  if (request.getAttribute("flights") != null) {
+    List<Flight> flights = (List<Flight>) request.getAttribute("flights");
 %>
 
 <h2>All Flights</h2>
