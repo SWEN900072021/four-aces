@@ -3,6 +3,10 @@ package com.example.controller;
 import com.example.domain.Admin;
 import com.example.domain.Airline;
 import com.example.domain.Customer;
+import com.example.domain.User;
+import com.example.exception.TRSException;
+
+import java.sql.SQLException;
 import java.util.HashMap;
 
 public class AuthenticationController {
@@ -12,31 +16,39 @@ public class AuthenticationController {
     public final static int LOGIN_FAIL_WRONG_TYPE = -1;
     public static final int LOGIN_FAIL_NO_USER_FOUND = -2;
 
-    public int login(HashMap<String, String> params){
+    public User login(HashMap<String, String> params) throws TRSException, SQLException {
+        User user = null;
         switch (params.remove("type")){
             case "airline":
-                return new Airline().login(params);
+                user = new Airline().login(params);
+                break;
             case "customer":
-                return new Customer().login(params);
+                user = new Customer().login(params);
+                break;
             case "admin":
-                return Admin.getAdmin().login(params);
+                user = Admin.getAdmin().login(params);
+                break;
             default:
-                return LOGIN_FAIL_WRONG_TYPE;
+                throw new TRSException("Invalid User Type");
         }
+        return user;
     }
 
-    public int register(HashMap<String, String> params){
+    public User register(HashMap<String, String> params) throws TRSException, SQLException {
+        User user = null;
         switch (params.remove("type")) {
             case "admin":
-                return Admin.getAdmin().register(params);
+                user = Admin.getAdmin().register(params);
+                break;
             case "airline":
-                Airline airline = new Airline();
-                return airline.register(params);
+                user = new Airline().register(params);
+                break;
             case "customer":
-                Customer customer = new Customer();
-                return customer.register(params);
+                user = new Customer().register(params);
+                break;
             default:
-                return REG_FAIL_NO_TYPE_SELECTED;
+                throw new TRSException("Invalid User Type");
         }
+        return user;
     }
 }

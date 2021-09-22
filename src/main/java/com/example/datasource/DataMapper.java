@@ -1,19 +1,23 @@
 package com.example.datasource;
 
+import com.example.exception.TRSException;
+
 import java.sql.SQLException;
 import java.util.HashMap;
 
 public interface DataMapper<E> {
 
-    public final String SQLInsert = "INSERT INTO %s(%s) VALUES(%s)";
+    String SQLInsert = "INSERT INTO %s(%s) VALUES(%s)";
 
-    public final String SQLSelect = "SELECT %s FROM %s %s";
+    String SQLSelect = "SELECT %s FROM %s %s";
 
-    public E create(HashMap<String, String> params) throws SQLException;
+    String SQLUpdate = "UPDATE %s SET %s WHERE %s";
 
-    public void update(HashMap<String, String> params);
+    E create(HashMap<String, String> params) throws SQLException;
 
-    public void delete(HashMap<String, String> params);
+    int update(HashMap<String, String> params) throws TRSException, SQLException;
 
-    public E find(HashMap<String, String> params) throws SQLException;
+    void delete(HashMap<String, String> params);
+
+    ArrayList<E> find(HashMap<String, String> params) throws SQLException;
 }

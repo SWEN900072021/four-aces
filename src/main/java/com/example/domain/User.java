@@ -1,5 +1,8 @@
 package com.example.domain;
 
+import com.example.exception.TRSException;
+
+import java.sql.SQLException;
 import java.util.HashMap;
 
 public class User {
@@ -9,12 +12,12 @@ public class User {
     protected String email;
     protected int id;
 
-    public int register(HashMap<String, String> params){
-        return -1;
+    public User register(HashMap<String, String> params) throws TRSException, SQLException {
+        return null;
     }
     
-    public int login(HashMap<String, String> params){
-        return -1;
+    public User login(HashMap<String, String> params) throws TRSException, SQLException {
+        return null;
     }
 
     public void setUsername(String username){

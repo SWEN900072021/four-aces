@@ -11,6 +11,9 @@
     <title>Register</title>
 </head>
 <body>
+<%
+    String error = (String) request.getAttribute("error");
+%>
 <h1>User Registration</h1>
 <br>
 <form action="fourAces?command=Register" method="post">
@@ -25,5 +28,13 @@
     </select>
     <input type="submit" value="Create Account">
 </form>
+<%
+    if( error != null ){
+%>
+<p style="color: red"><%=error%></p>
+<%
+    }
+%>
+<a href="login.jsp">Login</a>
 </body>
 </html>
