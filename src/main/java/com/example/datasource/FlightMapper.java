@@ -208,7 +208,7 @@ public class FlightMapper {
             while (rs.next()) {
                 String date = rs.getString("date");
                 String time = rs.getString("time");
-                String code = rs.getString("code");
+                String code = rs.getString("flight_code");
                 int flightId = rs.getInt("flight_id");
                 com.example.domain.Flight flight = new com.example.domain.Flight(flightId, code, date, time);
                 flights.add(flight);
