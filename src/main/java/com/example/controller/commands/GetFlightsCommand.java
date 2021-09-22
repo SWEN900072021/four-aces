@@ -19,11 +19,6 @@ public class GetFlightsCommand extends FrontCommand {
 
     @Override
     public void processPost() throws ServletException, IOException {
-        List<Flight> flights = FlightMapper.getInstance().getAll();
-        if (flights.size() > 0) {
-            request.setAttribute("flights", flights);
-        }
-        forward("/flights.jsp");
     }
 }
 
