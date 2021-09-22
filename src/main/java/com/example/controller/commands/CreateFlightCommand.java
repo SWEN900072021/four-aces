@@ -14,7 +14,7 @@ public class CreateFlightCommand extends FrontCommand {
         String flightTime = request.getParameter("flightTime");
         Flight flight = new Flight(null, flightCode, flightDate, flightTime);
         UnitOfWork.getInstance().commit();
-        forward("/home.jsp");
+        forward("/airline.jsp");
     }
 
     @Override
@@ -24,6 +24,6 @@ public class CreateFlightCommand extends FrontCommand {
         String flightTime = request.getParameter("flightTime");
         Flight flight = new Flight(null, flightCode, flightDate, flightTime);
         UnitOfWork.getInstance().commit();
-        forward("/home.jsp");
+        forward("/airline.jsp");
     }
 }
