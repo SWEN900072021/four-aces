@@ -12,11 +12,10 @@
 </head>
 <body>
 <h2>Create Airports</h2>
-<form action = "fourAces?command=CreateFlight" method = "post">
-    Flight code: <input type = "text" name = "flightCode"><br/>
-    Flight date: <input type = "text" name = "flightDate"><br/>
-    Flight time: <input type = "text" name = "flightTime"><br/>
-    <input type = "submit" value = "Create Flight">
+<form action = "fourAces?command=CreateAirport" method = "post">
+    Reference Code: <input type="text" name="referenceCode"> <br>
+    Address: <input type="text" name="address"> <br>
+    <input type = "submit" value = "Create Airport">
 </form>
 </body>
 </html>

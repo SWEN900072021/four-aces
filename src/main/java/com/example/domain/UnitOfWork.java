@@ -1,6 +1,6 @@
 package com.example.domain;
 
-import com.example.datasource.FlightMapper;
+import com.example.datasource.DataMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,9 @@ public class UnitOfWork {
     private List<DomainObject> newObjects = new ArrayList<>();
     private List<DomainObject> dirtyObjects = new ArrayList<>();
     private List<DomainObject> deleteObjects = new ArrayList<>();
+
+    private UnitOfWork(){
+    }
 
     public static UnitOfWork getInstance() {
         if (_instance == null) {
@@ -41,16 +44,15 @@ public class UnitOfWork {
         }
     }
 
-    public void commit() {
+    public void commit() throws Exception {
         for (DomainObject obj : newObjects) {
-            if (obj.getClass().equals(Flight.class)) {
-                FlightMapper.getInstance().insert((Flight) obj);
-            }
+            java.lang.Class<?> objClass = obj.getClass();
+            System.out.println(objClass);
+            DataMapper.getDataMapper(objClass.getSimpleName()).insert(obj.cast(objClass));
         }
         for (DomainObject obj : dirtyObjects) {
-            if (obj.getClass().equals(Flight.class)) {
-                FlightMapper.getInstance().update((Flight) obj);
-            }
+            java.lang.Class<?> objClass = obj.getClass();
+            DataMapper.getDataMapper((objClass).getSimpleName()).update(obj.cast(objClass));
         }
         for (DomainObject obj : deleteObjects) {
 
@@ -59,4 +61,5 @@ public class UnitOfWork {
         dirtyObjects.clear();
         deleteObjects.clear();
     }
+
 }

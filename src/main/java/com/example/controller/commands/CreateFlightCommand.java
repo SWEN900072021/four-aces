@@ -5,6 +5,7 @@ import com.example.domain.UnitOfWork;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class CreateFlightCommand extends FrontCommand {
     @Override
@@ -16,8 +17,13 @@ public class CreateFlightCommand extends FrontCommand {
         String flightCode = request.getParameter("flightCode");
         String flightDate= request.getParameter("flightDate");
         String flightTime = request.getParameter("flightTime");
-        Flight flight = new Flight(null, flightCode, flightDate, flightTime);
-        UnitOfWork.getInstance().commit();
+        new Flight(null, flightCode, flightDate, flightTime);
+        try {
+            UnitOfWork.getInstance().commit();
+        } catch (Exception e) {
+            // TODO: send error message
+            e.printStackTrace();
+        }
         forward("/airline.jsp");
     }
 }

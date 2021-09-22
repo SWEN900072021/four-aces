@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.four_aces.domain.Airport" %>
+<%@ page import="com.example.domain.Airport" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

@@ -5,60 +5,48 @@ public class Passenger extends DomainObject {
     private String lastName;
     private String idType;
     private String idNumber;
-
-    private String passenger_id;
-    private String passenger_firstName;
-    private String passenger_lastName;
-    private String identificationType;
-    private String identificationNumber;
-
-    public Passenger(String passenger_id, String passenger_firstName, String passenger_lastName,String identificationType, String identificationNumber){
+    public Passenger(String firstName, String lastName,String idType, String idNumber){
         super(null);
-        this.passenger_id = passenger_id;
-        this.passenger_firstName = passenger_firstName;
-        this.passenger_lastName = passenger_lastName;
-        this.identificationType = identificationType;
-        this.identificationNumber = identificationNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.idType = idType;
+        this.idNumber = idNumber;
     }
 
 
-    public String getPassenger_id() {
-        return passenger_id;
+    public Integer getId() {
+        return this.id;
     }
 
-    public String getPassenger_firstName() {
-        return passenger_firstName;
+    public String getfirstName() {
+        return firstName;
     }
 
-    public String getPassenger_lastName() {
-        return passenger_lastName;
+    public String getlastName() {
+        return lastName;
     }
 
     public String getIdentificationType() {
-        return identificationType;
+        return idType;
     }
 
     public String getIdentificationNumber() {
-        return identificationNumber;
+        return idNumber;
     }
 
-    public void setPassenger_id(String passenger_id) {
-        this.passenger_id = passenger_id;
+    public void setfirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setPassenger_firstName(String passenger_firstName) {
-        this.passenger_firstName = passenger_firstName;
+    public void setlastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setPassenger_lastName(String passenger_lastName) {
-        this.passenger_lastName = passenger_lastName;
+    public void setIdType(String idType) {
+        this.idType = idType;
     }
 
-    public void setIdentificationType(String identificationType) {
-        this.identificationType = identificationType;
-    }
-
-    public void setIdentificationNumber(String identificationNumber) {
-        this.identificationNumber = identificationNumber;
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
     }
 }

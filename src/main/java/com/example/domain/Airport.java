@@ -8,6 +8,7 @@ public class Airport extends DomainObject{
         super(null);
         this.referenceCode = referenceCode;
         this.address = address;
+        UnitOfWork.getInstance().registerNew(this);
     }
     public String getReferenceCode() {
         return this.referenceCode;
@@ -17,4 +18,13 @@ public class Airport extends DomainObject{
         return this.address;
     }
 
+    public void setReferenceCode(String referenceCode){
+        this.referenceCode = referenceCode;
+        UnitOfWork.getInstance().registerDirty(this);
+    }
+
+    public void setAddress(String address){
+        this.address = address;
+        UnitOfWork.getInstance().registerDirty(this);
+    }
 }

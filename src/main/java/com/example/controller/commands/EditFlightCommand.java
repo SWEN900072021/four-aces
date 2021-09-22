@@ -1,6 +1,6 @@
 package com.example.controller.commands;
 
-import com.example.datasource.FlightMapper;
+import com.example.datasource.FlightDataMapper;
 import com.example.domain.Flight;
 import com.example.domain.UnitOfWork;
 
@@ -14,12 +14,17 @@ public class EditFlightCommand extends FrontCommand {
         String flightCode = request.getParameter("flightCode");
         String flightDate= request.getParameter("flightDate");
         String flightTime = request.getParameter("flightTime");
-        Flight flight = FlightMapper.getInstance().findById(id);
-        flight.setCode(flightCode);
-        flight.setDate(flightDate);
-        flight.setTime(flightTime);
-        UnitOfWork.getInstance().commit();
-        forward("/fourAces?command=GetFlights");
+        Flight flight = null;
+        try {
+            flight = FlightDataMapper.getInstance().findById(id);
+            flight.setCode(flightCode);
+            flight.setDate(flightDate);
+            flight.setTime(flightTime);
+            UnitOfWork.getInstance().commit();
+        } catch (Exception e) {
+            // TODO: send error message
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -28,12 +33,18 @@ public class EditFlightCommand extends FrontCommand {
         String flightCode = request.getParameter("flightCode");
         String flightDate= request.getParameter("flightDate");
         String flightTime = request.getParameter("flightTime");
-        Flight flight = FlightMapper.getInstance().findById(id);
-        flight.setCode(flightCode);
-        flight.setDate(flightDate);
-        flight.setTime(flightTime);
-        UnitOfWork.getInstance().commit();
-        forward("/fourAces?command=GetFlights");
+        Flight flight = null;
+        try {
+            flight = FlightDataMapper.getInstance().findById(id);
+            flight.setCode(flightCode);
+            flight.setDate(flightDate);
+            flight.setTime(flightTime);
+            UnitOfWork.getInstance().commit();
+            response.sendRedirect("fourAces?command=GetFlights");
+        } catch (Exception e) {
+            // TODO: send error message
+            e.printStackTrace();
+        }
     }
 }
 

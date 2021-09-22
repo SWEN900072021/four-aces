@@ -22,9 +22,9 @@
     <label for="password">password:</label><input type="text" id="password" name="password"><br>
     <label for="type">Type of account:</label>
     <select name="type" id="type">
-        <option value="customer">customer</option>
-        <option value="airline">airline</option>
-        <option value="admin">admin</option>
+        <option value="Customer">Customer</option>
+        <option value="Airline">Airline</option>
+        <option value="Admin">Admin</option>
     </select>
     <input type="submit" value="Create Account">
 </form>
@@ -35,6 +35,6 @@
 <%
     }
 %>
-<a href="login.jsp">Login</a>
+<a href="login.jsp"><button>Login</button></a>
 </body>
 </html>

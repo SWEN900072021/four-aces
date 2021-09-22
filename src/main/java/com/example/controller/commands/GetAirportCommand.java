@@ -1,7 +1,7 @@
 package com.example.controller.commands;
 
 
-import com.example.datasource.AirportMapper;
+import com.example.datasource.AirportDataMapper;
 import com.example.domain.Airport;
 
 
@@ -14,9 +14,12 @@ public class GetAirportCommand extends FrontCommand {
 
     @Override
     public void processGet() throws ServletException, IOException {
-        AirportMapper dbConnection = new AirportMapper();
-        List<Airport> airports = dbConnection.getAllAirport();
-        request.setAttribute("airports", airports);
+        try {
+            List<Airport> airports = AirportDataMapper.getInstance().getAll();
+            request.setAttribute("airports", airports);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         forward("/airports.jsp");
     }
 

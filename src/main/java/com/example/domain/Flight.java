@@ -4,6 +4,11 @@ public class Flight extends DomainObject {
     private String code;
     private String date;
     private String time;
+    private String source;
+    private String destination;
+    private String stopovers;
+    private Integer airline_id;
+    private Integer airplane_id;
 
     public Flight(Integer id, String code, String date, String time) {
         super(id);

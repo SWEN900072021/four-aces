@@ -9,40 +9,33 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 @WebServlet(name = "FrontServlet", value = "/fourAces")
 public class FrontServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        FrontCommand command = getCommand(request);
+        FrontCommand command = getCommand(request.getParameter("command"));
         command.init(getServletContext(), request, response);
         command.processGet();
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        FrontCommand command = getCommand(request);
+        FrontCommand command = getCommand(request.getParameter("command"));
         command.init(getServletContext(), request, response);
         command.processPost();
     }
 
-    private FrontCommand getCommand(HttpServletRequest request) {
+    private FrontCommand getCommand(String command){
+        FrontCommand frontCommand = null;
+        String commandClassName = "com.example.controller.commands." + command + "Command";
         try {
-            return (FrontCommand) getCommandClass(request).newInstance();
-        } catch (Exception e) {
-            return new UnknownCommand();
+            Class<?> commandClass = Class.forName(commandClassName);
+            frontCommand = (FrontCommand) commandClass.getConstructor().newInstance();
+        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            frontCommand = new UnknownCommand();
         }
-    }
-
-    private Class getCommandClass(HttpServletRequest request) {
-        Class result;
-        String commandClassName =
-            "com.example.controller.commands." + (String) request.getParameter("command") + "Command";
-        try {
-            result = Class.forName(commandClassName);
-        } catch (ClassNotFoundException e) {
-            result = UnknownCommand.class;
-        }
-        return result;
+        return frontCommand;
     }
 }

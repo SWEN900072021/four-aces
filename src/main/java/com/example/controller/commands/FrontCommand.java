@@ -32,8 +32,9 @@ public abstract class FrontCommand {
     }
 
     protected void error(Exception e, String target) throws ServletException, IOException {
-        request.setAttribute("error", e);
-        request.getRequestDispatcher(target).forward(request, response);
+        e.printStackTrace();
+        request.setAttribute("error", e.getClass() + e.getMessage());
+        forward(target);
     }
 
 }

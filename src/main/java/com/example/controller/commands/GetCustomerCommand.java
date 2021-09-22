@@ -12,7 +12,7 @@ public class GetCustomerCommand extends FrontCommand {
     @Override
     public void processGet() throws ServletException, IOException {
         try {
-            ArrayList<Customer> customers = new CustomerDataMapper().find("*","");
+            ArrayList<Customer> customers = CustomerDataMapper.getInstance().getAll();
             if (customers.size() > 0) {
                 request.setAttribute("customer", customers);
             }

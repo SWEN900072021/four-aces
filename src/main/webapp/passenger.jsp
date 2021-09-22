@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.four_aces.domain.Passenger" %>
+<%@ page import="com.example.domain.Passenger" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -15,9 +15,9 @@
 <%
     for(int i = 0; i < passengers.size(); i++) {
 %>
-<div>passenger_id: <%= passengers.get(i).getPassenger_id()%></div>
-<div>passenegr_firstName: <%= passengers.get(i).getPassenger_firstName()%></div>
-<div>passenger_lastName: <%= passengers.get(i).getPassenger_lastName()%></div>
+<div>passenger_id: <%= passengers.get(i).getId()%></div>
+<div>passenegr_firstName: <%= passengers.get(i).getfirstName()%></div>
+<div>passenger_lastName: <%= passengers.get(i).getlastName()%></div>
 <div>identificationType: <%= passengers.get(i).getIdentificationType()%></div>
 <div>identificationNumber: <%= passengers.get(i).getIdentificationNumber()%></div>
 
