@@ -1,9 +1,10 @@
-package com.example.four_aces.controller.commands;
+package com.example.controller.commands;
 
-/*import com.example.four_aces.datasource.FlightMapper;
-import main.java.com.example.four_aces.domain.Flight;*/
-import com.example.four_aces.datasource.AirportMapper;
-import com.example.four_aces.domain.Airport;
+
+import com.example.datasource.AirportMapper;
+import com.example.domain.Airport;
+
+
 
 import javax.servlet.ServletException;
 import java.io.IOException;

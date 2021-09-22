@@ -1,4 +1,4 @@
-package com.example.four_aces.controller.commands;
+package com.example.controller.commands;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;

@@ -1,6 +1,7 @@
-package com.example.four_aces.controller.commands;
+package com.example.controller.commands;
 
-import com.example.four_aces.domain.Passenger;
+import com.example.domain.Passenger;
+
 
 import javax.servlet.ServletException;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.example.four_aces.domain;
+package com.example.domain;
 
 public class DomainObject {
     private Integer id;

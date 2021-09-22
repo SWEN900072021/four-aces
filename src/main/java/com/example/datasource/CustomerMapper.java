@@ -1,7 +1,7 @@
-package com.example.four_aces.datasource;
+package com.example.datasource;
 
-import com.example.four_aces.domain.Customer;
-import com.example.four_aces.domain.DomainObject;
+
+import com.example.domain.Customer;
 
 import java.awt.peer.TextAreaPeer;
 import java.sql.*;

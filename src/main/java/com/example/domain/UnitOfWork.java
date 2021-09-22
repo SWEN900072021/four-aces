@@ -1,5 +1,5 @@
-package com.example.four_aces.domain;
-import com.example.four_aces.datasource.CustomerMapper;
+package com.example.domain;
+
 
 import java.util.ArrayList;
 import java.util.List;

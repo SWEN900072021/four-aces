@@ -1,8 +1,9 @@
-package com.example.four_aces.controller.commands;
+package com.example.controller.commands;
 
 
-import com.example.four_aces.domain.Airport;
-import com.example.four_aces.domain.UnitOfWork;
+import com.example.domain.Airport;
+import com.example.domain.UnitOfWork;
+
 
 import javax.servlet.ServletException;
 import java.io.IOException;

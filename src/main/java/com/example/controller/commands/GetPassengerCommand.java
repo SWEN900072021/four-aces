@@ -1,8 +1,7 @@
-package com.example.four_aces.controller.commands;
-import com.example.four_aces.datasource.CustomerMapper;
-import com.example.four_aces.datasource.PassengerMapper;
-import com.example.four_aces.domain.Customer;
-import com.example.four_aces.domain.Passenger;
+package com.example.controller.commands;
+import com.example.datasource.PassengerMapper;
+import com.example.domain.Customer;
+import com.example.domain.Passenger;
 
 
 import javax.servlet.ServletException;
@@ -11,7 +10,7 @@ import java.util.List;
 public class GetPassengerCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
-        List<Customer> passengers = PassengerMapper.getInstance().getAll();
+        List<Passenger> passengers = PassengerMapper.getInstance().getAllPassengers();
         if (passengers.size() > 0) {
             request.setAttribute("passenger", passengers);
         }

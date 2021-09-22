@@ -1,7 +1,8 @@
-package com.example.four_aces.controller;
+package com.example.controller;
 
-import com.example.four_aces.controller.commands.FrontCommand;
-import com.example.four_aces.controller.commands.UnknownCommand;
+import com.example.controller.commands.FrontCommand;
+import com.example.controller.commands.UnknownCommand;
+
 
 
 import javax.servlet.*;

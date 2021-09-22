@@ -1,8 +1,10 @@
-package com.example.four_aces.datasource;
+package com.example.datasource;
 
 
 
-import com.example.four_aces.domain.Airport;
+
+
+import com.example.domain.Airport;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -93,7 +95,7 @@ public class AirportMapper {
 //            Flight flight = flights.get(i);
 //            System.out.println(flight.getId() + "-" + flight.getDate() + "-" + flight.getTime());
 //        }
-        dbConnection.addAirport("AP001","MEL");
+        dbConnection.addAirport("AP002","MEL");
     }
 }
 

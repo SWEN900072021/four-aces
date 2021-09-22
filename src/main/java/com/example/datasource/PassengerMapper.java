@@ -1,7 +1,9 @@
-package com.example.four_aces.datasource;
+package com.example.datasource;
 
 
-import com.example.four_aces.domain.Passenger;
+import com.example.domain.Customer;
+import com.example.domain.Passenger;
+
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,11 +13,11 @@ public class PassengerMapper {
     private static final String url = "jdbc:postgresql://localhost:5432/myDB";
     private static final String user = "postgres";
     private static final String password = "admin";
-    private static CustomerMapper _instance = null;
+    private static PassengerMapper _instance = null;
 
-    public static CustomerMapper getInstance() {
+    public static PassengerMapper getInstance() {
         if (_instance == null) {
-            _instance = new CustomerMapper();
+            _instance = new PassengerMapper();
         }
         return _instance;
     }
@@ -83,4 +85,4 @@ public class PassengerMapper {
         }
     }
 
-    }
+}

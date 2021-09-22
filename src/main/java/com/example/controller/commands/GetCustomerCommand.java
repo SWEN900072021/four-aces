@@ -1,6 +1,8 @@
-package com.example.four_aces.controller.commands;
-import com.example.four_aces.datasource.CustomerMapper;
-import com.example.four_aces.domain.Customer;
+package com.example.controller.commands;
+import com.example.datasource.CustomerMapper;
+import com.example.domain.Customer;
+
+
 
 
 import javax.servlet.ServletException;
