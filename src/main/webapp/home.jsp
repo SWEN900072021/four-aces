@@ -10,7 +10,7 @@
         Customer customer = (Customer) request.getAttribute("customer");
 %>
 
-<h2>Home Page</h2>
+<h2>All Passengers</h2>
 <div>ID: <%= customer.getId()%></div>
 <div>Username: <%= customer.getUsername()%></div>
 <div>Password: <%= customer.getPassword()%></div>

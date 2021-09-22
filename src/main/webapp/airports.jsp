@@ -11,7 +11,7 @@
         List<Airport> airports = (List<Airport>) request.getAttribute("airports");
 %>
 
-<h2>All Flights</h2>
+<h2>All Airports</h2>
 <%
     for(int i = 0; i < airports.size(); i++) {
 %>
@@ -26,7 +26,7 @@
 } else {
 %>
 
-<h1>No flight record found.</h1>
+<h1>No airport record found.</h1>
 
 <% } %>
 </body>
