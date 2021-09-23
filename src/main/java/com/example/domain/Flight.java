@@ -8,7 +8,6 @@ public class Flight extends DomainObject {
     private String time;
     private int source;
     private int destination;
-    private String stopovers;
     private Integer airlineId;
     private Integer airplaneId;
 
