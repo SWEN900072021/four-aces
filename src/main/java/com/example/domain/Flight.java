@@ -1,5 +1,7 @@
 package com.example.domain;
 
+import java.util.List;
+
 public class Flight extends DomainObject {
     private String code;
     private String date;
@@ -35,6 +37,26 @@ public class Flight extends DomainObject {
     public int getSource() { return this.source; }
 
     public int getDestination() { return this.destination; }
+
+    public String getSrcRefCode(List<Airport> airports) {
+        for (int i = 0; i < airports.size(); i++) {
+            Airport airport = airports.get(i);
+            if (airport.getId() == this.source) {
+                return airport.getReferenceCode();
+            }
+        }
+        return "Airport Not Found";
+    }
+
+    public String getDesRefCode(List<Airport> airports) {
+        for (int i = 0; i < airports.size(); i++) {
+            Airport airport = airports.get(i);
+            if (airport.getId() == this.destination) {
+                return airport.getReferenceCode();
+            }
+        }
+        return "Airport Not Found";
+    }
 
     public void setCode(String code) {
         this.code = code;
