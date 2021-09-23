@@ -1,5 +1,8 @@
 package com.example.domain;
 
+import com.example.datasource.AirportDataMapper;
+import com.example.datasource.FlightDataMapper;
+
 import java.util.List;
 
 public class Flight extends DomainObject {
@@ -34,28 +37,20 @@ public class Flight extends DomainObject {
         return this.time;
     }
 
-    public int getSource() { return this.source; }
+    public int getSourceAirportId() { return this.source; }
 
-    public int getDestination() { return this.destination; }
+    public int getDestinationAirportId() { return this.destination; }
 
-    public String getSrcRefCode(List<Airport> airports) {
-        for (int i = 0; i < airports.size(); i++) {
-            Airport airport = airports.get(i);
-            if (airport.getId() == this.source) {
-                return airport.getReferenceCode();
-            }
-        }
-        return "Airport Not Found";
+    public Airport getSourceAirport() throws Exception {
+        AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
+        Airport airport = airportDataMapper.findById(this.source);
+        return airport;
     }
 
-    public String getDesRefCode(List<Airport> airports) {
-        for (int i = 0; i < airports.size(); i++) {
-            Airport airport = airports.get(i);
-            if (airport.getId() == this.destination) {
-                return airport.getReferenceCode();
-            }
-        }
-        return "Airport Not Found";
+    public Airport getDestinationAirport() throws Exception {
+        AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
+        Airport airport = airportDataMapper.findById(this.destination);
+        return airport;
     }
 
     public int getAirlineId() {

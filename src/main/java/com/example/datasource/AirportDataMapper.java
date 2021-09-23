@@ -10,7 +10,7 @@ public class AirportDataMapper extends AbstractDataMapper<Airport> {
     private static AirportDataMapper _instance;
     private AirportDataMapper(){
         this.table = "airport";
-        this.pkey = "referencecode";
+        this.pkey = "airport_id";
         this.fields = new String[]{
                 "referencecode",
                 "address"

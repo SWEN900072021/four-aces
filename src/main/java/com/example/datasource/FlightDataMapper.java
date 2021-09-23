@@ -52,8 +52,8 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         ps.setString(1, flight.getCode());
         ps.setString(2, flight.getDate());
         ps.setString(3, flight.getTime());
-        ps.setInt(4, flight.getSource());
-        ps.setInt(5, flight.getDestination());
+        ps.setInt(4, flight.getSourceAirportId());
+        ps.setInt(5, flight.getDestinationAirportId());
         ps.setInt(6, flight.getAirlineId());
     }
 }
