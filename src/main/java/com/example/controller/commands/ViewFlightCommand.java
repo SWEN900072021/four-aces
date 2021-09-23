@@ -1,5 +1,6 @@
 package com.example.controller.commands;
 
+import com.example.datasource.FlightDataMapper;
 import com.example.domain.Flight;
 import com.example.datasource.FlightMapper;
 
@@ -11,24 +12,21 @@ public class ViewFlightCommand extends FrontCommand {
 
     @Override
     public void processGet() throws ServletException, IOException {
-        Integer id = Integer.parseInt(request.getParameter("flight_id"));
-        FlightMapper flightMapper = new FlightMapper();
-        Flight flight = flightMapper.findById(id);
-        if (flight != null) {
-            request.setAttribute("flight", flight);
+        Integer id = Integer.parseInt(request.getParameter("flightId"));
+        FlightDataMapper flightDataMapper = FlightDataMapper.getInstance();
+        try {
+            Flight flight = flightDataMapper.findById(id);
+            if (flight != null) {
+                request.setAttribute("flight", flight);
+            }
+            forward("/viewFlight.jsp");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        forward("/viewFlight.jsp");
     }
 
     @Override
     public void processPost() throws ServletException, IOException {
-        Integer id = Integer.parseInt(request.getParameter("flight_id"));
-        FlightMapper flightMapper = new FlightMapper();
-        Flight flight = flightMapper.findById(id);
-        if (flight != null) {
-            request.setAttribute("flight", flight);
-        }
-        forward("/viewFlight.jsp");
     }
 
 }

@@ -1,6 +1,8 @@
 package com.example.controller.commands;
 
-import com.example.controller.AuthenticationController;
+import com.example.datasource.AdminDataMapper;
+import com.example.datasource.DataMapper;
+import com.example.domain.Admin;
 import com.example.exception.TRSException;
 
 import javax.servlet.ServletException;
@@ -21,14 +23,12 @@ public class AdminLoginCommand extends FrontCommand{
     public void processPost() throws ServletException, IOException {
         HashMap<String, String> params = new HashMap<>();
         params.put("username", request.getParameter("username"));
-        params.put("password", request.getParameter("password"));
-        params.put("type","admin");
-        response.setContentType("text/html");
         try{
-            new AuthenticationController().login(params);
-            response.sendRedirect("admin.jsp");
-        } catch (TRSException | SQLException e) {
-            response.getWriter().write(e.getMessage());
+            Admin admin = AdminDataMapper.getInstance().find(params).get(0);
+            admin.login(request.getParameter("password"));
+            forward("/admin.jsp");
+        } catch (Exception e) {
+            error(e, "/adminLogin.jsp");
         }
     }
 }

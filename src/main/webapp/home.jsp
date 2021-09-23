@@ -1,11 +1,18 @@
-<%@ page import="com.example.four_aces.domain.Customer" %>
+<%@ page import="com.example.domain.Customer" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>TRS</title>
 </head>
 <body>
-<h2>Home Page</h2>
+<%
+    if (request.getAttribute("customer") != null) {
+        Customer customer = (Customer) request.getAttribute("customer");
+%>
+
+<h2>All Passengers</h2>
+<div>ID: <%= customer.getId()%></div>
+<div>Username: <%= customer.getUsername()%></div>
 
 <button onclick="window.location.href = 'createFlight.jsp'">Create Flights</button>
 
@@ -16,6 +23,8 @@
     Time: <input type = "text" name = "flightTime"><br/>
     <input type = "submit" value = "Search Flights">
 </form>
-
+<%
+    }
+%>
 </body>
 </html>

@@ -5,50 +5,66 @@ import com.example.exception.TRSException;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-public class User {
-    
+public class User extends DomainObject {
+
     protected String username;
     protected String password;
     protected String email;
-    protected int id;
 
-    public User register(HashMap<String, String> params) throws TRSException, SQLException {
-        return null;
-    }
-    
-    public User login(HashMap<String, String> params) throws TRSException, SQLException {
-        return null;
+    public User(Integer id) {
+        super(id);
     }
 
-    public void setUsername(String username){
+    public User login(String password) throws Exception {
+        if (!this.password.equals(password)) {
+            throw new TRSException("Wrong Password");
+        }
+        return this;
+    }
+
+    public void setUsername(String username) {
         this.username = username;
+        UnitOfWork.getInstance().registerDirty(this);
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
+        UnitOfWork.getInstance().registerDirty(this);
     }
 
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.email = email;
+        UnitOfWork.getInstance().registerDirty(this);
     }
 
-    public void setId(int id){ this.id = id; }
+    public void setId(Integer id) {
+        this.id = id;
+        UnitOfWork.getInstance().registerDirty(this);
+    }
 
-    public String getUsername(){
-        if( this.username == null ) load();
+    public String getUsername() {
+        if (this.username == null) load();
         return this.username;
     }
 
-    public String getEmail(){
-        if( this.email == null ) load();
+    public String getEmail() {
+        if (this.email == null) load();
         return this.email;
     }
 
-    public int getId(){
-        if( this.id == 0 ) load();
-        return this.id;
+    public String getPassword(){
+        if (this.password == null) load();
+        return this.password;
     }
 
-    public void load(){
+    public void load() {
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

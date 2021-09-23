@@ -1,29 +1,29 @@
 package com.example.controller;
 
 import com.example.controller.commands.FrontCommand;
+import com.example.controller.commands.UnknownCommand;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 @WebServlet(name = "FrontServlet", value = "/fourAces")
 public class FrontServlet extends HttpServlet {
-
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        FrontCommand command = getCommand(req.getParameter("command"));
-        command.init(getServletContext(), req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        FrontCommand command = getCommand(request.getParameter("command"));
+        command.init(getServletContext(), request, response);
         command.processGet();
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        FrontCommand command = getCommand(req.getParameter("command"));
-        command.init(getServletContext(), req, resp);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        FrontCommand command = getCommand(request.getParameter("command"));
+        command.init(getServletContext(), request, response);
         command.processPost();
     }
 
@@ -34,7 +34,7 @@ public class FrontServlet extends HttpServlet {
             Class<?> commandClass = Class.forName(commandClassName);
             frontCommand = (FrontCommand) commandClass.getConstructor().newInstance();
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+            frontCommand = new UnknownCommand();
         }
         return frontCommand;
     }

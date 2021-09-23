@@ -2,14 +2,19 @@ package com.example.domain;
 
 import com.example.datasource.AirlineDataMapper;
 import com.example.datasource.AirplaneMapper;
+import com.example.datasource.AirportDataMapper;
 import com.example.datasource.FlightMapper;
+import java.util.List;
 
 public class Flight extends DomainObject {
     private String code;
     private String date;
     private String time;
-    private int airplaneId;
-    private int airlineId;
+    private int source;
+    private int destination;
+    private String stopovers;
+    private Integer airlineId;
+    private Integer airplaneId;
 
     public Flight(Integer id) {
         super(id);
@@ -23,6 +28,20 @@ public class Flight extends DomainObject {
         this.code = code;
         this.date = date;
         this.time = time;
+        this.source = source;
+        this.destination = destination;
+        this.airlineId = airlineId;
+        UnitOfWork.getInstance().registerNew(this);
+    }
+
+    public Flight(Integer id, String code, String date, String time, int source, int destination, Integer airlineId) {
+        super(id);
+        this.code = code;
+        this.date = date;
+        this.time = time;
+        this.source = source;
+        this.destination = destination;
+        this.airlineId = airlineId;
         UnitOfWork.getInstance().registerNew(this);
     }
 
@@ -38,12 +57,48 @@ public class Flight extends DomainObject {
         return this.time;
     }
 
-    public Airline getAirline() {
+    public Airline getAirline() throws Exception {
         return AirlineDataMapper.getInstance().findById(airlineId);
     }
 
     public Airplane getAirplane() {
         return AirplaneMapper.getInstance().findById(airplaneId);
+    }
+
+    public int getSource() { return this.source; }
+
+    public int getDestination() { return this.destination; }
+
+    public Airport getSourceAirport() throws Exception {
+        return AirportDataMapper.getInstance().findById(source);
+    }
+
+    public Airport getDestinationAirport() throws Exception {
+        return AirportDataMapper.getInstance().findById(destination);
+    }
+
+    public String getSrcRefCode(List<Airport> airports) {
+        for (int i = 0; i < airports.size(); i++) {
+            Airport airport = airports.get(i);
+            if (airport.getId() == this.source) {
+                return airport.getReferenceCode();
+            }
+        }
+        return "Airport Not Found";
+    }
+
+    public String getDesRefCode(List<Airport> airports) {
+        for (int i = 0; i < airports.size(); i++) {
+            Airport airport = airports.get(i);
+            if (airport.getId() == this.destination) {
+                return airport.getReferenceCode();
+            }
+        }
+        return "Airport Not Found";
+    }
+
+    public int getAirlineId() {
+        return this.airlineId;
     }
 
     public void setCode(String code) {
@@ -58,6 +113,16 @@ public class Flight extends DomainObject {
 
     public void setTime(String time) {
         this.time = time;
+        UnitOfWork.getInstance().registerDirty(this);
+    }
+
+    public void setSource(int source) {
+        this.source = source;
+        UnitOfWork.getInstance().registerDirty(this);
+    }
+
+    public void setDestination(int destination) {
+        this.destination = Flight.this.destination;
         UnitOfWork.getInstance().registerDirty(this);
     }
 }

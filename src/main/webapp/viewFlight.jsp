@@ -17,8 +17,9 @@
 <div>Flight Code: <%= flight.getCode()%></div>
 <div>Date: <%= flight.getDate()%></div>
 <div>Time: <%= flight.getTime()%></div>
+<div>Source: <%= flight.getSourceAirport().getReferenceCode()%></div>
+<div>Destination: <%= flight.getDestinationAirport().getReferenceCode()%></div>
 <div>Airline: <%= flight.getAirline().getName()%></div>
-<div>Airplane Type: <%= flight.getAirplane().getType()%></div>
 <br/>
 
 <%
