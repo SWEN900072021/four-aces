@@ -20,8 +20,9 @@
             for(int i = 0; i < airports.size(); i++) {
                 Airport airport = airports.get(i);
                 int airportId = airport.getId();
+                String referenceCode = airport.getReferenceCode();
         %>
-        <option value=<%=airportId%>><%=airportId%></option>
+        <option value=<%=airportId%>><%=referenceCode%></option>
         <%
             }
         %>
@@ -33,8 +34,9 @@
             for(int i = 0; i < airports.size(); i++) {
                 Airport airport = airports.get(i);
                 int airportId = airport.getId();
+                String referenceCode = airport.getReferenceCode();
         %>
-        <option value=<%=airportId%>><%=airportId%></option>
+        <option value=<%=airportId%>><%=referenceCode%></option>
         <%
             }
         %>

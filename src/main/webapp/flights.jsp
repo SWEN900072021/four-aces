@@ -14,13 +14,14 @@
 <h2>All Flights</h2>
 <%
     for(int i = 0; i < flights.size(); i++) {
+        Flight flight = flights.get(i);
 %>
-    <div>ID: <%= flights.get(i).getId()%></div>
-    <div>Flight Code: <%= flights.get(i).getCode()%></div>
-    <div>Date: <%= flights.get(i).getDate()%></div>
-    <div>Time: <%= flights.get(i).getTime()%></div>
-    <div>Source: <%= flights.get(i).getSource()%></div>
-    <div>Destination: <%= flights.get(i).getDestination()%></div>
+    <div>ID: <%= flight.getId()%></div>
+    <div>Flight Code: <%= flight.getCode()%></div>
+    <div>Date: <%= flight.getDate()%></div>
+    <div>Time: <%= flight.getTime()%></div>
+    <div>Source: <%= flight.getSource()%></div>
+    <div>Destination: <%= flight.getDestination()%></div>
     <button onclick="window.location.href = '<%= request.getContextPath()%>/editFlight.jsp?id=<%=flights.get(i).getId()%>&code=<%= flights.get(i).getCode()%>&date=<%=flights.get(i).getDate()%>&time=<%=flights.get(i).getTime()%>'">Edit</button>
     <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=DeleteFlight&id=<%= flights.get(i).getId()%>'">Delete</button>
     <br/>
