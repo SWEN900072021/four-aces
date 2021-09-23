@@ -39,7 +39,7 @@
                     <td><%= flight.getTime()%></td>
                     <td><%= flight.getSourceAirport().getReferenceCode()%></td>
                     <td><%= flight.getDestinationAirport().getReferenceCode()%></td>
-                    <td><%= flight.getAirplaneId()%></td>
+                    <td><%= flight.getAirplane().getType()%></td>
                     <td>
                         <button onclick="window.location.href = '<%= request.getContextPath()%>/editFlight.jsp?airlineId=<%=airlineId%>&flightId=<%=flight.getId()%>&code=<%= flight.getCode()%>&date=<%=flight.getDate()%>&time=<%=flight.getTime()%>'">Edit</button>
                     </td>
