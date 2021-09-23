@@ -14,15 +14,14 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
 
     private FlightDataMapper() {
         this.table = "flight";
-        this.fields = new String[]{
+        this.fields = new String[] {
                 "flight_code",
                 "date",
                 "time",
                 "source",
                 "destination",
                 "airline_id",
-//                "airplane_id",
-//                "stopovers"
+                "airplane_id",
         };
         this.pkey = "flight_id";
     }
@@ -43,7 +42,8 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         int source = Integer.parseInt(rs.getString("source"));
         int destination = Integer.parseInt(rs.getString("destination"));
         int airlineId = Integer.parseInt(rs.getString("airline_id"));
-        Flight flight = new Flight(flightId, flightCode, flightDate, flightTime, source, destination, airlineId);
+        int airplaneId = Integer.parseInt(rs.getString("airplane_id"));
+        Flight flight = new Flight(flightId, flightCode, flightDate, flightTime, source, destination, airlineId, airplaneId);
         return flight;
     }
 
@@ -55,5 +55,6 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         ps.setInt(4, flight.getSourceAirportId());
         ps.setInt(5, flight.getDestinationAirportId());
         ps.setInt(6, flight.getAirlineId());
+        ps.setInt(7, flight.getAirplaneId());
     }
 }

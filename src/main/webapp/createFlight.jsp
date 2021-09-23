@@ -1,6 +1,8 @@
 <%@ page import="com.example.datasource.AirportDataMapper" %>
 <%@ page import="com.example.domain.Airport" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.datasource.AirplaneDataMapper" %>
+<%@ page import="com.example.domain.Airplane" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -58,6 +60,26 @@
                                 String referenceCode = airport.getReferenceCode();
                         %>
                         <option value=<%=airportId%>><%=referenceCode%></option>
+                        <%
+                            }
+                        %>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="airplane">Airplane</label>
+                </td>
+                <td>
+                    <select name="airplane" id="airplane">
+                        <%
+                            List<Airplane> airplanes = AirplaneDataMapper.getInstance().getAll();
+                            for(int i = 0; i < airplanes.size(); i++) {
+                                Airplane airplane = airplanes.get(i);
+                                int airplaneId = airplane.getId();
+                                String type = airplane.getType();
+                        %>
+                        <option value=<%=airplaneId%>><%=type%></option>
                         <%
                             }
                         %>
