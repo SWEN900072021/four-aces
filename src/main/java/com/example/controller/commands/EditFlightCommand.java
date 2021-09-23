@@ -40,7 +40,7 @@ public class EditFlightCommand extends FrontCommand {
             flight.setDate(flightDate);
             flight.setTime(flightTime);
             UnitOfWork.getInstance().commit();
-            response.sendRedirect("fourAces?command=GetFlights");
+            response.sendRedirect("fourAces?command=GetFlight");
         } catch (Exception e) {
             // TODO: send error message
             e.printStackTrace();

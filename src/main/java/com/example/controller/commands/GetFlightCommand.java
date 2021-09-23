@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.List;
 
-public class GetFlightsCommand extends FrontCommand {
+public class GetFlightCommand extends FrontCommand {
     @Override
     public void processGet() throws ServletException, IOException {
         try {

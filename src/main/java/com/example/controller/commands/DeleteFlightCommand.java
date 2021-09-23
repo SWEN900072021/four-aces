@@ -15,7 +15,7 @@ public class DeleteFlightCommand extends FrontCommand {
             // TODO: send error message to front
             e.printStackTrace();
         }
-        forward("/fourAces?command=GetFlights");
+        forward("/fourAces?command=GetFlight");
     }
 
     @Override

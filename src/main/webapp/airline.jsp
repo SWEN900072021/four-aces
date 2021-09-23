@@ -6,7 +6,7 @@
 <body>
   <h2>Airline Home Page</h2>
   <h3>You have successfully logged in</h3>
-  <button onclick="window.location.href = 'createFlight.jsp'">Create Flights</button>
-  <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=GetFlights'">View Flights</button>
+  <button onclick="window.location.href = 'createFlight.jsp'">Create Flight</button>
+  <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=GetFlight'">View Flight</button>
 </body>
 </html>
