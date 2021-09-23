@@ -2,11 +2,9 @@ package com.example.controller.commands;
 
 import com.example.datasource.FlightDataMapper;
 import com.example.domain.Flight;
-import com.example.datasource.FlightMapper;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
-import java.util.List;
 
 public class ViewFlightCommand extends FrontCommand {
 

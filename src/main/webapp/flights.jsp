@@ -1,6 +1,5 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.domain.Flight" %>
-<%@ page import="com.example.domain.Airport" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -10,7 +9,6 @@
     <%
         int airlineId = Integer.parseInt(request.getParameter("airlineId"));
         List<Flight> flights = (List<Flight>) request.getAttribute("flights");
-        List<Airport> airports = (List<Airport>) request.getAttribute("airports");
     %>
 
     <div align="left">
@@ -38,8 +36,8 @@
                     <td><%= flight.getCode()%></td>
                     <td><%= flight.getDate()%></td>
                     <td><%= flight.getTime()%></td>
-                    <td><%= flight.getSrcRefCode(airports)%></td>
-                    <td><%= flight.getDesRefCode(airports)%></td>
+                    <td><%= flight.getSourceAirport().getReferenceCode()%></td>
+                    <td><%= flight.getDestinationAirport().getReferenceCode()%></td>
                     <td>
                         <button onclick="window.location.href = '<%= request.getContextPath()%>/editFlight.jsp?airlineId=<%=airlineId%>&flightId=<%=flight.getId()%>&code=<%= flight.getCode()%>&date=<%=flight.getDate()%>&time=<%=flight.getTime()%>'">Edit</button>
                     </td>

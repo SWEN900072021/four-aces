@@ -3,8 +3,6 @@ package com.example.domain;
 import com.example.datasource.AirlineDataMapper;
 import com.example.datasource.AirplaneMapper;
 import com.example.datasource.AirportDataMapper;
-import com.example.datasource.FlightMapper;
-import java.util.List;
 
 public class Flight extends DomainObject {
     private String code;
@@ -12,9 +10,7 @@ public class Flight extends DomainObject {
     private String time;
     private int source;
     private int destination;
-    private String stopovers;
     private Integer airlineId;
-    private Integer airplaneId;
 
     public Flight(Integer id) {
         super(id);
@@ -61,13 +57,11 @@ public class Flight extends DomainObject {
         return AirlineDataMapper.getInstance().findById(airlineId);
     }
 
-    public Airplane getAirplane() {
-        return AirplaneMapper.getInstance().findById(airplaneId);
-    }
-
     public int getSource() { return this.source; }
 
-    public int getDestination() { return this.destination; }
+    public int getSourceAirportId() { return this.source; }
+
+    public int getDestinationAirportId() { return this.destination; }
 
     public Airport getSourceAirport() throws Exception {
         return AirportDataMapper.getInstance().findById(source);
@@ -75,26 +69,6 @@ public class Flight extends DomainObject {
 
     public Airport getDestinationAirport() throws Exception {
         return AirportDataMapper.getInstance().findById(destination);
-    }
-
-    public String getSrcRefCode(List<Airport> airports) {
-        for (int i = 0; i < airports.size(); i++) {
-            Airport airport = airports.get(i);
-            if (airport.getId() == this.source) {
-                return airport.getReferenceCode();
-            }
-        }
-        return "Airport Not Found";
-    }
-
-    public String getDesRefCode(List<Airport> airports) {
-        for (int i = 0; i < airports.size(); i++) {
-            Airport airport = airports.get(i);
-            if (airport.getId() == this.destination) {
-                return airport.getReferenceCode();
-            }
-        }
-        return "Airport Not Found";
     }
 
     public int getAirlineId() {
