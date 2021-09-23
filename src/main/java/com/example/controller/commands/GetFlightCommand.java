@@ -13,6 +13,7 @@ import java.util.List;
 public class GetFlightCommand extends FrontCommand {
     @Override
     public void processGet() throws ServletException, IOException {
+        int airlineId = Integer.parseInt(request.getParameter("airlineId"));
         try {
             List<Flight> flights = FlightDataMapper.getInstance().getAll();
             List<Airport> airports = AirportDataMapper.getInstance().getAll();
@@ -23,7 +24,7 @@ public class GetFlightCommand extends FrontCommand {
             request.setAttribute("airports", new ArrayList<Airport>());
             e.printStackTrace();
         }
-        forward("/flights.jsp");
+        forward("/flights.jsp?airlineId=" + airlineId);
     }
 
     @Override

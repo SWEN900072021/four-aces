@@ -8,14 +8,15 @@ import java.io.IOException;
 public class DeleteFlightCommand extends FrontCommand {
     @Override
     public void processGet() throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int airlineId = Integer.parseInt(request.getParameter("airlineId"));
+        int flightId = Integer.parseInt(request.getParameter("flightId"));
         try {
-            FlightDataMapper.getInstance().deleteById(id);
+            FlightDataMapper.getInstance().deleteById(flightId);
         } catch (Exception e) {
             // TODO: send error message to front
             e.printStackTrace();
         }
-        forward("/fourAces?command=GetFlight");
+        forward("/fourAces?command=GetFlight&airlineId=" + airlineId);
     }
 
     @Override

@@ -8,10 +8,10 @@
 </head>
 <body>
     <%
-        int airlineId = Integer.parseInt(request.getParameter("id"));
+        int airlineId = Integer.parseInt(request.getParameter("airlineId"));
     %>
     <h2>Create Flight</h2>
-    <form action = "fourAces?command=CreateFlight&id=<%=airlineId%>" method = "post">
+    <form action = "fourAces?command=CreateFlight&airlineId=<%=airlineId%>" method = "post">
         <table>
             <tr>
                 <td>Flight Code</td>

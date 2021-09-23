@@ -14,7 +14,7 @@ public class CreateFlightCommand extends FrontCommand {
 
     @Override
     public void processPost() throws ServletException, IOException {
-        int airlineId = Integer.parseInt(request.getParameter("id"));
+        int airlineId = Integer.parseInt(request.getParameter("airlineId"));
         String flightCode = request.getParameter("flightCode");
         String flightDate= request.getParameter("flightDate");
         String flightTime = request.getParameter("flightTime");
@@ -27,6 +27,6 @@ public class CreateFlightCommand extends FrontCommand {
             // TODO: send error message
             e.printStackTrace();
         }
-        forward("/airline.jsp");
+        forward("/airline.jsp?airlineId=" + airlineId);
     }
 }

@@ -38,7 +38,7 @@ public class LoginCommand extends FrontCommand {
                     user = airlines.get(0);
                     user.login(password);
                     request.setAttribute("user", user);
-                    forward("/airline.jsp?id=" + user.getId());
+                    forward("/airline.jsp?airlineId=" + user.getId());
                     break;
                 case "customer":
                     ArrayList<Customer> customers = CustomerDataMapper.getInstance().find(params);
@@ -47,7 +47,7 @@ public class LoginCommand extends FrontCommand {
                     user = customers.get(0);
                     user.login(password);
                     request.setAttribute("user", user);
-                    forward("/customer.jsp");
+                    forward("/customer.jsp?customerId=" + user.getId());
                     break;
                 default:
                     throw new TRSException("Invalid User Type");

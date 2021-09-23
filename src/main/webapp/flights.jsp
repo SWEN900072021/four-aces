@@ -8,8 +8,9 @@
 </head>
 <body>
     <%
-      List<Flight> flights = (List<Flight>) request.getAttribute("flights");
-      List<Airport> airports = (List<Airport>) request.getAttribute("airports");
+        int airlineId = Integer.parseInt(request.getParameter("airlineId"));
+        List<Flight> flights = (List<Flight>) request.getAttribute("flights");
+        List<Airport> airports = (List<Airport>) request.getAttribute("airports");
     %>
 
     <div align="left">
@@ -40,10 +41,10 @@
                     <td><%= flight.getSrcRefCode(airports)%></td>
                     <td><%= flight.getDesRefCode(airports)%></td>
                     <td>
-                        <button onclick="window.location.href = '<%= request.getContextPath()%>/editFlight.jsp?id=<%=flights.get(i).getId()%>&code=<%= flights.get(i).getCode()%>&date=<%=flights.get(i).getDate()%>&time=<%=flights.get(i).getTime()%>'">Edit</button>
+                        <button onclick="window.location.href = '<%= request.getContextPath()%>/editFlight.jsp?airlineId=<%=airlineId%>&flightId=<%=flight.getId()%>&code=<%= flight.getCode()%>&date=<%=flight.getDate()%>&time=<%=flight.getTime()%>'">Edit</button>
                     </td>
                     <td>
-                        <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=DeleteFlight&id=<%= flights.get(i).getId()%>'">Delete</button>
+                        <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=DeleteFlight&airlineId=<%=airlineId%>&flightId=<%= flight.getId()%>'">Delete</button>
                     </td>
                 </tr>
                 <%
