@@ -95,7 +95,7 @@ public class FlightMapper {
         }
     }
 
-    public static Flight findById(int id) {
+    public Flight findById(int id) {
         Flight flight = null;
         String sql = "SELECT * FROM flight WHERE flight_id = ?;";
         PreparedStatement stmt = null;

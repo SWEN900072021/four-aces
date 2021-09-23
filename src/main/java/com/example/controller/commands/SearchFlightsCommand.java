@@ -11,14 +11,14 @@ public class SearchFlightsCommand extends FrontCommand {
 
     @Override
     public void processGet() throws ServletException, IOException {
-        String date = request.getParameter("flightDate");
-        String time = request.getParameter("flightTime");
+        String date = request.getParameter("date");
+        String time = request.getParameter("time");
         FlightMapper flightMapper = new FlightMapper();
         List<Flight> flights = flightMapper.searchFlights(date, time);
         if (flights.size() > 0) {
             request.setAttribute("flights", flights);
         }
-        forward("/flights.jsp");
+        forward("/searchFlightsResult.jsp");
     }
 
     @Override
@@ -30,7 +30,7 @@ public class SearchFlightsCommand extends FrontCommand {
         if (flights.size() > 0) {
             request.setAttribute("flights", flights);
         }
-        forward("/flights.jsp");
+        forward("/searchFlightsResult.jsp");
     }
 
 }

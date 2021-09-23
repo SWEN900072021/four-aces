@@ -49,5 +49,6 @@ public class User {
         return this.id;
     }
 
-    public void load(){}
+    public void load(){
+    }
 }

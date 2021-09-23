@@ -2,10 +2,19 @@ package com.example.domain;
 
 import java.util.ArrayList;
 
-public class Airplane {
-
+public class Airplane extends DomainObject {
+    private int id;
     private ArrayList<Seat> seats;
     private String type;
+
+    public Airplane(int id, String type) {
+        super(id);
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
 
     public ArrayList<Seat> getAvailableSeats(){
         return null;

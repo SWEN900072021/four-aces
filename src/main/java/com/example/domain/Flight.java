@@ -1,10 +1,23 @@
 package com.example.domain;
 
+import com.example.datasource.AirlineDataMapper;
+import com.example.datasource.AirplaneMapper;
+import com.example.datasource.FlightMapper;
+
 public class Flight extends DomainObject {
     private String code;
     private String date;
     private String time;
+    private int airplaneId;
+    private int airlineId;
 
+    public Flight(Integer id) {
+        super(id);
+        this.code = null;
+        this.date = null;
+        this.time = null;
+        UnitOfWork.getInstance().registerNew(this);
+    }
     public Flight(Integer id, String code, String date, String time) {
         super(id);
         this.code = code;
@@ -23,6 +36,14 @@ public class Flight extends DomainObject {
 
     public String getTime() {
         return this.time;
+    }
+
+    public Airline getAirline() {
+        return AirlineDataMapper.getInstance().findById(airlineId);
+    }
+
+    public Airplane getAirplane() {
+        return AirplaneMapper.getInstance().findById(airplaneId);
     }
 
     public void setCode(String code) {

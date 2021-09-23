@@ -9,6 +9,8 @@ import java.util.HashMap;
 
 public class Airline extends User {
 
+    public int id;
+
     public String name;
 
     private boolean pending;
@@ -19,6 +21,15 @@ public class Airline extends User {
 
     public boolean isPending() {
         return this.pending;
+    }
+
+    public Airline() {
+
+    }
+
+    public Airline(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Flight createFlight(HashMap<String, String> params) {
@@ -35,6 +46,10 @@ public class Airline extends User {
 
     public void viewCustomers(Flight flight) {
 
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     @Override

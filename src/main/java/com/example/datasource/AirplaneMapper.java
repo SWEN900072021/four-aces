@@ -1,39 +1,20 @@
 package com.example.datasource;
 
-import com.example.controller.DBController;
-import com.example.domain.Airline;
-import com.example.domain.Flight;
-import com.example.exception.TRSException;
+import com.example.domain.Airplane;
 
 import java.sql.*;
 
-public class AirlineDataMapper extends UserDataMapper<Airline>{
-    private static AirlineDataMapper _instance = null;
+public class AirplaneMapper {
+    private static AirplaneMapper _instance = null;
     private static final String url = "jdbc:postgresql://localhost:5432/MyDB";
     private static final String user = "postgres";
     private static final String password = "admin";
 
-    public static AirlineDataMapper getInstance() {
+    public static AirplaneMapper getInstance() {
         if (_instance == null) {
-            _instance = new AirlineDataMapper();
+            _instance = new AirplaneMapper();
         }
         return _instance;
-    }
-
-    public AirlineDataMapper() {
-        super("airline", "airline_");
-    }
-
-    @Override
-    public void setAttrs(Airline user, ResultSet resultSet) throws SQLException {
-        super.setAttrs(user, resultSet);
-        user.name = resultSet.getString(prefix+"name");
-        user.setPending(resultSet.getBoolean(prefix+"pending"));
-    }
-
-    @Override
-    public Airline newInstance() {
-        return new Airline();
     }
 
     public static Connection connection() {
@@ -47,9 +28,9 @@ public class AirlineDataMapper extends UserDataMapper<Airline>{
         return conn;
     }
 
-    public Airline findById(int id) {
-        Airline airline = null;
-        String sql = "SELECT * FROM airline WHERE airline_id = ?;";
+    public Airplane findById(int id) {
+        Airplane airplane = null;
+        String sql = "SELECT * FROM airplane WHERE airplane_id = ?;";
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Connection conn = null;
@@ -61,9 +42,9 @@ public class AirlineDataMapper extends UserDataMapper<Airline>{
             stmt.execute();
             rs = stmt.getResultSet();
             if (rs.next()) {
-                int airlineId = Integer.parseInt(rs.getString("airline_id"));
-                String airlineName = rs.getString("airline_name");
-                airline = new Airline(airlineId, airlineName);
+                int airplaneId = Integer.parseInt(rs.getString("airplane_id"));
+                String airplaneType = rs.getString("airplane_type");
+                airplane = new Airplane(airplaneId, airplaneType);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,7 +63,7 @@ public class AirlineDataMapper extends UserDataMapper<Airline>{
                 throwables.printStackTrace();
             }
         }
-        return airline;
+        return airplane;
     }
 
 }
