@@ -1,24 +1,30 @@
 package com.example.domain;
 
-import java.util.HashMap;
+public class Airport extends DomainObject{
+    private String referenceCode;
+    private String address;
 
-public class Airport {
-    public String code;
-    public String address;
-
-    public static Airport createAirport(String code, String address){
-        return null;
+    public Airport(Integer id, String referenceCode, String address) {
+        super(id);
+        this.referenceCode = referenceCode;
+        this.address = address;
+        UnitOfWork.getInstance().registerNew(this);
+    }
+    public String getReferenceCode() {
+        return this.referenceCode;
     }
 
-    public static void updateAirport(Airport airport, HashMap<String, String> params){
-
+    public String getAddress() {
+        return this.address;
     }
 
-    public static void deleteAirport(Airport airport){
-
+    public void setReferenceCode(String referenceCode){
+        this.referenceCode = referenceCode;
+        UnitOfWork.getInstance().registerDirty(this);
     }
 
-    public static Airport findAirport(HashMap<String, String> params){
-        return null;
+    public void setAddress(String address){
+        this.address = address;
+        UnitOfWork.getInstance().registerDirty(this);
     }
 }

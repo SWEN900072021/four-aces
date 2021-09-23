@@ -4,6 +4,9 @@
     <title>Login page for Airline and Customer</title>
 </head>
 <body>
+<%
+    String error = (String) request.getAttribute("error");
+%>
 <h1>Login page for Airline and Customer</h1>
 <form action="fourAces?command=Login" method="post">
     <label for="type">Login As: </label><select name="type" id="type">
@@ -15,6 +18,14 @@
     <label for="password">Password: </label><input type="text" id="password" name="password"><br>
     <input type="submit" value="Login">
 </form>
+<%
+    if( error != null ){
+%>
+<p style="color: red"><%=error%></p>
+<%
+    }
+%>
+<a href="register.jsp"><button>Register</button></a>
 </body>
 </html>
 

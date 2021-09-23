@@ -1,46 +1,34 @@
 package com.example.domain;
 
-import com.example.controller.AuthenticationController;
-import com.example.dataMpper.CustomerDataMapper;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
-public class Customer extends User{
-
-    private ArrayList<Flight> upcoming;
-    private ArrayList<Flight> previous;
+public class Customer extends User {
 
     private String firstName;
     private String lastName;
 
+    public Customer(Integer id, String username, String email, String password) {
+        super(id);
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        UnitOfWork.getInstance().registerNew(this);
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
     public void setFirstName(String firstName){
         this.firstName = firstName;
+        UnitOfWork.getInstance().registerDirty(this);
     }
 
     public void setLastName(String lastName){
         this.lastName = lastName;
-    }
-
-    public Passenger createPassengers(HashMap<String, String> params){
-        return null;
-    }
-
-    @Override
-    public int register(HashMap<String, String> params) {
-        Customer customer = new CustomerDataMapper().create(params);
-        return customer.id;
-    }
-
-    @Override
-    public int login(HashMap<String, String> params) {
-        // processing params
-        String inputPassword = params.remove("password");
-        Customer customer = new CustomerDataMapper().find(params);
-        // login logic
-        if( customer.password.equals(inputPassword) ){
-            return customer.id;
-        }
-        return AuthenticationController.LOGIN_FAIL_NO_USER_FOUND;
+        UnitOfWork.getInstance().registerDirty(this);
     }
 }
+
