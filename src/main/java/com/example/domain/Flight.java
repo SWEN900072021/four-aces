@@ -4,17 +4,19 @@ public class Flight extends DomainObject {
     private String code;
     private String date;
     private String time;
-    private String source;
-    private String destination;
+    private int source;
+    private int destination;
     private String stopovers;
-    private Integer airline_id;
-    private Integer airplane_id;
+    private Integer airlineId;
+    private Integer airplaneId;
 
-    public Flight(Integer id, String code, String date, String time) {
+    public Flight(Integer id, String code, String date, String time, int source, int destination) {
         super(id);
         this.code = code;
         this.date = date;
         this.time = time;
+        this.source = source;
+        this.destination = destination;
         UnitOfWork.getInstance().registerNew(this);
     }
 
@@ -30,6 +32,10 @@ public class Flight extends DomainObject {
         return this.time;
     }
 
+    public int getSource() { return this.source; }
+
+    public int getDestination() { return this.destination; }
+
     public void setCode(String code) {
         this.code = code;
         UnitOfWork.getInstance().registerDirty(this);
@@ -42,6 +48,16 @@ public class Flight extends DomainObject {
 
     public void setTime(String time) {
         this.time = time;
+        UnitOfWork.getInstance().registerDirty(this);
+    }
+
+    public void setSource(int source) {
+        this.source = source;
+        UnitOfWork.getInstance().registerDirty(this);
+    }
+
+    public void setDestination(int destination) {
+        this.destination = Flight.this.destination;
         UnitOfWork.getInstance().registerDirty(this);
     }
 }
