@@ -26,9 +26,10 @@ public class AirportDataMapper extends AbstractDataMapper<Airport> {
 
     @Override
     public Airport newDomainObject(ResultSet resultSet) throws Exception {
+        Integer airportId = Integer.parseInt(resultSet.getString("airport_id"));
         String code = resultSet.getString("referencecode");
-        String address =resultSet.getString("address");
-        return new Airport(code, address);
+        String address = resultSet.getString("address");
+        return new Airport(airportId, code, address);
     }
 
     @Override

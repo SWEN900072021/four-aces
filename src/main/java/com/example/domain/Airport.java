@@ -4,8 +4,8 @@ public class Airport extends DomainObject{
     private String referenceCode;
     private String address;
 
-    public Airport(String referenceCode, String address) {
-        super(null);
+    public Airport(Integer id, String referenceCode, String address) {
+        super(id);
         this.referenceCode = referenceCode;
         this.address = address;
         UnitOfWork.getInstance().registerNew(this);
