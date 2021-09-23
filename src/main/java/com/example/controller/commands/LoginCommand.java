@@ -38,7 +38,7 @@ public class LoginCommand extends FrontCommand {
                     user = airlines.get(0);
                     user.login(password);
                     request.setAttribute("user", user);
-                    forward("/airline.jsp");
+                    forward("/airline.jsp?id=" + user.getId());
                     break;
                 case "customer":
                     ArrayList<Customer> customers = CustomerDataMapper.getInstance().find(params);

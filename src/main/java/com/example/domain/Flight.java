@@ -12,13 +12,14 @@ public class Flight extends DomainObject {
     private Integer airlineId;
     private Integer airplaneId;
 
-    public Flight(Integer id, String code, String date, String time, int source, int destination) {
+    public Flight(Integer id, String code, String date, String time, int source, int destination, Integer airlineId) {
         super(id);
         this.code = code;
         this.date = date;
         this.time = time;
         this.source = source;
         this.destination = destination;
+        this.airlineId = airlineId;
         UnitOfWork.getInstance().registerNew(this);
     }
 
@@ -56,6 +57,10 @@ public class Flight extends DomainObject {
             }
         }
         return "Airport Not Found";
+    }
+
+    public int getAirlineId() {
+        return this.airlineId;
     }
 
     public void setCode(String code) {
