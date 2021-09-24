@@ -1,3 +1,8 @@
+<%@ page import="com.example.domain.Airport" %>
+<%@ page import="com.example.datasource.AirportDataMapper" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.domain.Airplane" %>
+<%@ page import="com.example.datasource.AirplaneDataMapper" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -9,9 +14,84 @@
     %>
     <h2>Edit Flight</h2>
     <form action = "fourAces?command=EditFlight&airlineId=<%=airlineId%>&flightId=<%=request.getParameter("flightId")%>" method = "post">
-        Flight code: <input type = "text" name = "flightCode" value = <%=request.getParameter("code")%>><br/>
-        Flight date: <input type = "text" name = "flightDate" value = <%=request.getParameter("date")%>><br/>
-        Flight time: <input type = "text" name = "flightTime" value = <%=request.getParameter("time")%>><br/>
+        <table>
+            <tr>
+                <td>Flight Code</td>
+                <td><input type = "text" name = "flightCode" value = <%=request.getParameter("code")%>></td>
+            </tr>
+            <tr>
+                <td>Flight Date</td>
+                <td><input type = "text" name = "flightDate" value = <%=request.getParameter("date")%>></td>
+            </tr>
+            <tr>
+                <td>Flight Time</td>
+                <td><input type = "text" name = "flightTime" value = <%=request.getParameter("time")%>></td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="source">Source Airport</label>
+                </td>
+                <td>
+                    <select name="source" id="source">
+                        <%
+                            List<Airport> airports = AirportDataMapper.getInstance().getAll();
+                            System.out.println(request.getParameter("source"));
+                            for(int i = 0; i < airports.size(); i++) {
+                                Airport airport = airports.get(i);
+                                int airportId = airport.getId();
+                                String referenceCode = airport.getReferenceCode();
+                                System.out.println(referenceCode.equals(request.getParameter("source")));
+                                Boolean selected = referenceCode.equals(request.getParameter("source"));
+                        %>
+                        <option <%=selected ? "selected" : ""%> value=<%=airportId%>><%=referenceCode%></option>
+                        <%
+                            }
+                        %>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="destination">Destination Airport</label>
+                </td>
+                <td>
+                    <select name="destination" id="destination">
+                        <%
+                            for(int i = 0; i < airports.size(); i++) {
+                                Airport airport = airports.get(i);
+                                int airportId = airport.getId();
+                                String referenceCode = airport.getReferenceCode();
+                                Boolean selected = referenceCode.equals(request.getParameter("destination"));
+                        %>
+                        <option <%=selected ? "selected" : ""%> value=<%=airportId%>><%=referenceCode%></option>
+                        <%
+                            }
+                        %>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="airplane">Airplane</label>
+                </td>
+                <td>
+                    <select name="airplane" id="airplane">
+                        <%
+                            List<Airplane> airplanes = AirplaneDataMapper.getInstance().getAll();
+                            for(int i = 0; i < airplanes.size(); i++) {
+                                Airplane airplane = airplanes.get(i);
+                                int airplaneId = airplane.getId();
+                                String type = airplane.getType();
+                                Boolean selected = type.equals(request.getParameter("airplane"));
+                        %>
+                        <option <%=selected ? "selected" : ""%> value=<%=airplaneId%>><%=type%></option>
+                        <%
+                            }
+                        %>
+                    </select>
+                </td>
+            </tr>
+        </table>
         <input type = "submit" value = "Save Edit">
     </form>
 </body>
