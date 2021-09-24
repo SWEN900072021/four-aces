@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Airline extends User {
-
     private String name;
     private boolean pending;
 
@@ -19,6 +18,16 @@ public class Airline extends User {
         this.password = password;
         this.name = username;
         this.pending = true; // true means is waiting for approval
+        UnitOfWork.getInstance().registerNew(this);
+    }
+
+    public Airline(Integer id, String username, String email, String password, boolean pending) {
+        super(id);
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.name = username;
+        this.pending = pending;
         UnitOfWork.getInstance().registerNew(this);
     }
 

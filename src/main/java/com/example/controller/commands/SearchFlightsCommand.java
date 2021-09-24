@@ -14,6 +14,7 @@ public class SearchFlightsCommand extends FrontCommand {
 
     @Override
     public void processGet() throws ServletException, IOException {
+
     }
 
     @Override
@@ -31,7 +32,7 @@ public class SearchFlightsCommand extends FrontCommand {
             //TODO : send error message
             e.printStackTrace();
         }
-        forward("/flights.jsp");
+        forward("/searchFlightsResult.jsp");
     }
 
 }

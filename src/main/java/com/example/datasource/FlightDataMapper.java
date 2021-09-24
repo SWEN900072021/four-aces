@@ -1,12 +1,16 @@
 package com.example.datasource;
 
+import com.example.controller.DBController;
 import com.example.domain.Flight;
+import com.example.exception.TRSException;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class FlightDataMapper extends AbstractDataMapper<Flight> {
 
@@ -16,9 +20,9 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         this.table = "flight";
         this.fields = new String[] {
                 "flight_code",
-                "date",
-                "time",
-                "source",
+                "flight_date",
+                "flight_time",
+                "origin",
                 "destination",
                 "airline_id",
                 "airplane_id",
@@ -37,9 +41,9 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
     public Flight newDomainObject(ResultSet rs) throws SQLException {
         int flightId = Integer.parseInt(rs.getString("flight_id"));
         String flightCode = rs.getString("flight_code");
-        String flightDate = rs.getString("date");
-        String flightTime = rs.getString("time");
-        int source = Integer.parseInt(rs.getString("source"));
+        String flightDate = rs.getString("flight_date");
+        String flightTime = rs.getString("flight_time");
+        int source = Integer.parseInt(rs.getString("origin"));
         int destination = Integer.parseInt(rs.getString("destination"));
         int airlineId = Integer.parseInt(rs.getString("airline_id"));
         int airplaneId = Integer.parseInt(rs.getString("airplane_id"));

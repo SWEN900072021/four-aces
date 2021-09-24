@@ -1,9 +1,11 @@
 package com.example.domain;
 
-import com.example.datasource.AirplaneDataMapper;
-import com.example.datasource.AirportDataMapper;
 
+import com.example.datasource.AirlineDataMapper;
+import com.example.datasource.AirportDataMapper;
+import com.example.datasource.AirplaneDataMapper;
 import java.util.List;
+
 
 public class Flight extends DomainObject {
     private String code;
@@ -39,20 +41,23 @@ public class Flight extends DomainObject {
         return this.time;
     }
 
+    public Airline getAirline() throws Exception {
+        return AirlineDataMapper.getInstance().findById(airlineId);
+    }
+
+    public int getSource() { return this.source; }
+
     public Integer getSourceAirportId() { return this.source; }
+
 
     public Integer getDestinationAirportId() { return this.destination; }
 
     public Airport getSourceAirport() throws Exception {
-        AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
-        Airport airport = airportDataMapper.findById(this.source);
-        return airport;
+        return AirportDataMapper.getInstance().findById(source);
     }
 
     public Airport getDestinationAirport() throws Exception {
-        AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
-        Airport airport = airportDataMapper.findById(this.destination);
-        return airport;
+        return AirportDataMapper.getInstance().findById(destination);
     }
 
     public Integer getAirlineId() {
