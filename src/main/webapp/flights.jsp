@@ -23,6 +23,7 @@
                     <th>Source Airport</th>
                     <th>Destination Airport</th>
                     <th>Airplane</th>
+                    <th>Create Tickets</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
@@ -40,6 +41,9 @@
                     <td><%= flight.getSourceAirport().getReferenceCode()%></td>
                     <td><%= flight.getDestinationAirport().getReferenceCode()%></td>
                     <td><%= flight.getAirplane().getType()%></td>
+                    <td>
+                        <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=CreateTicket&airlineId=<%=airlineId%>&flightId=<%= flight.getId()%>&airplaneId=<%=flight.getAirplaneId()%>'">Create Tickets</button>
+                    </td>
                     <td>
                         <button onclick="window.location.href = '<%= request.getContextPath()%>/editFlight.jsp?airlineId=<%=airlineId%>&flightId=<%=flight.getId()%>&code=<%= flight.getCode()%>&date=<%=flight.getDate()%>&time=<%=flight.getTime()%>'">Edit</button>
                     </td>
