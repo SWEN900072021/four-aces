@@ -7,14 +7,18 @@
     <title>TRS</title>
 </head>
 <body>
+
+<h2>Would you like a return flight?</h2>
 <%
-    List<Flight> flights = (List<Flight>) request.getAttribute("flights");
+    List<Flight> flights = (List<Flight>) request.getAttribute("returnFlights");
     int customerId = Integer.parseInt(request.getParameter("customerId"));
 %>
 
+<button onclick="window.location.href = '<%= request.getContextPath()%>/addPassenger.jsp?'">One way only</button>
+
 <div align="left">
     <table border="1" cellpadding="5">
-        <caption><h2>List of flights</h2></caption>
+        <caption><h2>List of return flights</h2></caption>
         <thead>
         <tr>
             <th>Flight ID</th>
@@ -39,7 +43,7 @@
             <td><%= flight.getSourceAirport().getReferenceCode()%></td>
             <td><%= flight.getDestinationAirport().getReferenceCode()%></td>
             <td>
-                <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=ViewFlight&type=go&customerId=<%= customerId%>&flightId=<%= flight.getId()%>'">View</button>
+                <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=ViewFlight&type=return&customerId=<%= customerId%>&flightId=<%= flight.getId()%>'">View</button>
             </td>
         </tr>
         <%

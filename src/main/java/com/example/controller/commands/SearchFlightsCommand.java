@@ -19,6 +19,7 @@ public class SearchFlightsCommand extends FrontCommand {
 
     @Override
     public void processPost() throws ServletException, IOException {
+        int customerId = Integer.parseInt(request.getParameter("customerId"));
         HashMap<String, String> params = new HashMap<>();
         params.put("date",request.getParameter("date"));
         params.put("time",request.getParameter("time"));
@@ -32,7 +33,7 @@ public class SearchFlightsCommand extends FrontCommand {
             //TODO : send error message
             e.printStackTrace();
         }
-        forward("/searchFlightsResult.jsp");
+        forward("/searchFlightsResult.jsp?customerId=" + customerId);
     }
 
 }
