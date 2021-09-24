@@ -21,8 +21,8 @@ public class ManageUserCommand extends FrontCommand{
             ArrayList<User> users = new ArrayList<>();
             users.addAll(airlines);
             users.addAll(customers);
-            request.setAttribute("users",users);
-            request.setAttribute("command", "view");
+            request.setAttribute("user",users);
+            request.setAttribute("view", "user");
             request.getRequestDispatcher("admin.jsp").forward(request, response);
         } catch (Exception e) {
             error(e, "admin.jsp");

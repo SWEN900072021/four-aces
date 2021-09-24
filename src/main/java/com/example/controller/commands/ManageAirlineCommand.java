@@ -41,8 +41,8 @@ public class ManageAirlineCommand extends FrontCommand{
         if(airlines.size() == 0){
             throw new TRSException("No Airline found in database");
         }
-        request.setAttribute("airline",airlines);
-        request.setAttribute("command", "view airline");
-        request.getRequestDispatcher("admin.jsp").forward(request, response);
+        request.setAttribute("user",airlines);
+        request.setAttribute("view", "airline");
+        forward("/admin.jsp");
     }
 }

@@ -2,7 +2,9 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.example.domain.Airline" %>
 <%@ page import="com.example.exception.TRSException" %>
-<%@ page import="com.example.domain.User" %><%--
+<%@ page import="com.example.domain.User" %>
+<%@ page import="com.example.util.HTMLFormatter" %>
+<%@ page import="com.example.domain.Customer" %><%--
   Created by IntelliJ IDEA.
   User: yiyua
   Date: 21/09/2021
@@ -13,6 +15,12 @@
 <html>
 <head>
     <title>Admin Page</title>
+    <style>
+        table, th, td{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
 </head>
 <body>
 <%@include file="components/admin-header.jsp" %>
@@ -24,44 +32,65 @@
     if (admin.getUsername() == null) {
         response.sendRedirect("adminLogin.jsp");
     } else {
-        if (request.getAttribute("command") != null &&
-                request.getAttribute("command").equals("view airline")) {
+        String view = (String) request.getAttribute("view");
+        if (view != null) {
             @SuppressWarnings("unchecked")
-            ArrayList<Airline> airlines = (ArrayList<Airline>) request.getAttribute("airline");
-            if (airlines == null) {
-                request.setAttribute("error", new TRSException("No user found in the system"));
+            ArrayList<User> users = (ArrayList<User>) request.getAttribute("user");
+            if (users == null) {
+                request.setAttribute("error", new TRSException("No " + view + " found in the system"));
             } else {
 %>
 <p>Username: <%=admin.getUsername()%>
 </p>
-<table style="border: 1px solid black; border-collapse: collapse">
+<%
+    if (view.equals("user")) {
+%>
+<a href="${pageContext.request.contextPath}/fourAces?command=ManageAirline"><div>View All Airline</div></a>
+<a href="${pageContext.request.contextPath}/fourAces?command=ManageCustomer"><div>View All Customers</div></a>
+<%
+    }
+%>
+<table>
     <tbody>
     <tr>
         <th>id</th>
+        <%=view.equals("user") ? HTMLFormatter.tag("th", "type") : ""%>
         <th>email</th>
         <th>username</th>
-        <th>Pending</th>
+        <%=view.equals("airline") ? HTMLFormatter.tag("th", "name") : ""%>
+        <%=view.equals("airline") ? HTMLFormatter.tag("th", "pending") : ""%>
+        <%=view.equals("customer") ? HTMLFormatter.tag("th", "First Name") : ""%>
+        <%=view.equals("customer") ? HTMLFormatter.tag("th", "Last Name") : ""%>
     </tr>
     <%
-        for (Airline airline : airlines) {
+        for (User user : users) {
     %>
     <tr>
-        <%--        <td><%=user instanceof Airline ? "Airline" : "Customer"%></td>--%>
-        <td><%=airline.getId()%>
+        <td><%=user.getId()%>
         </td>
-        <td><%=airline.getEmail()%>
+        <%=view.equals("user") ? HTMLFormatter.tag("td", user instanceof Airline ? "Airline" : "Customer") : ""%>
+        <td><%=user.getEmail()%>
         </td>
-        <td><%=airline.getUsername()%>
+        <td><%=user.getUsername()%>
         </td>
+        <%= view.equals("airline") && user instanceof Airline ? HTMLFormatter.tag("td", ((Airline) user).getName()) : ""%>
+        <%
+            if (view.equals("airline") && user instanceof Airline) {
+        %>
         <td>
             <form action="fourAces?command=ManageAirline" method="post">
-                <input type="hidden" name="id" value="<%=airline.getId()%>" />
+                <input type="hidden" name="id" value="<%=user.getId()%>"/>
                 <input type="checkbox" name="pending"
-                       <%if (airline.isPending())%>checked
+                       <%if (((Airline) user).isPending())%>checked
                        onclick="this.form.submit()"
                 />
             </form>
         </td>
+        <%
+            }
+        %>
+        <%= view.equals("customer") && user instanceof Customer ? HTMLFormatter.tag("td", ((Customer) user).getFirstName()) : ""%>
+        <%= view.equals("customer") && user instanceof Customer ? HTMLFormatter.tag("td", ((Customer) user).getLastName()) : ""%>
     </tr>
     <%
         }
@@ -74,9 +103,15 @@
     }
 %>
 <%
-    if( error != null ){
+    if
+    (
+            error
+                    !=
+                    null
+    ) {
 %>
-<p style="color: red"><%=error%></p>
+<p style="color: red"><%=error%>
+</p>
 <%
     }
 %>
