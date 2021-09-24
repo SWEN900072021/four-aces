@@ -49,4 +49,11 @@ public class BookingController {
         }
         map.get(customer).selectReturnFlight(flight);
     }
+
+    public void addPassenger(Customer customer, Passenger passenger) {
+        if (!map.containsKey(customer)) {
+            map.put(customer, new Booking(customer));
+        }
+        map.get(customer).addPassenger(passenger);
+    }
 }
