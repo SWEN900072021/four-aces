@@ -18,15 +18,14 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
 
     private FlightDataMapper() {
         this.table = "flight";
-        this.fields = new String[]{
+        this.fields = new String[] {
                 "flight_code",
-                "date",
-                "time",
-                "source",
+                "flight_date",
+                "flight_time",
+                "origin",
                 "destination",
                 "airline_id",
-//                "airplane_id",
-//                "stopovers"
+                "airplane_id",
         };
         this.pkey = "flight_id";
     }
@@ -42,12 +41,13 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
     public Flight newDomainObject(ResultSet rs) throws SQLException {
         int flightId = Integer.parseInt(rs.getString("flight_id"));
         String flightCode = rs.getString("flight_code");
-        String flightDate = rs.getString("date");
-        String flightTime = rs.getString("time");
-        int source = Integer.parseInt(rs.getString("source"));
+        String flightDate = rs.getString("flight_date");
+        String flightTime = rs.getString("flight_time");
+        int source = Integer.parseInt(rs.getString("origin"));
         int destination = Integer.parseInt(rs.getString("destination"));
         int airlineId = Integer.parseInt(rs.getString("airline_id"));
-        Flight flight = new Flight(flightId, flightCode, flightDate, flightTime, source, destination, airlineId);
+        int airplaneId = Integer.parseInt(rs.getString("airplane_id"));
+        Flight flight = new Flight(flightId, flightCode, flightDate, flightTime, source, destination, airlineId, airplaneId);
         return flight;
     }
 
@@ -59,5 +59,6 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         ps.setInt(4, flight.getSourceAirportId());
         ps.setInt(5, flight.getDestinationAirportId());
         ps.setInt(6, flight.getAirlineId());
+        ps.setInt(7, flight.getAirplaneId());
     }
 }

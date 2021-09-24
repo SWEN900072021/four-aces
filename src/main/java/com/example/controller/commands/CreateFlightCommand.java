@@ -20,7 +20,8 @@ public class CreateFlightCommand extends FrontCommand {
         String flightTime = request.getParameter("flightTime");
         int source = Integer.parseInt(request.getParameter("source"));
         int destination = Integer.parseInt(request.getParameter("destination"));
-        new Flight(null, flightCode, flightDate, flightTime, source, destination, airlineId);
+        int airplaneId = Integer.parseInt(request.getParameter("airplane"));
+        new Flight(null, flightCode, flightDate, flightTime, source, destination, airlineId, airplaneId);
         try {
             UnitOfWork.getInstance().commit();
         } catch (Exception e) {
