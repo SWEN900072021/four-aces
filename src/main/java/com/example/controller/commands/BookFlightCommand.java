@@ -3,6 +3,7 @@ package com.example.controller.commands;
 import com.example.controller.BookingController;
 import com.example.datasource.CustomerDataMapper;
 import com.example.datasource.FlightDataMapper;
+import com.example.domain.Booking;
 import com.example.domain.Customer;
 import com.example.domain.Flight;
 import com.example.exception.TRSException;
@@ -20,13 +21,15 @@ public class BookFlightCommand extends FrontCommand {
         String type = request.getParameter("type");
         FlightDataMapper flightDataMapper = FlightDataMapper.getInstance();
         CustomerDataMapper customerDataMapper = CustomerDataMapper.getInstance();
+        BookingController bookingController = BookingController.getInstance();
+
         try {
             Flight flight = flightDataMapper.findById(flightId);
             Customer customer = customerDataMapper.findById(customerId);
             switch (type) {
                 case "go":
                     if (flight != null && customer != null) {
-                        BookingController.getInstance().bookFlight(customer, flight);
+                        bookingController.bookFlight(customer, flight);
                         List<Flight> returnFlights = BookingController.getInstance().getReturnFlights(flight);
                         request.setAttribute("returnFlights", returnFlights);
                     }
@@ -34,7 +37,7 @@ public class BookFlightCommand extends FrontCommand {
                     break;
                 case "return":
                     if (flight != null && customer != null) {
-                        BookingController.getInstance().bookReturnFlight(customer, flight);
+                        bookingController.bookReturnFlight(customer, flight);
                     }
                     forward("/addPassenger.jsp?customerId="+customerId);
                     break;
