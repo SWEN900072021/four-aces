@@ -1,9 +1,12 @@
 package com.example.domain;
 
+import java.util.List;
+
 public class Customer extends User {
 
     private String firstName;
     private String lastName;
+    private List<Flight> selectedFlights;
 
     public Customer(Integer id, String username, String email, String password) {
         super(id);
