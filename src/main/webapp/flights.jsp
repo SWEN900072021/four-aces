@@ -23,6 +23,7 @@
                     <th>Source Airport</th>
                     <th>Destination Airport</th>
                     <th>Airplane</th>
+                    <th>Create Tickets</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
@@ -41,7 +42,10 @@
                     <td><%= flight.getDestinationAirport().getReferenceCode()%></td>
                     <td><%= flight.getAirplane().getType()%></td>
                     <td>
-                        <button onclick="window.location.href = '<%= request.getContextPath()%>/editFlight.jsp?airlineId=<%=airlineId%>&flightId=<%=flight.getId()%>&code=<%= flight.getCode()%>&date=<%=flight.getDate()%>&time=<%=flight.getTime()%>'">Edit</button>
+                        <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=CreateTicket&airlineId=<%=airlineId%>&flightId=<%= flight.getId()%>&airplaneId=<%=flight.getAirplaneId()%>'">Create Tickets</button>
+                    </td>
+                    <td>
+                        <button onclick="window.location.href ='<%= request.getContextPath()%>/editFlight.jsp?airlineId=<%=airlineId%>&flightId=<%=flight.getId()%>&code=<%= flight.getCode()%>&date=<%=flight.getDate()%>&time=<%=flight.getTime()%>&source=<%= flight.getSourceAirport().getReferenceCode()%>&destination=<%= flight.getDestinationAirport().getReferenceCode()%>&airplane=<%= flight.getAirplane().getType()%>'">Edit</button>
                     </td>
                     <td>
                         <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=DeleteFlight&airlineId=<%=airlineId%>&flightId=<%= flight.getId()%>'">Delete</button>

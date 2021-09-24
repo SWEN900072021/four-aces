@@ -1,11 +1,8 @@
 package com.example.domain;
 
-
 import com.example.datasource.AirlineDataMapper;
 import com.example.datasource.AirportDataMapper;
 import com.example.datasource.AirplaneDataMapper;
-import java.util.List;
-
 
 public class Flight extends DomainObject {
     private String code;
@@ -26,7 +23,6 @@ public class Flight extends DomainObject {
         this.airlineId = airlineId;
         this.airplaneId = airplaneId;
         UnitOfWork.getInstance().registerNew(this);
-        this.createTickets();
     }
 
     public String getCode() {
@@ -97,23 +93,6 @@ public class Flight extends DomainObject {
     public void setDestination(int destination) {
         this.destination = Flight.this.destination;
         UnitOfWork.getInstance().registerDirty(this);
-    }
-
-    private void createTickets() {
-        AirplaneDataMapper airplaneDataMapper = AirplaneDataMapper.getInstance();
-        try {
-            Airplane airplane = airplaneDataMapper.findById(airplaneId);
-            List<Seat> seats = airplane.getSeats();
-            // Create a ticket for each seat
-            for (int i = 0; i < seats.size(); i++) {
-                Seat seat = seats.get(i);
-                String seatClass = seat.getSeatClass();
-                String seatNumber = seat.getSeatNumber();
-                Ticket ticket = new Ticket(null, 100.0, 1, seatClass, seatNumber);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
 
