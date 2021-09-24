@@ -5,9 +5,7 @@ import com.example.domain.Airplane;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
-///////////////////// Work In Progress - Xueqi ////////////////////////
 public class AirplaneDataMapper extends AbstractDataMapper<Airplane> {
 
     private static AirplaneDataMapper _instance;
@@ -38,12 +36,7 @@ public class AirplaneDataMapper extends AbstractDataMapper<Airplane> {
     public void setPreparedStatement(PreparedStatement ps, Airplane airplane) throws Exception {
         ps.setString(1, airplane.getType());
         ps.setString(2, airplane.getSeatsString());
-    }
 
-    public static void main(String[] args) throws Exception {
-        AirplaneDataMapper airplaneDataMapper = AirplaneDataMapper.getInstance();
-        List<Airplane> airplanes = airplaneDataMapper.getAll();
-        System.out.println(airplanes.get(0).getSeatsString());
     }
 }
 

@@ -1,11 +1,19 @@
 package com.example.domain;
 
-public class Seat extends DomainObject{
-
+public class Seat {
     private String seatNumber;
-    private Class aClass;
+    private String seatClass;
 
-    public Seat(){
-        super(null);
+    public Seat(String seatNumber, String seatClass) {
+        this.seatNumber = seatNumber;
+        this.seatClass = seatClass;
+    }
+
+    public String getSeatNumber() {
+        return this.seatNumber;
+    }
+
+    public String getSeatClass() {
+        return this.seatClass;
     }
 }
