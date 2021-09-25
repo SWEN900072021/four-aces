@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -8,28 +9,36 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class DBController {
-
     private String url;
     private String name;
     private String password;
 
-    public static final String propertyFile = "config.properties";
-
     public DBController(){
-        try{
+        try {
+            String propertyFile = "";
+            // Use config.properties in local development and use system.properties in deployed app
+            File f = new File("src/config.properties");
+            if (f.exists()) {
+                propertyFile = "config.properties";
+            } else {
+                propertyFile = "system.properties";
+            }
+
             Properties prop = new Properties();
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertyFile);
+            System.out.println(inputStream);
 
-            if ( inputStream != null ){
+            if (inputStream != null){
                 prop.load(inputStream);
-            }else{
+            } else{
                 throw new IOException(("File not found"));
             }
 
             this.url = prop.getProperty("url");
             this.name = prop.getProperty("name");
             this.password = prop.getProperty("password");
-        }catch (Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
