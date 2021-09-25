@@ -16,7 +16,7 @@ public class DeleteFlightCommand extends FrontCommand {
         try {
             // Delete all tickets of the flight before deleting the flight
             TicketDataMapper ticketDataMapper = TicketDataMapper.getInstance();
-            List<Ticket> tickets = ticketDataMapper.getAllByFlightId(flightId);
+            List<Ticket> tickets = ticketDataMapper.getAll(flightId);
             if (tickets.size() > 0) {
                 for (int i = 0; i < tickets.size(); i++) {
                     ticketDataMapper.deleteById(tickets.get(i).getId());

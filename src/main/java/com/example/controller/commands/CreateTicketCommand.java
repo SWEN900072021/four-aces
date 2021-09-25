@@ -23,7 +23,7 @@ public class CreateTicketCommand extends FrontCommand {
                 Seat seat = seats.get(i);
                 String seatClass = seat.getSeatClass();
                 String seatNumber = seat.getSeatNumber();
-                new Ticket(null, 100.0, flightId, seatClass, seatNumber);
+                new Ticket(null, 100.0, flightId, seatClass, seatNumber, true);
                 UnitOfWork.getInstance().commit();
             }
         } catch (Exception e) {
