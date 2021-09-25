@@ -30,6 +30,7 @@ public class BookFlightCommand extends FrontCommand {
                 case "go":
                     if (flight != null && customer != null) {
                         bookingController.bookFlight(customer, flight);
+
                         List<Flight> returnFlights = BookingController.getInstance().getReturnFlights(flight);
                         request.setAttribute("returnFlights", returnFlights);
                     }
