@@ -1,6 +1,8 @@
 package com.example.domain;
 
 import com.example.datasource.AirlineDataMapper;
+import com.example.datasource.CustomerDataMapper;
+import com.example.datasource.PassengerDataMapper;
 import com.example.exception.TRSException;
 
 import java.sql.SQLException;
@@ -9,8 +11,12 @@ import java.util.HashMap;
 
 public class Airline extends User {
 
+
+    private final static String DEFAULT_USERNAME = "airline";
+    private final static String DEFAULT_PASSWORD = "airline";
     private String name;
     private boolean pending;
+
 
     public Airline(Integer id, String username, String email, String password) {
         super(id);
@@ -20,6 +26,14 @@ public class Airline extends User {
         this.name = username;
         this.pending = true; // true means is waiting for approval
         UnitOfWork.getInstance().registerNew(this);
+    }
+
+    public Airline(Object id, String username, String password) {
+        super();
+    }
+
+    public ArrayList<Passenger> viewPassengers() throws Exception {
+        return PassengerDataMapper.getInstance().getAll();
     }
 
     public void setPending(boolean pending) {

@@ -15,6 +15,10 @@ public class User extends DomainObject {
         super(id);
     }
 
+    public User() {
+        super();
+    }
+
     public User login(String password) throws Exception {
         if (!this.password.equals(password)) {
             throw new TRSException("Wrong Password");

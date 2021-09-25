@@ -7,6 +7,10 @@ public abstract class DomainObject {
         this.id = id;
     }
 
+    public DomainObject() {
+
+    }
+
     public Integer getId() {
         return this.id;
     }
