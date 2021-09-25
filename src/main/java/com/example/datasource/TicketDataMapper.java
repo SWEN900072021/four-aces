@@ -90,12 +90,5 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
         }
         return tickets;
     }
-
-    public static void main(String[] args) throws Exception {
-        List<Ticket> tickets = TicketDataMapper.getInstance().getAll(19, true);
-        for (int i = 0; i < tickets.size(); i ++) {
-            System.out.println(tickets.get(i).getSeatClass() + tickets.get(i).getSeatNumber());
-        }
-    }
 }
 
