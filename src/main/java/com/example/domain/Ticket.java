@@ -34,4 +34,9 @@ public class Ticket extends DomainObject{
     }
 
     public Boolean getIsAvailable() { return this.isAvailable; }
+
+    public void setAvailability(Boolean isAvailable) {
+        this.isAvailable = isAvailable;
+        UnitOfWork.getInstance().registerDirty(this);
+    }
 }
