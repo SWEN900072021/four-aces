@@ -20,9 +20,9 @@ public class DBController {
             Properties prop = new Properties();
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertyFile);
 
-            if (inputStream != null){
+            if (inputStream != null) {
                 prop.load(inputStream);
-            } else{
+            } else {
                 throw new IOException(("File not found"));
             }
 
