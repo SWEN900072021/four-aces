@@ -47,7 +47,6 @@ public class UnitOfWork {
     public void commit() throws Exception {
         for (DomainObject obj : newObjects) {
             java.lang.Class<?> objClass = obj.getClass();
-            System.out.println(objClass);
             DataMapper.getDataMapper(objClass.getSimpleName()).insert(obj.cast(objClass));
         }
         for (DomainObject obj : dirtyObjects) {
@@ -55,7 +54,8 @@ public class UnitOfWork {
             DataMapper.getDataMapper((objClass).getSimpleName()).update(obj.cast(objClass));
         }
         for (DomainObject obj : deleteObjects) {
-
+            java.lang.Class<?> objClass = obj.getClass();
+            DataMapper.getDataMapper((objClass).getSimpleName()).delete(obj.cast(objClass));
         }
         newObjects.clear();
         dirtyObjects.clear();
