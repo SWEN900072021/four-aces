@@ -12,6 +12,7 @@
     <label for="date">Date: </label><input type="date" id="date" name="date"><br>
     <label for="origin">Origin: </label><input type="text" id="origin" name="origin"><br>
     <label for="destination">Destination: </label><input type="text" id="destination" name="destination"><br>
+
     <input type="submit" value="Search Flights">
   </form>
 
