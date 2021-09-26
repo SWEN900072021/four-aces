@@ -49,7 +49,7 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
         ps.setBoolean(5, ticket.getIsAvailable());
     }
 
-    public List<Ticket> getAll(int flightId) throws Exception{
+    public List<Ticket> getAll(int flightId) throws SQLException {
         List<Ticket> tickets = new ArrayList<>();
         String sql = String.format(SQLSelect, "*", this.table, "WHERE flight_id = ?");
         Connection conn = new DBController().connect();
@@ -64,13 +64,10 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
         rs.close();
         ps.close();
         conn.close();
-        if (tickets.isEmpty()){
-            throw new TRSException("No value found in the table "+ this.table);
-        }
         return tickets;
     }
 
-    public List<Ticket> getAll(int flightId, Boolean isAvailable) throws Exception{
+    public List<Ticket> getAll(int flightId, Boolean isAvailable) throws SQLException {
         List<Ticket> tickets = new ArrayList<>();
         String sql = String.format(SQLSelect, "*", this.table, "WHERE flight_id = ? AND is_available = ?");
         Connection conn = new DBController().connect();
@@ -86,9 +83,6 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
         rs.close();
         ps.close();
         conn.close();
-        if (tickets.isEmpty()){
-            throw new TRSException("No value found in the table "+ this.table);
-        }
         return tickets;
     }
 }
