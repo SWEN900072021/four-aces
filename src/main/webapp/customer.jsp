@@ -15,9 +15,9 @@
 
 
   <form action="fourAces?command=SearchFlights&customerId=<%= customerId%>" method = "post">
-    <label for="date">Date: </label><input type="text" id="date" name="date"><br>
-    <label for="origin">Origin: </label><input type="text" id="origin" name="origin"><br>
-    <label for="destination">Destination: </label><input type="text" id="destination" name="destination"><br>
+    <label for="date">Date: </label><input type="text" id="date" name="date" placeholder="2021/09/27"><br>
+    <label for="origin">Origin: </label><input type="text" id="origin" name="origin" placeholder="Melbourne"><br>
+    <label for="destination">Destination: </label><input type="text" id="destination" name="destination" placeholder="Sydney"><br>
     <input type="submit" value="Search Flights">
   </form>
 
