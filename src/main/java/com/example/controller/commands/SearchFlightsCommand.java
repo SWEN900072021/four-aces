@@ -43,7 +43,7 @@ public class SearchFlightsCommand extends FrontCommand {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "Flight not found");
+            request.setAttribute("error", "Flight not found. Please try searching another flight");
             forward("/customer.jsp?customerId=" + customerId);
         }
 

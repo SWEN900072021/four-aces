@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class UpcomingFlightsCommand extends FrontCommand {
+public class PreviousFlightsCommand extends FrontCommand {
     @Override
     public void processGet() throws ServletException, IOException {
         int customerId = Integer.parseInt(request.getParameter("customerId"));
@@ -25,25 +25,22 @@ public class UpcomingFlightsCommand extends FrontCommand {
             for (Reservation reservation : reservations) {
                 flights.addAll(reservation.getFlights());
             }
-            List<Flight> upcomingFlights = new ArrayList<Flight>();
+            List<Flight> previousFlights = new ArrayList<Flight>();
             for (Flight flight : flights) {
                 LocalDateTime flightDateTime = flight.getDateTime();
-                if (now.isBefore(flightDateTime)) {
-                    upcomingFlights.add(flight);
+                if (flightDateTime.isBefore(now)) {
+                    previousFlights.add(flight);
                 }
             }
             request.setAttribute("flights", flights);
             forward("/upcomingFlights.jsp?customerId=" + customerId);
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "You've got no upcoming flight");
+            request.setAttribute("error", "You've got no previous flight");
             forward("/customer.jsp?customerId=" + customerId);
         }
     }
     @Override
     public void processPost() throws ServletException, IOException {
     }
-
-
-
 }

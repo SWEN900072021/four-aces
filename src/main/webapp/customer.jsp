@@ -22,7 +22,7 @@
   </form>
 
   <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=UpcomingFlights&customerId=<%=customerId%>'">View Upcoming Flights</button>
-
+  <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=PreviousFlights&customerId=<%=customerId%>'">View Previous Flights</button>
   <%
     }
   %>
