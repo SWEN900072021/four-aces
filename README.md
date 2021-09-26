@@ -17,13 +17,13 @@ Release tag:
 Link to Heroku deployed app: https://travel-reservation.herokuapp.com/
 
 Administrator 
-username:
-password:
+username: admin
+password: admin
 
 Airline
-username:
-password:
+email: qantas@gmail.com
+password: qantas#
 
 Customer
-username:
-password:
+email: xueqi.guan@gmail.com
+password: guanxueqi
