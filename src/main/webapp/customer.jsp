@@ -14,5 +14,7 @@
     <input type="submit" value="Search Flights">
   </form>
 
+  <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=UpcomingFlights'">View Upcoming Flights</button>
+
 </body>
 </html>

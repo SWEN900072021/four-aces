@@ -54,7 +54,8 @@ public class UnitOfWork {
             DataMapper.getDataMapper((objClass).getSimpleName()).update(obj.cast(objClass));
         }
         for (DomainObject obj : deleteObjects) {
-
+            java.lang.Class<?> objClass = obj.getClass();
+            DataMapper.getDataMapper((objClass).getSimpleName()).delete(obj.cast(objClass));
         }
         newObjects.clear();
         dirtyObjects.clear();

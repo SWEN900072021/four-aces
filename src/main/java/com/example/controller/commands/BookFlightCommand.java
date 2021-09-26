@@ -24,21 +24,16 @@ public class BookFlightCommand extends FrontCommand {
         BookingController bookingController = BookingController.getInstance();
 
         try {
-            Flight flight = flightDataMapper.findById(flightId);
-            Customer customer = customerDataMapper.findById(customerId);
+
             switch (type) {
                 case "go":
-                    if (flight != null && customer != null) {
-                        bookingController.bookFlight(customer, flight);
-                        List<Flight> returnFlights = BookingController.getInstance().getReturnFlights(flight);
-                        request.setAttribute("returnFlights", returnFlights);
-                    }
+                    bookingController.bookGoFlight(customerId, flightId);
+                    List<Flight> returnFlights = BookingController.getInstance().getReturnFlights(flightId);
+                    request.setAttribute("returnFlights", returnFlights);
                     forward("/returnFlight.jsp?customerId="+customerId);
                     break;
                 case "return":
-                    if (flight != null && customer != null) {
-                        bookingController.bookReturnFlight(customer, flight);
-                    }
+                    bookingController.bookReturnFlight(customerId, flightId);
                     forward("/addPassenger.jsp?customerId="+customerId);
                     break;
                 default:
@@ -52,23 +47,23 @@ public class BookFlightCommand extends FrontCommand {
 
     @Override
     public void processPost() throws ServletException, IOException {
-        int customerId = Integer.parseInt(request.getParameter("customerId"));
-        int flightId = Integer.parseInt(request.getParameter("flightId"));
-        FlightDataMapper flightDataMapper = FlightDataMapper.getInstance();
-        CustomerDataMapper customerDataMapper = CustomerDataMapper.getInstance();
-        try {
-            Flight flight = flightDataMapper.findById(flightId);
-            Customer customer = customerDataMapper.findById(customerId);
-
-            if (flight != null && customer != null) {
-                BookingController.getInstance().bookFlight(customer, flight);
-                List<Flight> returnFlights = BookingController.getInstance().getReturnFlights(flight);
-                request.setAttribute("returnFlights", returnFlights);
-            }
-            forward("/returnFlight.jsp?customerId="+customerId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        int customerId = Integer.parseInt(request.getParameter("customerId"));
+//        int flightId = Integer.parseInt(request.getParameter("flightId"));
+//        FlightDataMapper flightDataMapper = FlightDataMapper.getInstance();
+//        CustomerDataMapper customerDataMapper = CustomerDataMapper.getInstance();
+//        try {
+//            Flight flight = flightDataMapper.findById(flightId);
+//            Customer customer = customerDataMapper.findById(customerId);
+//
+//            if (flight != null && customer != null) {
+//                BookingController.getInstance().bookGoFlight(customerId, flightId);
+//                List<Flight> returnFlights = BookingController.getInstance().getReturnFlights(flight);
+//                request.setAttribute("returnFlights", returnFlights);
+//            }
+//            forward("/returnFlight.jsp?customerId="+customerId);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 }

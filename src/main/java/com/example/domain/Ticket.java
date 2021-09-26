@@ -6,14 +6,28 @@ public class Ticket extends DomainObject{
     private String seatClass;
     private String seatNumber;
     private Boolean isAvailable;
+    private Integer passengerId;
+    private Integer reservationId;
 
-    public Ticket(Integer id, Double price, int flightId, String seatClass, String seatNumber, Boolean isAvailable) {
+    public Ticket(Integer id, Double price, int flightId, String seatClass, String seatNumber) {
         super(id);
         this.price = price;
         this.flightId = flightId;
         this.seatClass = seatClass;
         this.seatNumber = seatNumber;
-        this.isAvailable = isAvailable;
+        this.passengerId = null;
+        this.reservationId = null;
+        UnitOfWork.getInstance().registerNew(this);
+    }
+
+    public Ticket(Integer id, Double price, int flightId, String seatClass, String seatNumber, Integer passengerId, Integer reservationId) {
+        super(id);
+        this.price = price;
+        this.flightId = flightId;
+        this.seatClass = seatClass;
+        this.seatNumber = seatNumber;
+        this.passengerId = passengerId;
+        this.reservationId = reservationId;
         UnitOfWork.getInstance().registerNew(this);
     }
 
@@ -33,10 +47,25 @@ public class Ticket extends DomainObject{
         return this.seatNumber;
     }
 
-    public Boolean getIsAvailable() { return this.isAvailable; }
+    public Boolean isAvailable() {
+        return (passengerId == null);
+    }
 
-    public void setAvailability(Boolean isAvailable) {
-        this.isAvailable = isAvailable;
+    public void setPassengerId(int passengerId) {
+        this.passengerId = passengerId;
+        UnitOfWork.getInstance().registerDirty(this);
+    }
+
+    public Integer getPassengerId() {
+        return this.passengerId;
+    }
+
+    public Integer getReservationId() {
+        return this.reservationId;
+    }
+
+    public void setReservationId(int reservationId) {
+        this.reservationId = reservationId;
         UnitOfWork.getInstance().registerDirty(this);
     }
 }

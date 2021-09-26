@@ -85,5 +85,7 @@
             </tbody>
         </table>
     </div>
+    <br/>
+    <button onclick="window.location.href = 'airline.jsp?airlineId=<%=airlineId%>'">Return to Home Page</button>
 </body>
 </html>

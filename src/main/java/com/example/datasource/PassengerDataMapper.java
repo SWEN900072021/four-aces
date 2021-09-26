@@ -33,7 +33,8 @@ public class PassengerDataMapper extends AbstractDataMapper<Passenger> {
         String lastname = resultSet.getString("passenger_lastname");
         String idType = resultSet.getString("identificationtype");
         String idNumber = resultSet.getString("identificationnumber");
-        return new Passenger(firstname,lastname,idType,idNumber);
+        int id = resultSet.getInt("passenger_id");
+        return new Passenger(id, firstname,lastname,idType,idNumber);
     }
 
     @Override

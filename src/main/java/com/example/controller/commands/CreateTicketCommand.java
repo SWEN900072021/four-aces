@@ -26,7 +26,7 @@ public class CreateTicketCommand extends AirlineCommand {
             for (Seat seat : seats) {
                 String seatClass = seat.getSeatClass();
                 String seatNumber = seat.getSeatNumber();
-                new Ticket(null, 100.0, flightId, seatClass, seatNumber, true);
+                new Ticket(null, 100.0, flightId, seatClass, seatNumber);
                 UnitOfWork.getInstance().commit();
             }
         }

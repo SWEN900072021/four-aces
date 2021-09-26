@@ -144,9 +144,6 @@ public abstract class AbstractDataMapper<T extends DomainObject> implements Data
         rs.close();
         ps.close();
         conn.close();
-        if (objs.isEmpty()){
-            throw new TRSException("No value found in the table "+ this.table);
-        }
         return objs;
     }
 
