@@ -48,9 +48,11 @@ public class SearchFlightsCommand extends FrontCommand {
                     forward("/customer.jsp?customerId=" + customerId);
                 } else {
                     request.setAttribute("flights", availableFLights);
+                    forward("/searchFlightsResult.jsp?customerId=" + customerId);
                 }
             } else {
-                request.setAttribute("flights", new ArrayList<Flight>());
+                request.setAttribute("error", "Flight not found. Please try searching another flight");
+                forward("/customer.jsp?customerId=" + customerId);
             }
         } catch (Exception e) {
             e.printStackTrace();

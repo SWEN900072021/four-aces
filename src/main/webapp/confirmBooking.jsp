@@ -11,6 +11,14 @@
     <title>Title</title>
 </head>
 <body>
-<h2>Confirm booking</h2>
+<h2>Booking successful</h2>
+<%
+    if (request.getParameter("customerId") != null) {
+        int customerId = Integer.parseInt(request.getParameter("customerId"));
+%>
+<button onclick="window.location.href = '<%= request.getContextPath()%>/customer.jsp?customerId=<%=customerId%>'">Back to Homepage</button>
+<%
+    }
+%>
 </body>
 </html>

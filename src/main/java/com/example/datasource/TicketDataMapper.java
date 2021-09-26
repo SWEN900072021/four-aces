@@ -98,7 +98,6 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
         Connection conn = new DBController().connect();
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, flightId);
-        ps.setBoolean(2, isAvailable);
         ps.execute();
         ResultSet rs = ps.getResultSet();
         while(rs.next()){
