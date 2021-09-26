@@ -1,6 +1,8 @@
 package com.example.controller.commands;
 
+import com.example.datasource.AirportDataMapper;
 import com.example.datasource.FlightDataMapper;
+import com.example.domain.Airport;
 import com.example.domain.Flight;
 
 import javax.servlet.ServletException;
@@ -21,19 +23,30 @@ public class SearchFlightsCommand extends FrontCommand {
     public void processPost() throws ServletException, IOException {
         int customerId = Integer.parseInt(request.getParameter("customerId"));
         HashMap<String, String> params = new HashMap<>();
-        params.put("date",request.getParameter("date"));
-        params.put("time",request.getParameter("time"));
+        HashMap<String, String> originAirportParams = new HashMap<>();
+        originAirportParams.put("address", request.getParameter("origin"));
+        HashMap<String, String> destinationAirportParams = new HashMap<>();
+        destinationAirportParams.put("address", request.getParameter("destination"));
+
         ArrayList<Flight> flights = null;
         try {
-            flights = FlightDataMapper.getInstance().find(params);
-            if (flights.size() > 0) {
+            List<Airport> originAirports = AirportDataMapper.getInstance().find(originAirportParams);
+            List<Airport> destinationAirports = AirportDataMapper.getInstance().find(destinationAirportParams);
+            if (originAirports.size() > 0 && destinationAirports.size() > 0) {
+                params.put("origin", Integer.toString(originAirports.get(0).getId()));
+                params.put("destination", Integer.toString(destinationAirports.get(0).getId()));
+                params.put("date", request.getParameter("date"));
+                flights = FlightDataMapper.getInstance().find(params);
                 request.setAttribute("flights", flights);
+            } else {
+                request.setAttribute("flights", new ArrayList<Flight>());
             }
         } catch (Exception e) {
-            //TODO : send error message
             e.printStackTrace();
+            request.setAttribute("error", "Flight not found");
+            forward("/customer.jsp?customerId=" + customerId);
         }
-        forward("/searchFlightsResult.jsp?customerId=" + customerId);
+
     }
 
 }
