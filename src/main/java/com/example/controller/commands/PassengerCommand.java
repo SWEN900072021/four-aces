@@ -19,7 +19,7 @@ public class PassengerCommand extends FrontCommand {
         String passenger_lastName = request.getParameter("passenger_lastName");
         String identificationType = request.getParameter("identificationType");
         String identificationNumber = request.getParameter("identificationNumber");
-        Passenger passenger = new Passenger(passenger_firstName,passenger_lastName,identificationType,identificationNumber);
+        Passenger passenger = new Passenger(null, passenger_firstName,passenger_lastName,identificationType,identificationNumber);
     }
 
 }
