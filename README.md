@@ -12,7 +12,7 @@
 Release tag: https://github.com/SWEN900072021/four-aces/releases/tag/SWEN90007_2021_Part1_four-aces
 
 # Part 2
-Release tag:
+Release tag: https://github.com/SWEN900072021/four-aces/releases/tag/SWEN90007_2021_Part2_four-aces
 
 Link to Heroku deployed app: https://travel-reservation.herokuapp.com/
 
