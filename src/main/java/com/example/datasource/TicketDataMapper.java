@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Types;
 
 public class TicketDataMapper extends AbstractDataMapper<Ticket> {
 
@@ -17,7 +18,7 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
 
     private TicketDataMapper() {
         this.table = "ticket";
-        this.fields = new String[] {"ticket_price", "flight_id", "seat_class", "seat_number", "is_available"};
+        this.fields = new String[] {"ticket_price", "flight_id", "seat_class", "seat_number", "passenger_id", "reservation_id"};
         this.pkey = "ticket_id";
     }
 
@@ -35,8 +36,16 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
         int flightId = Integer.parseInt(rs.getString("flight_id"));
         String seatClass = rs.getString("seat_class");
         String seatNumber = rs.getString("seat_number");
-        Boolean isAvailable = Boolean.parseBoolean(rs.getString("is_available"));
-        Ticket ticket = new Ticket(ticketId, price, flightId, seatClass, seatNumber, isAvailable);
+        String passengerId = rs.getString("passenger_id");
+        String reservationId = rs.getString("reservation_id");
+        Ticket ticket;
+        if (passengerId == null || reservationId == null) {
+            ticket = new Ticket(ticketId, price, flightId, seatClass, seatNumber);
+        } else {
+            Integer psgId = Integer.parseInt(passengerId);
+            Integer rsvId = Integer.parseInt(reservationId);
+            ticket = new Ticket(ticketId, price, flightId, seatClass, seatNumber, psgId, rsvId);
+        }
         return ticket;
     }
 
@@ -46,7 +55,17 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
         ps.setInt(2, ticket.getFlightId());
         ps.setString(3, ticket.getSeatClass());
         ps.setString(4, ticket.getSeatNumber());
-        ps.setBoolean(5, ticket.getIsAvailable());
+        if (ticket.getPassengerId() != null) {
+            ps.setInt(5, ticket.getPassengerId());
+        } else {
+            ps.setNull(5, Types.NULL);
+        }
+        if (ticket.getReservationId() != null) {
+            ps.setInt(6, ticket.getReservationId());
+        } else {
+            ps.setNull(6, Types.NULL);
+        }
+
     }
 
     public List<Ticket> getAll(int flightId) throws SQLException {
@@ -69,7 +88,13 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
 
     public List<Ticket> getAll(int flightId, Boolean isAvailable) throws SQLException {
         List<Ticket> tickets = new ArrayList<>();
-        String sql = String.format(SQLSelect, "*", this.table, "WHERE flight_id = ? AND is_available = ?");
+        String sql;
+        if (isAvailable) {
+            sql = String.format(SQLSelect, "*", this.table, "WHERE flight_id = ? AND passenger_id IS NULL");
+        } else {
+            sql = String.format(SQLSelect, "*", this.table, "WHERE flight_id = ? AND passenger_id IS NOT NULL");
+        }
+        System.out.println(sql);
         Connection conn = new DBController().connect();
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, flightId);

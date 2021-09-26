@@ -4,6 +4,8 @@ import com.example.datasource.AirlineDataMapper;
 import com.example.datasource.AirportDataMapper;
 import com.example.datasource.AirplaneDataMapper;
 
+import java.util.List;
+
 public class Flight extends DomainObject {
     private String code;
     private String date;
