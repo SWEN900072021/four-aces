@@ -2,21 +2,40 @@
 <%@ page import="com.example.domain.Flight" %>
 <%@ page import="com.example.domain.Airport" %>
 <%@ page import="com.example.domain.Ticket" %>
+<%@ page import="com.example.domain.Passenger" %>
+<%@ page import="com.sun.org.apache.xpath.internal.operations.Bool" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>TRS</title>
 </head>
 <body>
-<h2>Please select seats</h2>
 <%
     List<Ticket> tickets = (List<Ticket>) request.getAttribute("tickets");
     int customerId = Integer.parseInt(request.getParameter("customerId"));
     String type = (String) request.getAttribute("type");
+    int passengerId = Integer.parseInt(request.getParameter("passengerId"));
+    boolean returning = (boolean) request.getAttribute("returning");
+    if (!returning) {
+        System.out.println("RETURNING"+returning);
+%>
+<h2>Please select seat</h2>
+<%
+    } else if (type.equals("go")) {
+%>
+<h2>Please select the seat for your outgoing flight</h2>
+
+<%
+    } else {
+%>
+<h2>Please select the seat for your returning flight</h2>
+<%
+    }
 %>
 
+
 <div align="left">
-    <form action="fourAces?command=SelectSeats?customerId=<%=customerId%>&type=<%=type%>>" method="post">
+    <form action="fourAces?command=SelectSeats&customerId=<%=customerId%>&type=<%=type%>&passengerId=<%=passengerId%>" method="post">
     <table style="border: 1px solid black; border-collapse: collapse">
         <tbody>
         <tr>
@@ -33,7 +52,7 @@
             <td><%=ticket.getSeatNumber()%>
             </td>
             <td>
-                <input type="checkbox" name="select" value="<%=ticket.getId()%>"/>
+                <input type="radio" name="select" value="<%=ticket.getId()%>"/>
             </td>
         </tr>
         <%
@@ -41,6 +60,7 @@
         %>
         </tbody>
     </table>
+        <input type="submit" value="Select Seat">
     </form>
 </div>
 </body>

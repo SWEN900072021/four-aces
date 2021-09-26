@@ -35,8 +35,14 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
         int flightId = Integer.parseInt(rs.getString("flight_id"));
         String seatClass = rs.getString("seat_class");
         String seatNumber = rs.getString("seat_number");
-        Boolean isAvailable = Boolean.parseBoolean(rs.getString("is_available"));
-        Ticket ticket = new Ticket(ticketId, price, flightId, seatClass, seatNumber, isAvailable);
+        String passengerId = rs.getString("passenger_id");
+        Ticket ticket;
+        if (passengerId == null) {
+            ticket = new Ticket(ticketId, price, flightId, seatClass, seatNumber);
+        } else {
+            Integer id = Integer.parseInt(rs.getString("passenger_id"));
+            ticket = new Ticket(ticketId, price, flightId, seatClass, seatNumber, id);
+        }
         return ticket;
     }
 
@@ -46,7 +52,7 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
         ps.setInt(2, ticket.getFlightId());
         ps.setString(3, ticket.getSeatClass());
         ps.setString(4, ticket.getSeatNumber());
-        ps.setBoolean(5, ticket.getIsAvailable());
+        ps.setInt(5, ticket.getPassengerId());
     }
 
     public List<Ticket> getAll(int flightId) throws Exception{
@@ -72,7 +78,13 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
 
     public List<Ticket> getAll(int flightId, Boolean isAvailable) throws Exception{
         List<Ticket> tickets = new ArrayList<>();
-        String sql = String.format(SQLSelect, "*", this.table, "WHERE flight_id = ? AND is_available = " + isAvailable);
+        String sql;
+        if (isAvailable) {
+            sql = String.format(SQLSelect, "*", this.table, "WHERE flight_id = ? AND passenger_id IS NULL");
+        } else {
+            sql = String.format(SQLSelect, "*", this.table, "WHERE flight_id = ? AND passenger_id IS NOT NULL");
+        }
+        System.out.println(sql);
         Connection conn = new DBController().connect();
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, flightId);

@@ -9,11 +9,20 @@ import java.util.List;
 
 public class BookingController {
     private static BookingController _instance = null;
-    private HashMap<Customer, Booking> map;
+    private HashMap<Integer, Booking> map;
 
+//    public Booking getCustomer(Customer customer){
+//        Booking booking = null;
+//        for( Customer c: map.keySet() ){
+//            if( c.getId().equals(customer.getId()) ){
+//                booking = map.get(c);
+//            }
+//        }
+//        return booking;
+//    }
 
     private BookingController(){
-        this.map = new HashMap<Customer, Booking>();
+        this.map = new HashMap<Integer, Booking>();
     }
 
     public static BookingController getInstance() {
@@ -23,19 +32,19 @@ public class BookingController {
         return _instance;
     }
 
-    public Flight getReturnFlight(Customer customer) {
-        return map.get(customer).getFlight();
+    public Flight getReturnFlight(int customerId) {
+        return map.get(customerId).getFlight();
     }
 
-    public void bookFlight(Customer customer, Flight flight) {
-        if (!map.containsKey(customer)) {
-            map.put(customer, new Booking(customer));
+    public void bookFlight(int customerId, Flight flight) {
+        if (map.get(customerId) == null) {
+            map.put(customerId, new Booking(customerId));
         }
-        map.get(customer).selectFlight(flight);
+        map.get(customerId).selectFlight(flight);
     }
 
-    public Flight getFlight(Customer customer) {
-        return map.get(customer).getFlight();
+    public Flight getFlight(int customerId) {
+        return map.get(customerId).getFlight();
     }
 
     public List<Flight> getReturnFlights(Flight flight) throws Exception {
@@ -48,32 +57,42 @@ public class BookingController {
         return returnFlights;
     }
 
-    public void bookReturnFlight(Customer customer, Flight flight) {
-        if (!map.containsKey(customer)) {
-            map.put(customer, new Booking(customer));
+    public void bookReturnFlight(int customerId, Flight flight) {
+        if (map.get(customerId) == null) {
+            map.put(customerId, new Booking(customerId));
         }
-        map.get(customer).selectReturnFlight(flight);
+        map.get(customerId).selectReturnFlight(flight);
     }
 
-    public void addPassenger(Customer customer, Passenger passenger) {
-        if (!map.containsKey(customer)) {
-            map.put(customer, new Booking(customer));
+    public void addPassenger(int customerId, Passenger passenger) {
+        if (map.get(customerId) == null) {
+            map.put(customerId, new Booking(customerId));
         }
-        map.get(customer).addPassenger(passenger);
+        map.get(customerId).addPassenger(passenger);
     }
 
-    public List<Passenger> getPassengers(Customer customer) {
-        if (!map.containsKey(customer)) {
-            return new ArrayList<Passenger>();
+    public List<Passenger> getPassengers(int customerId) {
+        return map.get(customerId).getPassengers();
+    }
+
+    public void bookTicket(int customerId, int passengerId, int ticketId, String type) {
+        switch (type) {
+            case "go":
+                map.get(customerId).bookGoTicket(passengerId, ticketId);
+                break;
+            case "return":
+                map.get(customerId).bookReturnTicket(passengerId, ticketId);
+                break;
+            default:
+                break;
         }
-        return map.get(customer).getPassengers();
     }
 
-    public void bookSeats(Customer customer, String[] selectedTicketIds) throws Exception {
-        map.get(customer).bookSeats(selectedTicketIds);
+    public boolean isReturning(int customerId) {
+        return (map.get(customerId).getReturnFlight() != null);
     }
 
-    public boolean isReturning(Customer customer) {
-        return (map.get(customer).getReturnFlight() != null);
+    public void submitBooking(int customerId) {
+        map.get(customerId).submitBooking();
     }
 }

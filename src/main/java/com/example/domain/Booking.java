@@ -3,22 +3,31 @@ package com.example.domain;
 import com.example.datasource.TicketDataMapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Booking {
-    private Customer customer;
+    private int customerId;
     private Flight flight;
     private Flight returnFlight;
     private ArrayList<Passenger> passengers;
-    private ArrayList<Ticket> goTickets;
-    private ArrayList<Ticket> returnTickets;
+    private HashMap<Integer, Integer> goTickets;
+    private HashMap<Integer, Integer> returnTickets;
 
-    public Booking(Customer customer) {
-        this.customer = customer;
+    public Booking(int customerId) {
+        this.customerId = customerId;
         this.flight = null;
         this.returnFlight = null;
         this.passengers = new ArrayList<>();
-        this.goTickets = new ArrayList<>();
-        this.returnTickets = new ArrayList<>();
+        this.goTickets = new HashMap<>();
+        this.returnTickets = new HashMap<>();
+    }
+
+    public void bookGoTicket(int passengerId, int ticketId) {
+        goTickets.put(passengerId, ticketId);
+    }
+
+    public void bookReturnTicket(int passengerId, int ticketId) {
+        returnTickets.put(passengerId, ticketId);
     }
 
     public void selectFlight(Flight flight) {
@@ -46,11 +55,22 @@ public class Booking {
         return this.passengers;
     }
 
-    public void bookSeats(String[] selectedTicketIds) throws Exception {
-        for (String id : selectedTicketIds) {
-            int ticketId = Integer.parseInt(id);
-            this.goTickets.add(TicketDataMapper.getInstance().findById(ticketId));
-        }
+    public void submitBooking() {
+//set passenger id to tickets
+
+//create reservation
+        //customer
+        //ticketIds
+        //flightIds
+
     }
+
+//    public void bookSeats(String[] selectedTicketIds) throws Exception {
+//        for (String id : selectedTicketIds) {
+//            int ticketId = Integer.parseInt(id);
+//            this.goTickets.add(TicketDataMapper.getInstance().findById(ticketId));
+//        }
+//    }
+
 
 }

@@ -26,20 +26,20 @@ public class GetAvailableSeatsCommand extends FrontCommand {
 
         try {
             Customer customer = CustomerDataMapper.getInstance().findById(customerId);
-            List<Passenger> passengers = bookingController.getPassengers(customer);
+            List<Passenger> passengers = bookingController.getPassengers(customerId);
             int numPassengers = passengers.size();
             Flight flight = null;
             List<Ticket> tickets = null;
 
             switch (type) {
                 case "go":
-                    flight = bookingController.getFlight(customer);
+                    flight = bookingController.getFlight(customerId);
                     tickets = TicketDataMapper.getInstance().getAll(flight.getId(), true);
                     request.setAttribute("numPassengers", numPassengers);
                     request.setAttribute("tickets", tickets);
                     request.setAttribute("type", type);
                 case "return":
-                    flight = bookingController.getReturnFlight(customer);
+                    flight = bookingController.getReturnFlight(customerId);
                     tickets = TicketDataMapper.getInstance().getAll(flight.getId(), true);
                     request.setAttribute("numPassengers", numPassengers);
                     request.setAttribute("tickets", tickets);

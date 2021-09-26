@@ -5,12 +5,14 @@ public class Passenger extends DomainObject {
     private String lastName;
     private String idType;
     private String idNumber;
-    public Passenger(String firstName, String lastName,String idType, String idNumber){
-        super(null);
+
+    public Passenger(Integer id, String firstName, String lastName,String idType, String idNumber){
+        super(id);
         this.firstName = firstName;
         this.lastName = lastName;
         this.idType = idType;
         this.idNumber = idNumber;
+        UnitOfWork.getInstance().registerNew(this);
     }
 
 

@@ -29,7 +29,7 @@ public class BookFlightCommand extends FrontCommand {
             switch (type) {
                 case "go":
                     if (flight != null && customer != null) {
-                        bookingController.bookFlight(customer, flight);
+                        bookingController.bookFlight(customerId, flight);
 
                         List<Flight> returnFlights = BookingController.getInstance().getReturnFlights(flight);
                         request.setAttribute("returnFlights", returnFlights);
@@ -38,7 +38,7 @@ public class BookFlightCommand extends FrontCommand {
                     break;
                 case "return":
                     if (flight != null && customer != null) {
-                        bookingController.bookReturnFlight(customer, flight);
+                        bookingController.bookReturnFlight(customerId, flight);
                     }
                     forward("/addPassenger.jsp?customerId="+customerId);
                     break;
@@ -62,7 +62,7 @@ public class BookFlightCommand extends FrontCommand {
             Customer customer = customerDataMapper.findById(customerId);
 
             if (flight != null && customer != null) {
-                BookingController.getInstance().bookFlight(customer, flight);
+                BookingController.getInstance().bookFlight(customerId, flight);
                 List<Flight> returnFlights = BookingController.getInstance().getReturnFlights(flight);
                 request.setAttribute("returnFlights", returnFlights);
             }
