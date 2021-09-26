@@ -4,12 +4,13 @@
   <title>TRS</title>
 </head>
 <body>
-  <%
-    int airlineId = Integer.parseInt(request.getParameter("airlineId"));
-  %>
+<%
+  if( session.getAttribute("auth") == null )
+    response.sendRedirect("fourAces?command=Airline");
+%>
   <h2>Airline Home Page</h2>
   <h3>You have successfully logged in</h3>
-  <button onclick="window.location.href = 'createFlight.jsp?airlineId=<%=airlineId%>'">Create Flight</button>
-  <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=GetFlight&airlineId=<%=airlineId%>'">View Flight</button>
+  <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=CreateFlight'">Create Flight</button>
+  <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=GetFlight'">View Flight</button>
 </body>
 </html>

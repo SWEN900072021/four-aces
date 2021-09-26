@@ -12,9 +12,6 @@ import java.sql.ResultSet;
 
 public class AirlineDataMapper extends UserDataMapper<Airline>{
     private static AirlineDataMapper _instance = null;
-    private static final String url = "jdbc:postgresql://localhost:5432/MyDB";
-    private static final String user = "postgres";
-    private static final String password = "admin";
 
     public static AirlineDataMapper getInstance() {
         if (_instance == null) {
@@ -47,55 +44,6 @@ public class AirlineDataMapper extends UserDataMapper<Airline>{
         airline.setPending(resultSet.getBoolean(prefix+"pending"));
         return airline;
     }
-
-    public static Connection connection() {
-        Connection conn = null;
-        try {
-            DriverManager.registerDriver(new org.postgresql.Driver());
-            conn = DriverManager.getConnection(url, user, password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return conn;
-    }
-
-//    public Airline findById(int id) {
-//        Airline airline = null;
-//        String sql = "SELECT * FROM airline WHERE airline_id = ?;";
-//        PreparedStatement stmt = null;
-//        ResultSet rs = null;
-//        Connection conn = null;
-//
-//        try {
-//            conn = connection();
-//            stmt = conn.prepareStatement(sql);
-//            stmt.setInt(1, id);
-//            stmt.execute();
-//            rs = stmt.getResultSet();
-//            if (rs.next()) {
-//                int airlineId = Integer.parseInt(rs.getString("airline_id"));
-//                String airlineName = rs.getString("airline_name");
-//                airline = new Airline(airlineId, airlineName);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                if (rs != null) {
-//                    rs.close();
-//                }
-//                if (stmt != null) {
-//                    stmt.close();
-//                }
-//                if (conn != null) {
-//                    conn.close();
-//                }
-//            } catch (SQLException throwables) {
-//                throwables.printStackTrace();
-//            }
-//        }
-//        return airline;
-//    }
 
     @Override
     public Airline createUser(int id, String username, String email, String password) {

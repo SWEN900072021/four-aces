@@ -9,8 +9,11 @@
   <title>TRS</title>
 </head>
 <body>
+<%
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Airline");
+%>
     <%
-        int airlineId = Integer.parseInt(request.getParameter("airlineId"));
         List<Flight> flights = (List<Flight>) request.getAttribute("flights");
     %>
 
@@ -34,30 +37,51 @@
         <tbody>
                 <%
                     TicketDataMapper ticketDataMapper = TicketDataMapper.getInstance();
-                    for(int i = 0; i < flights.size(); i++) {
-                        Flight flight = flights.get(i);
+                    for (Flight flight : flights) {
                         List<Ticket> tickets = new ArrayList<>();
                         try {
                             tickets = ticketDataMapper.getAll(flight.getId());
                         } catch (Exception e) {
+                            String error = e.getMessage();
                         }
                 %>
                 <tr>
-                    <td><%= flight.getId()%></td>
-                    <td><%= flight.getCode()%></td>
-                    <td><%= flight.getDate()%></td>
-                    <td><%= flight.getTime()%></td>
-                    <td><%= flight.getSourceAirport().getReferenceCode()%></td>
-                    <td><%= flight.getDestinationAirport().getReferenceCode()%></td>
-                    <td><%= flight.getAirplane().getType()%></td>
-                    <td>
-                        <button <%=tickets.size() > 0 ? "disabled" : ""%> onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=CreateTicket&airlineId=<%=airlineId%>&flightId=<%= flight.getId()%>&airplaneId=<%=flight.getAirplaneId()%>'">Create Tickets</button>
+                    <td><%= flight.getId()%>
+                    </td>
+                    <td><%= flight.getCode()%>
+                    </td>
+                    <td><%= flight.getDate()%>
+                    </td>
+                    <td><%= flight.getTime()%>
+                    </td>
+                    <td><%= flight.getSourceAirport().getReferenceCode()%>
+                    </td>
+                    <td><%= flight.getDestinationAirport().getReferenceCode()%>
+                    </td>
+                    <td><%= flight.getAirplane().getType()%>
                     </td>
                     <td>
-                        <button onclick="window.location.href ='<%= request.getContextPath()%>/editFlight.jsp?airlineId=<%=airlineId%>&flightId=<%=flight.getId()%>&code=<%= flight.getCode()%>&date=<%=flight.getDate()%>&time=<%=flight.getTime()%>&source=<%= flight.getSourceAirport().getReferenceCode()%>&destination=<%= flight.getDestinationAirport().getReferenceCode()%>&airplane=<%= flight.getAirplane().getType()%>'">Edit</button>
+                        <form action="fourAces?command=CreateTicket" method="post">
+                            <input type="hidden" name="flightId" value=<%= flight.getId()%>>
+                            <input type="hidden" name="airplaneId" value="<%=flight.getAirplaneId()%>">
+                            <button <%=tickets.size() > 0 ? "disabled" : ""%> type="submit">Create Tickets</button>
+                        </form>
                     </td>
                     <td>
-                        <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=DeleteFlight&airlineId=<%=airlineId%>&flightId=<%= flight.getId()%>'">Delete</button>
+                        <form action="fourAces?command=EditFlight" method="post">
+                            <input type="hidden" name="forward" value="forward">
+                            <input type="hidden" name="flightId" value=<%= flight.getId()%>>
+                            <input type="hidden" name="code" value=<%=flight.getCode()%>>
+                            <input type="hidden" name="date" value=<%=flight.getDate()%>>
+                            <input type="hidden" name="time" value=<%=flight.getTime()%>>
+                            <button type="submit">Edit Flight</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="fourAces?command=DeleteFlight" method="post">
+                            <input type="hidden" name="flightId" value=<%=flight.getId()%>>
+                            <button type="submit">Delete Flight</button>
+                        </form>
                     </td>
                 </tr>
                 <%
@@ -67,6 +91,6 @@
         </table>
     </div>
     <br/>
-    <button onclick="window.location.href = 'airline.jsp?airlineId=<%=airlineId%>'">Return to Home Page</button>
+    <button onclick="window.location.href = '<%= request.getContextPath()%>/airline.jsp'">Return to Home Page</button>
 </body>
 </html>

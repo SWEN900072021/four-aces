@@ -10,7 +10,7 @@ public class RegisterCommand extends FrontCommand{
 
     @Override
     public void processGet() throws ServletException, IOException {
-
+        forward("/register.jsp");
     }
 
     @Override
@@ -27,7 +27,7 @@ public class RegisterCommand extends FrontCommand{
                 user = new Customer(null, username, email, password);
                 break;
             case "Admin":
-                user = Admin.createAdmin(username, password);
+                user = new Admin(null, username, password);
                 break;
             default:
                 request.setAttribute("error", "Wrong User Type");
@@ -37,8 +37,14 @@ public class RegisterCommand extends FrontCommand{
             UnitOfWork.getInstance().commit();
             response.sendRedirect("login.jsp");
         } catch (Exception e) {
-            error(e, "/register.jsp");
+            error(e);
+            forward("/register.jsp");
         }
+    }
+
+    @Override
+    protected User getCurrentUser() throws Exception {
+        return null;
     }
 
 }

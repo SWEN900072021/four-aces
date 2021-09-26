@@ -9,11 +9,13 @@
     <title>TRS</title>
 </head>
 <body>
-    <%
-        int airlineId = Integer.parseInt(request.getParameter("airlineId"));
-    %>
+<%
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Airline");
+%>
     <h2>Edit Flight</h2>
-    <form action = "fourAces?command=EditFlight&airlineId=<%=airlineId%>&flightId=<%=request.getParameter("flightId")%>" method = "post">
+    <form action = "fourAces?command=EditFlight" method = "post">
+        <input type="hidden" name="flightId" value=<%=request.getParameter("flightId")%>>
         <table>
             <tr>
                 <td>Flight Code</td>

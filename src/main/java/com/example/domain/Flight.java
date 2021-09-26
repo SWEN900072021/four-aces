@@ -115,7 +115,7 @@ public class Flight extends DomainObject {
     }
 
     public void setDestination(int destination) {
-        this.destination = Flight.this.destination;
+        this.destination = destination;
         UnitOfWork.getInstance().registerDirty(this);
     }
 

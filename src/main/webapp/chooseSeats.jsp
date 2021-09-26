@@ -11,13 +11,15 @@
 </head>
 <body>
 <%
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Customer");
+%>
+<%
+    @SuppressWarnings("unchecked")
     List<Ticket> tickets = (List<Ticket>) request.getAttribute("tickets");
-    int customerId = Integer.parseInt(request.getParameter("customerId"));
     String type = (String) request.getAttribute("type");
-    int passengerId = Integer.parseInt(request.getParameter("passengerId"));
     boolean returning = (boolean) request.getAttribute("returning");
     if (!returning) {
-        System.out.println("RETURNING"+returning);
 %>
 <h2>Please select seat</h2>
 <%
@@ -35,7 +37,9 @@
 
 
 <div align="left">
-    <form action="fourAces?command=SelectSeats&customerId=<%=customerId%>&type=<%=type%>&passengerId=<%=passengerId%>" method="post">
+    <form action="fourAces?command=SelectSeats" method="post">
+        <input type="hidden" name="passengerId" value=<%=request.getParameter("passengerId")%>>
+        <input type="hidden" name="type" value=<%=type%>>
     <table style="border: 1px solid black; border-collapse: collapse">
         <tbody>
         <tr>

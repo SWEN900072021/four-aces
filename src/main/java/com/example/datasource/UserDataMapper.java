@@ -29,8 +29,6 @@ public abstract class UserDataMapper<T extends User> extends AbstractDataMapper<
         return createUser(id, username, email, password);
     }
 
-    public T createUser(int id, String username, String email, String password){
-        return null;
-    }
+    public abstract T createUser(int id, String username, String email, String password);
 
 }

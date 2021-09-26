@@ -3,19 +3,23 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.datasource.AirplaneDataMapper" %>
 <%@ page import="com.example.domain.Airplane" %>
+<%@ page import="com.example.domain.Airline" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>TRS | Create Flight</title>
 </head>
 <body>
+<%
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Airline");
+%>
     <%
-        int airlineId = Integer.parseInt(request.getParameter("airlineId"));
         List<Airport> airports = AirportDataMapper.getInstance().getAll();
         if (airports.size() > 0) {
     %>
             <h2>Create Flight</h2>
-            <form action = "fourAces?command=CreateFlight&airlineId=<%=airlineId%>" method = "post">
+            <form action = "fourAces?command=CreateFlight" method = "post">
                 <table>
                     <tr>
                         <td>Flight Code</td>
@@ -23,11 +27,11 @@
                     </tr>
                     <tr>
                         <td>Flight Date</td>
-                        <td><input type = "text" name = "flightDate" placeholder="2021/09/27"></td>
+                        <td><input type = "date" name = "flightDate" placeholder="1999-12-31"></td>
                     </tr>
                     <tr>
                         <td>Flight Time</td>
-                        <td><input type = "text" name = "flightTime" placeholder="21:45"></td>
+                        <td><input type = "time" name = "flightTime" placeholder="21:45"></td>
                     </tr>
                     <tr>
                         <td>
@@ -36,12 +40,12 @@
                         <td>
                             <select name="source" id="source">
                                 <%
-                                    for(int i = 0; i < airports.size(); i++) {
-                                        Airport airport = airports.get(i);
+                                    for (Airport airport : airports) {
                                         int airportId = airport.getId();
                                         String referenceCode = airport.getReferenceCode();
                                 %>
-                                <option value=<%=airportId%>><%=referenceCode%></option>
+                                <option value=<%=airportId%>><%=referenceCode%>
+                                </option>
                                 <%
                                     }
                                 %>
@@ -55,12 +59,12 @@
                         <td>
                             <select name="destination" id="destination">
                                 <%
-                                    for(int i = 0; i < airports.size(); i++) {
-                                        Airport airport = airports.get(i);
+                                    for (Airport airport : airports) {
                                         int airportId = airport.getId();
                                         String referenceCode = airport.getReferenceCode();
                                 %>
-                                <option value=<%=airportId%>><%=referenceCode%></option>
+                                <option value=<%=airportId%>><%=referenceCode%>
+                                </option>
                                 <%
                                     }
                                 %>
@@ -75,12 +79,12 @@
                             <select name="airplane" id="airplane">
                                 <%
                                     List<Airplane> airplanes = AirplaneDataMapper.getInstance().getAll();
-                                    for(int i = 0; i < airplanes.size(); i++) {
-                                        Airplane airplane = airplanes.get(i);
+                                    for (Airplane airplane : airplanes) {
                                         int airplaneId = airplane.getId();
                                         String type = airplane.getType();
                                 %>
-                                <option value=<%=airplaneId%>><%=type%></option>
+                                <option value=<%=airplaneId%>><%=type%>
+                                </option>
                                 <%
                                     }
                                 %>

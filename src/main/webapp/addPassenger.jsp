@@ -13,11 +13,7 @@
 <body>
     <h2>Enter Passenger Detail</h2>
 
-    <%
-        int customerId = Integer.parseInt(request.getParameter("customerId"));
-    %>
-
-    <form action="fourAces?command=AddPassenger&customerId=<%= customerId%>" method = "post">
+    <form action="fourAces?command=AddPassenger" method = "post">
         <label for="firstName">First Name: </label><input type="text" id="firstName" name="firstName"><br>
         <label for="lastName">Last Name: </label><input type="text" id="lastName" name="lastName"><br>
         <label for="idType">Identification Type: </label><input type="text" id="idType" name="idType"><br>
@@ -25,7 +21,9 @@
         <input type="submit" value="Add Passenger">
     </form>
 
-    <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=SubmitBooking&customerId=<%=customerId%>'">Submit booking</button>
+    <a href="<%= request.getContextPath()%>/fourAces?command=SubmitBooking">
+        <button>Submit booking</button>
+    </a>
 
 </body>
 </html>

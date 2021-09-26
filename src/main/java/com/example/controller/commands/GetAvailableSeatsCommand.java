@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GetAvailableSeatsCommand extends FrontCommand {
+public class GetAvailableSeatsCommand extends CustomerCommand {
     @Override
     public void processGet() throws ServletException, IOException {
 //        int customerId = Integer.parseInt(request.getParameter("customerId"));

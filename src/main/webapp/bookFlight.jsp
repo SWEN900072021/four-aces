@@ -6,21 +6,13 @@
 </head>
 <body>
 <%
-    if (request.getAttribute("customer") != null) {
-        Customer customer = (Customer) request.getAttribute("customer");
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Customer");
 %>
-
-<h2>All Passengers</h2>
-<div>ID: <%= customer.getId()%></div>
-<div>Username: <%= customer.getUsername()%></div>
-
-<form action = "frontServlet?command=BookFlight" method = "post">
-    Date: <input type = "text" name = "flightDate"><br/>
-    Time: <input type = "text" name = "flightTime"><br/>
+<form action = "${pageContext.request.contextPath}/fourAces?command=BookFlight" method = "post">
+    Date: <input type = "date" name = "flightDate"><br/>
+    Time: <input type = "time" name = "flightTime"><br/>
     <input type = "submit" value = "Search Flights">
 </form>
-<%
-    }
-%>
 </body>
 </html>
