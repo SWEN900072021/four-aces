@@ -1,10 +1,9 @@
 package com.example.domain;
 
-import com.example.datasource.AirlineDataMapper;
 import com.example.datasource.FlightDataMapper;
+import com.example.datasource.PassengerDataMapper;
 import com.example.exception.TRSException;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +12,7 @@ public class Airline extends User {
     private String name;
     private boolean pending;
     private List<Flight> flights;
+
 
     public Airline(Integer id, String username, String email, String password) {
         super(id);
@@ -33,6 +33,14 @@ public class Airline extends User {
         this.name = username;
         this.pending = pending;
         UnitOfWork.getInstance().registerNew(this);
+    }
+
+    public Airline(Integer id, String username, String password) {
+        super(id);
+    }
+
+    public ArrayList<Passenger> viewPassengers() throws Exception {
+        return PassengerDataMapper.getInstance().getAll();
     }
 
     public void setPending(boolean pending) {
