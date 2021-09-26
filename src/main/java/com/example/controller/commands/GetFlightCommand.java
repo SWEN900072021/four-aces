@@ -1,5 +1,6 @@
 package com.example.controller.commands;
 
+import com.example.datasource.AirlineDataMapper;
 import com.example.datasource.AirportDataMapper;
 import com.example.datasource.FlightDataMapper;
 import com.example.domain.Airline;
@@ -16,16 +17,9 @@ public class GetFlightCommand extends FrontCommand {
     public void processGet() throws ServletException, IOException {
         int airlineId = Integer.parseInt(request.getParameter("airlineId"));
         try {
-            List<Flight> allFlights = FlightDataMapper.getInstance().getAll();
+            Airline airline = AirlineDataMapper.getInstance().findById(airlineId);
             List<Airport> airports = AirportDataMapper.getInstance().getAll();
-            // Only forward flights created by airline with id equals airlineId
-            List<Flight> flights = new ArrayList<>();
-            for (int i = 0; i < allFlights.size(); i ++) {
-                Flight flight = allFlights.get(i);
-                if (flight.getAirlineId() == airlineId) {
-                    flights.add(flight);
-                }
-            }
+            List<Flight> flights = airline.getFlights();
             request.setAttribute("flights", flights);
             request.setAttribute("airports", airports);
         } catch (Exception e) {

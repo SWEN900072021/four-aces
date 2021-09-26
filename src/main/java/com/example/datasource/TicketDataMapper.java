@@ -72,10 +72,11 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
 
     public List<Ticket> getAll(int flightId, Boolean isAvailable) throws Exception{
         List<Ticket> tickets = new ArrayList<>();
-        String sql = String.format(SQLSelect, "*", this.table, "WHERE flight_id = ? AND is_available = " + isAvailable);
+        String sql = String.format(SQLSelect, "*", this.table, "WHERE flight_id = ? AND is_available = ?");
         Connection conn = new DBController().connect();
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, flightId);
+        ps.setBoolean(2, isAvailable);
         ps.execute();
         ResultSet rs = ps.getResultSet();
         while(rs.next()){

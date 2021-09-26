@@ -2,6 +2,7 @@ package com.example.datasource;
 
 import com.example.controller.DBController;
 import com.example.domain.Flight;
+import com.example.domain.Ticket;
 import com.example.exception.TRSException;
 
 import java.sql.Connection;
@@ -60,5 +61,27 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         ps.setInt(5, flight.getDestinationAirportId());
         ps.setInt(6, flight.getAirlineId());
         ps.setInt(7, flight.getAirplaneId());
+    }
+
+    public ArrayList<Flight> getAll(int airlineId) throws Exception{
+        ArrayList<Flight> flights = new ArrayList<>();
+        String sql = String.format(SQLSelect, "*", this.table, "WHERE airline_id = ?");
+
+        Connection conn = new DBController().connect();
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, airlineId);
+        ps.execute();
+        ResultSet rs = ps.getResultSet();
+        while (rs.next()) {
+            Flight flight = newDomainObject(rs);
+            flights.add(flight);
+        }
+        rs.close();
+        ps.close();
+        conn.close();
+        if (flights.isEmpty()) {
+            throw new TRSException("No value found in the table "+ this.table);
+        }
+        return flights;
     }
 }
