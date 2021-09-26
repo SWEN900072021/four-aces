@@ -33,6 +33,7 @@ public class BookingController {
             params.put("customer_id", Integer.toString(customerId));
             params.put("submitted", Boolean.toString(false));
             Reservation savedReservation = ReservationDataMapper.getInstance().find(params).get(0);
+            System.out.println(savedReservation.getReturnFlightId());
             map.put(customerId, savedReservation);
         }
         map.get(customerId).bookGoFlight(flightId);

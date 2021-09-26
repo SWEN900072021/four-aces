@@ -26,8 +26,16 @@ public class Reservation extends DomainObject {
     public Reservation(Integer reservationId, Integer customerId, Integer goFlightId, Integer returnFlightId, boolean submitted) {
         super(reservationId);
         this.customerId = customerId;
-        this.goFlightId = goFlightId;
-        this.returnFlightId = returnFlightId;
+        if (goFlightId != 0) {
+            this.goFlightId = goFlightId;
+        } else {
+            this.goFlightId = null;
+        }
+        if (returnFlightId != 0) {
+            this.returnFlightId = returnFlightId;
+        } else {
+            this.returnFlightId = null;
+        }
         this.submitted = submitted;
         UnitOfWork.getInstance().registerNew(this);
     }

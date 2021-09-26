@@ -52,6 +52,7 @@
         %>
         </tbody>
     </table>
+    <button onclick="window.location.href = '<%= request.getContextPath()%>/customer.jsp?customerId=<%=customerId%>'">Back to Homepage</button>
 </div>
 <%
     }

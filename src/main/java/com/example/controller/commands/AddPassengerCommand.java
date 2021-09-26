@@ -39,6 +39,7 @@ public class AddPassengerCommand extends FrontCommand {
             request.setAttribute("returning", bookingController.isReturning(customerId));
             forward("/chooseSeats.jsp?customerId=" + customerId + "&passengerId=" + savedPassenger.getId());
         } catch (Exception e) {
+            e.printStackTrace();
             request.setAttribute("error", e.getMessage());
             forward("/unknown.jsp");
         }

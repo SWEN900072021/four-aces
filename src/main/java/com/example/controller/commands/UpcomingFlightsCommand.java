@@ -32,7 +32,7 @@ public class UpcomingFlightsCommand extends FrontCommand {
                     upcomingFlights.add(flight);
                 }
             }
-            request.setAttribute("flights", flights);
+            request.setAttribute("flights", upcomingFlights);
             forward("/upcomingFlights.jsp?customerId=" + customerId);
         } catch (Exception e) {
             e.printStackTrace();

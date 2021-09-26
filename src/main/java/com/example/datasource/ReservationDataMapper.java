@@ -6,6 +6,7 @@ import com.example.domain.Reservation;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
+import java.util.ArrayList;
 
 public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
     private static ReservationDataMapper _instance;
@@ -26,6 +27,15 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
             return _instance = new ReservationDataMapper();
         }
         return _instance;
+    }
+
+    @Override
+    public String getSets(){
+        ArrayList<String> sets = new ArrayList<>();
+        for( String field : fields ) {
+            sets.add(field + " = ?");
+        }
+        return String.join(",", sets);
     }
 
     @Override
