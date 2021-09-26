@@ -10,6 +10,10 @@
     <title>TRS | Create Flight</title>
 </head>
 <body>
+<%
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Airline");
+%>
     <%
         List<Airport> airports = AirportDataMapper.getInstance().getAll();
         if (airports.size() > 0) {
@@ -23,11 +27,11 @@
                     </tr>
                     <tr>
                         <td>Flight Date</td>
-                        <td><input type = "text" name = "flightDate" placeholder="2021/09/27"></td>
+                        <td><input type = "date" name = "flightDate" placeholder="1999-12-31"></td>
                     </tr>
                     <tr>
                         <td>Flight Time</td>
-                        <td><input type = "text" name = "flightTime" placeholder="21:45"></td>
+                        <td><input type = "time" name = "flightTime" placeholder="21:45"></td>
                     </tr>
                     <tr>
                         <td>

@@ -5,6 +5,10 @@
   <title>TRS</title>
 </head>
 <body>
+<%
+  if( session.getAttribute("auth") == null )
+    response.sendRedirect("fourAces?command=Customer");
+%>
   <h2>Customer Home Page</h2>
   <h3>You have successfully logged in</h3>
 

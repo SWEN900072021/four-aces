@@ -8,6 +8,10 @@
 </head>
 <body>
 
+<%
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Customer");
+%>
 <h2>Would you like a return flight?</h2>
 <%
     List<Flight> flights = (List<Flight>) request.getAttribute("returnFlights");

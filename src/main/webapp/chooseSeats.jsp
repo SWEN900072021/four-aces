@@ -11,6 +11,10 @@
 </head>
 <body>
 <%
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Customer");
+%>
+<%
     @SuppressWarnings("unchecked")
     List<Ticket> tickets = (List<Ticket>) request.getAttribute("tickets");
     String type = (String) request.getAttribute("type");

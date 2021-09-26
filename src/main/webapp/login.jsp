@@ -37,8 +37,8 @@
             <td><input type="submit" value="Login"></td>
         </tr>
     </table>
-    <p>Don't have an account? <a href="register.jsp">Register</a></p>
 </form>
+<p>Don't have an account? <a href="register.jsp"><button>Register</button></a></p>
 <%
     if (error != null) {
 %>

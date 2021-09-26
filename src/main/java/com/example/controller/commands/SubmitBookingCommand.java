@@ -15,19 +15,17 @@ import java.security.PrivilegedAction;
 import java.util.List;
 
 public class SubmitBookingCommand extends CustomerCommand {
+
     @Override
     public void processGet() throws ServletException, IOException {
-        Subject.doAs(aaEnforcer.getSubject(), new PrivilegedAction<Object>() {
-            @Override
-            public Object run() {
-                try {
-                    Customer customer = getCurrentUser();
-                    BookingController.getInstance().submitBooking(customer.getId());
-                } catch (Exception e) {
-                    error(e);
-                }
-                return null;
+        Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
+            try {
+                Customer customer = getCurrentUser();
+                BookingController.getInstance().submitBooking(customer.getId());
+            } catch (Exception e) {
+                error(e);
             }
+            return null;
         });
         forward("/confirmBooking.jsp");
     }

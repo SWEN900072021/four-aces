@@ -7,6 +7,10 @@
 </head>
 <body>
 <%
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Customer");
+%>
+<%
     String type = request.getParameter("type");
     if (request.getAttribute("flight") != null) {
         Flight flight = (Flight) request.getAttribute("flight");

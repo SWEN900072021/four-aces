@@ -1,11 +1,14 @@
 package com.example.controller.commands;
 
 import com.example.datasource.ReservationDataMapper;
+import com.example.domain.Customer;
 import com.example.domain.Flight;
 import com.example.domain.Reservation;
 
+import javax.security.auth.Subject;
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.security.PrivilegedAction;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,12 +17,12 @@ import java.util.List;
 public class UpcomingFlightsCommand extends CustomerCommand {
     @Override
     public void processGet() throws ServletException, IOException {
-        int customerId = Integer.parseInt(request.getParameter("customerId"));
         LocalDateTime now = LocalDateTime.now();
         HashMap<String, String> params = new HashMap<>();
-        params.put("customer_id", Integer.toString(customerId));
         params.put("submitted", Boolean.toString(true));
-        try {
+        Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {try {
+            Customer customer = getCurrentUser();
+            params.put("customer_id", Integer.toString(customer.getId()));
             List<Reservation> reservations = ReservationDataMapper.getInstance().find(params);
             List<Flight> flights = new ArrayList<Flight>();
             for (Reservation reservation : reservations) {
@@ -33,13 +36,15 @@ public class UpcomingFlightsCommand extends CustomerCommand {
                 }
             }
             request.setAttribute("flights", upcomingFlights);
-            forward("/upcomingFlights.jsp?customerId=" + customerId);
+            forward("/upcomingFlights.jsp");
         } catch (Exception e) {
-            e.printStackTrace();
             request.setAttribute("error", "You've got no upcoming flight");
-            forward("/customer.jsp?customerId=" + customerId);
         }
+            return null;
+        });
+        forward("/customer.jsp");
     }
+
     @Override
     public void processPost() throws ServletException, IOException {
     }

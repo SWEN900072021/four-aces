@@ -8,6 +8,10 @@
 <body>
 <%@include file="components/admin-header.jsp"%>
 <%
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Admin");
+%>
+<%
     if (request.getAttribute("airports") != null) {
         List<Airport> airports = (List<Airport>) request.getAttribute("airports");
 %>

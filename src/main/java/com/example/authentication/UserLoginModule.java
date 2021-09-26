@@ -16,7 +16,6 @@ public abstract class UserLoginModule implements LoginModule {
     protected CallbackHandler callbackHandler;
     protected Callback[] callbacks;
     protected UserPrincipal principal;
-    protected Exception e;
 
     @Override
     public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> sharedState, Map<String, ?> options) {
@@ -43,8 +42,7 @@ public abstract class UserLoginModule implements LoginModule {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            this.e = e;
-            return true;
+            return false;
         }
     }
 

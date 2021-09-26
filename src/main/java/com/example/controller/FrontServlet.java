@@ -38,6 +38,7 @@ public class FrontServlet extends HttpServlet {
             Class<?> commandClass = Class.forName(commandClassName);
             frontCommand = (FrontCommand) commandClass.getConstructor().newInstance();
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            System.out.println(commandClassName);
             frontCommand = new UnknownCommand();
         }
         return frontCommand;

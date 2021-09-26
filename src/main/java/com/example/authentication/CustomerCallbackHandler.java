@@ -18,8 +18,5 @@ public class CustomerCallbackHandler extends UserCallbackHandler {
         NameCallback nameCallback = (NameCallback) callbacks[0];
         nameCallback.setName(request.getParameter("email"));
 
-        // test only
-        nameCallback.setName("test@email.com");
-        ((PasswordCallback) callbacks[1]).setPassword("1234".toCharArray());
     }
 }

@@ -16,13 +16,11 @@ import java.util.stream.StreamSupport;
 
 public class ManageUserCommand extends AdminCommand {
 
-
     @Override
     public void processGet() throws ServletException, IOException {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<DomainObject>) () -> {
             try {
                 ArrayList<Airline> airlines = AirlineDataMapper.getInstance().getAll();
-                ;
                 ArrayList<Customer> customers = CustomerDataMapper.getInstance().getAll();
                 ArrayList<User> users = new ArrayList<>();
                 users.addAll(airlines);

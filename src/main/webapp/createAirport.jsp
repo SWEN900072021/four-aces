@@ -5,6 +5,10 @@
 </head>
 <body>
 <%@include file="components/admin-header.jsp"%>
+<%
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Admin");
+%>
 <h2>Create Airports</h2>
 <form action = "fourAces?command=CreateAirport" method = "post">
     Reference Code: <input type="text" name="referenceCode"> <br>

@@ -18,8 +18,5 @@ public class AirlineCallbackHandler extends UserCallbackHandler {
         NameCallback nameCallback = (NameCallback) callbacks[0];
         nameCallback.setName(request.getParameter("email"));
 
-        // test only
-        nameCallback.setName("yiyuanw1@gmail.com");
-        ((PasswordCallback) callbacks[1]).setPassword("jiuk7o98l".toCharArray());
     }
 }

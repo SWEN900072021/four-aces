@@ -9,6 +9,10 @@
   <title>TRS</title>
 </head>
 <body>
+<%
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Airline");
+%>
     <%
         List<Flight> flights = (List<Flight>) request.getAttribute("flights");
     %>
@@ -64,7 +68,8 @@
                         </form>
                     </td>
                     <td>
-                        <form action="fourAces?command=EditFlight">
+                        <form action="fourAces?command=EditFlight" method="post">
+                            <input type="hidden" name="forward" value="forward">
                             <input type="hidden" name="flightId" value=<%= flight.getId()%>>
                             <input type="hidden" name="code" value=<%=flight.getCode()%>>
                             <input type="hidden" name="date" value=<%=flight.getDate()%>>
@@ -86,6 +91,6 @@
         </table>
     </div>
     <br/>
-    <button onclick="window.location.href = 'airline.jsp?airlineId=<%=airlineId%>'">Return to Home Page</button>
+    <button onclick="window.location.href = '<%= request.getContextPath()%>/airline.jsp'">Return to Home Page</button>
 </body>
 </html>

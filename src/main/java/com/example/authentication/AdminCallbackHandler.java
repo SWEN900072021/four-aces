@@ -19,8 +19,5 @@ public class AdminCallbackHandler extends UserCallbackHandler {
         NameCallback nameCallback = (NameCallback) callbacks[0];
         nameCallback.setName(request.getParameter("username"));
 
-        // test only
-        nameCallback.setName("sean");
-        ((PasswordCallback) callbacks[1]).setPassword("1234567".toCharArray());
     }
 }

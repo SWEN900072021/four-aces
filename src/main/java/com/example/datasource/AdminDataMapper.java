@@ -31,12 +31,10 @@ public class AdminDataMapper extends UserDataMapper<Admin> {
     public void insert(Admin obj) throws Exception {
         try {
             findById(1);
+            throw new Exception("Admin already created");
         }catch ( TRSException e ){
             if( e.getMessage().equals("No record with this id was found in the database") ){
                 super.insert(obj);
-            }
-            else{
-                update(obj);
             }
         }
     }

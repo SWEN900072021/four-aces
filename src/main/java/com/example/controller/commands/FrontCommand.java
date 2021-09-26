@@ -48,18 +48,23 @@ public abstract class FrontCommand {
     }
 
     protected void error(Exception e){
+        e.printStackTrace();
         request.setAttribute("error", e.getClass() + e.getMessage());
     }
 
     public void checkAccess() throws IOException, ServletException {
         if (this.getClass().equals(RegisterCommand.class) || this.getClass().equals((LoginCommand.class))) return;
+        System.out.println(this.getClass());
         try{
             if( aaEnforcer == null || !aaEnforcer.isLoggedIn() ){
                 throw new TRSException("No Authentication Token");
-            }
-            for( Principal p: aaEnforcer.getSubject().getPrincipals()){
-                if (!p.getClass().equals(this.principal)){
-                    throw new AccessDeniedException();
+            }else {
+                for (Principal p : aaEnforcer.getSubject().getPrincipals()) {
+                    if (!p.getClass().equals(this.principal)) {
+                        System.out.println(p.getClass());
+                        System.out.println(principal.getClass());
+                        throw new AccessDeniedException();
+                    }
                 }
             }
         } catch (AccessDeniedException | TRSException e) {
