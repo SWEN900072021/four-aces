@@ -83,8 +83,6 @@ public class Airline extends User {
     public List<Flight> getFlights() throws Exception {
         if (this.flights == null) {
             this.loadFlights();
-        } else {
-            System.out.println("don't load");
         }
         return this.flights;
     }
