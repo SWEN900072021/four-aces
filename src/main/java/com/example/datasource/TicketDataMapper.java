@@ -17,7 +17,7 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
 
     private TicketDataMapper() {
         this.table = "ticket";
-        this.fields = new String[] {"ticket_price", "flight_id", "seat_class", "seat_number", "is_available"};
+        this.fields = new String[] {"ticket_price", "flight_id", "seat_class", "seat_number", "passenger_id"};
         this.pkey = "ticket_id";
     }
 

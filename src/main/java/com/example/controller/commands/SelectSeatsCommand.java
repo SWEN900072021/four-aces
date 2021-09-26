@@ -25,6 +25,9 @@ public class SelectSeatsCommand extends FrontCommand {
         int ticketId = Integer.parseInt(request.getParameter("select"));
         BookingController bookingController = BookingController.getInstance();
         try {
+            Ticket ticket = TicketDataMapper.getInstance().findById(ticketId);
+            ticket.setPassengerId(passengerId);
+            UnitOfWork.getInstance().commit();
             bookingController.bookTicket(customerId, passengerId, ticketId, type);
             boolean returning = bookingController.isReturning(customerId);
             if (type.equals("go") && returning) {

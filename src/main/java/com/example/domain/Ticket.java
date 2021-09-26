@@ -55,6 +55,7 @@ public class Ticket extends DomainObject{
 
     public void setPassengerId(int passengerId) {
         this.passengerId = passengerId;
+        UnitOfWork.getInstance().registerDirty(this);
     }
 
     public Integer getPassengerId() {
