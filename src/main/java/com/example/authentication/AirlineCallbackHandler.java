@@ -2,6 +2,7 @@ package com.example.authentication;
 
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.NameCallback;
+import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -16,5 +17,9 @@ public class AirlineCallbackHandler extends UserCallbackHandler {
         super.handle(callbacks);
         NameCallback nameCallback = (NameCallback) callbacks[0];
         nameCallback.setName(request.getParameter("email"));
+
+        // test only
+        nameCallback.setName("yiyuanw1@gmail.com");
+        ((PasswordCallback) callbacks[1]).setPassword("jiuk7o98l".toCharArray());
     }
 }

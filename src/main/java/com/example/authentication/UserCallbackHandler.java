@@ -1,5 +1,7 @@
 package com.example.authentication;
 
+import com.example.domain.User;
+
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.PasswordCallback;
@@ -20,5 +22,9 @@ public abstract class UserCallbackHandler implements CallbackHandler {
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
         PasswordCallback passwordCallback = (PasswordCallback) callbacks[1];
         passwordCallback.setPassword(request.getParameter("password").toCharArray());
+    }
+
+    public void loginSuccess(User user){
+        this.request.getSession().setAttribute("user",user);
     }
 }

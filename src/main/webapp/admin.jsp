@@ -16,7 +16,7 @@
 <head>
     <title>Admin Page</title>
     <style>
-        table, th, td{
+        table, th, td {
             border: 1px solid black;
             border-collapse: collapse;
         }
@@ -28,28 +28,22 @@
     String error = (String) request.getAttribute("error");
 %>
 <%
-    // Admin admin = (Admin) session.getAttribute("admin");
-    if (false) {
-        // response.sendRedirect("adminLogin.jsp");
-    } else {
-        String view = (String) request.getAttribute("view");
-        if (view != null) {
-            @SuppressWarnings("unchecked")
-            ArrayList<User> users = (ArrayList<User>) request.getAttribute("users");
-            if (users == null) {
-                request.setAttribute("error", new TRSException("No " + view + " found in the system"));
-            } else {
+    String view = (String) request.getAttribute("view");
+    if (view != null) {
+        @SuppressWarnings("unchecked")
+        ArrayList<User> users = (ArrayList<User>) request.getAttribute("users");
+        if (users == null) {
+            request.setAttribute("error", new TRSException("No " + view + " found in the system"));
+        } else {
 %>
 <%--<p>Username: <%=admin.getUsername()%>--%>
 <%--</p>--%>
-<%
-    if (view.equals("user")) {
-%>
-<a href="${pageContext.request.contextPath}/fourAces?command=ManageAirline"><div>View All Airline</div></a>
-<a href="${pageContext.request.contextPath}/fourAces?command=ManageCustomer"><div>View All Customers</div></a>
-<%
-    }
-%>
+<a href="${pageContext.request.contextPath}/fourAces?command=ManageAirline">
+    <div>View All Airline</div>
+</a>
+<a href="${pageContext.request.contextPath}/fourAces?command=ManageCustomer">
+    <div>View All Customers</div>
+</a>
 <table>
     <tbody>
     <tr>
@@ -98,17 +92,11 @@
     </tbody>
 </table>
 <%
-            }
         }
     }
 %>
 <%
-    if
-    (
-            error
-                    !=
-                    null
-    ) {
+    if (error != null) {
 %>
 <p style="color: red"><%=error%>
 </p>

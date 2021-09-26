@@ -42,4 +42,9 @@ public class RegisterCommand extends FrontCommand{
         }
     }
 
+    @Override
+    protected User getCurrentUser() throws Exception {
+        return null;
+    }
+
 }

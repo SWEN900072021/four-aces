@@ -6,7 +6,7 @@ import com.example.domain.Passenger;
 import javax.servlet.ServletException;
 import java.io.IOException;
 
-public class PassengerCommand extends FrontCommand {
+public class PassengerCommand extends CustomerCommand {
 
     @Override
     public void processGet() throws ServletException, IOException {

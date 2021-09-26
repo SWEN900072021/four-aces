@@ -4,6 +4,8 @@ import com.example.authentication.AAEnforcer;
 import com.example.authentication.AdminPrincipal;
 import com.example.authentication.AirlinePrincipal;
 import com.example.authentication.UserPrincipal;
+import com.example.datasource.CustomerDataMapper;
+import com.example.domain.Customer;
 import com.example.domain.User;
 import com.example.exception.AccessDeniedException;
 import com.example.exception.TRSException;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.Set;
 
 public abstract class FrontCommand {
@@ -72,4 +75,6 @@ public abstract class FrontCommand {
             return "/login.jsp";
         }
     }
+
+    protected abstract User getCurrentUser() throws Exception;
 }

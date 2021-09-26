@@ -15,14 +15,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ManagePassengerCommand extends FrontCommand{
+public class ManagePassengerCommand extends CustomerCommand{
 
     @Override
     public void processGet() throws ServletException, IOException {
         try {
             ViewPassenger();
         } catch (Exception e) {
-            error(e, "airline.jsp");
+            error(e);
         }
     }
 
@@ -33,7 +33,7 @@ public class ManagePassengerCommand extends FrontCommand{
             UnitOfWork.getInstance().commit();
             ViewPassenger();
         }catch (Exception e){
-            error(e, "/airline.jsp");
+            error(e);
         }
     }
 

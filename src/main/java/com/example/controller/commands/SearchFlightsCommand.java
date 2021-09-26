@@ -21,25 +21,23 @@ public class SearchFlightsCommand extends CustomerCommand {
 
     @Override
     public void processPost() throws ServletException, IOException {
-        Subject.doAs(aaEnforcer.getSubject(), new PrivilegedAction<Object>() {
-            @Override
-            public Object run() {
-                HashMap<String, String> params = new HashMap<>();
-                params.put("date",request.getParameter("date"));
-                params.put("time",request.getParameter("time"));
-                ArrayList<Flight> flights = null;
-                try {
-                    flights = FlightDataMapper.getInstance().find(params);
-                    if (flights.size() > 0) {
-                        request.setAttribute("flights", flights);
-                    }
-                } catch (Exception e) {
-                    error(e);
-                }
-                return null;
+        Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
+            HashMap<String, String> params = new HashMap<>();
+//            params.put("date",request.getParameter("date"));
+//            params.put("time",request.getParameter("time"));
+            params.put("date","2021-09-28");
+            params.put("time","18:40");
+            ArrayList<Flight> flights = new ArrayList<>();
+            try {
+                flights = FlightDataMapper.getInstance().find(params);
+                request.setAttribute("flights", flights);
+            } catch (Exception e) {
+                request.setAttribute("flights", flights);
+                error(e);
             }
+            return null;
         });
-        response.sendRedirect("fourAces?command=SearchFlights");
+        forward("/searchFlightsResult.jsp");
     }
 
 }

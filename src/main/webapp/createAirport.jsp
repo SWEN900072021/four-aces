@@ -4,6 +4,7 @@
     <title>TRS</title>
 </head>
 <body>
+<%@include file="components/admin-header.jsp"%>
 <h2>Create Airports</h2>
 <form action = "fourAces?command=CreateAirport" method = "post">
     Reference Code: <input type="text" name="referenceCode"> <br>

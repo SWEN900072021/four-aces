@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class UpcomingFlightsCommand extends FrontCommand {
+public class UpcomingFlightsCommand extends CustomerCommand {
     @Override
     public void processGet() throws ServletException, IOException {
         int customerId = Integer.parseInt(request.getParameter("customerId"));

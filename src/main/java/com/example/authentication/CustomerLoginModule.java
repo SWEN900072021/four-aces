@@ -19,7 +19,6 @@ public class CustomerLoginModule extends UserLoginModule {
         callbacks[1] = new PasswordCallback("Password :", false);
     }
 
-
     @Override
     public ArrayList<User> getUsers() throws Exception {
         HashMap<String, String> params = new HashMap<>();

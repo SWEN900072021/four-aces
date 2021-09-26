@@ -35,7 +35,7 @@ public abstract class UserLoginModule implements LoginModule {
                 throw new TRSException("Account cannot be found");
             }
             if (users.size() != 1) {
-                throw new TRSException("Multiple found in the ");
+                throw new TRSException("Multiple found in the table");
             }
             User user = users.get(0);
             user.login(password);
@@ -44,7 +44,7 @@ public abstract class UserLoginModule implements LoginModule {
         } catch (Exception e) {
             e.printStackTrace();
             this.e = e;
-            return false;
+            return true;
         }
     }
 

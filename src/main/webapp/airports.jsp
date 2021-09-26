@@ -6,6 +6,7 @@
     <title>TRS</title>
 </head>
 <body>
+<%@include file="components/admin-header.jsp"%>
 <%
     if (request.getAttribute("airports") != null) {
         List<Airport> airports = (List<Airport>) request.getAttribute("airports");
@@ -13,11 +14,13 @@
 
 <h2>All Airports</h2>
 <%
-    for(int i = 0; i < airports.size(); i++) {
+    for (Airport airport : airports) {
 %>
-    <div>referenceCode: <%= airports.get(i).getReferenceCode()%></div>
-    <div>address: <%= airports.get(i).getAddress()%></div>
-    <br/>
+<div>referenceCode: <%= airport.getReferenceCode()%>
+</div>
+<div>address: <%= airport.getAddress()%>
+</div>
+<br/>
 <%
     }
 %>

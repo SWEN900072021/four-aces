@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetFlightCommand extends FrontCommand {
+public class GetFlightCommand extends AirlineCommand {
     @Override
     public void processGet() throws ServletException, IOException {
         try {

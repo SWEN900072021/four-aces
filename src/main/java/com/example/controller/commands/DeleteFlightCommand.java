@@ -9,7 +9,7 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.List;
 
-public class DeleteFlightCommand extends FrontCommand {
+public class DeleteFlightCommand extends AirlineCommand {
     @Override
     public void processGet() throws ServletException, IOException {
     }

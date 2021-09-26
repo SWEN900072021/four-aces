@@ -11,10 +11,10 @@
 <h2>Would you like a return flight?</h2>
 <%
     List<Flight> flights = (List<Flight>) request.getAttribute("returnFlights");
-    int customerId = Integer.parseInt(request.getParameter("customerId"));
 %>
-
-<button onclick="window.location.href = '<%= request.getContextPath()%>/addPassenger.jsp?customerId=<%=customerId%>'">One way only</button>
+<a href="${pageContext.request.contextPath}/fourAces?command=AddPassenger">
+    <button>One Way only</button>
+</a>
 
 <div align="left">
     <table border="1" cellpadding="5">
@@ -32,18 +32,27 @@
         </thead>
         <tbody>
         <%
-            for(int i = 0; i < flights.size(); i++) {
-                Flight flight = flights.get(i);
+            for (Flight flight : flights) {
         %>
         <tr>
-            <td><%= flight.getId()%></td>
-            <td><%= flight.getCode()%></td>
-            <td><%= flight.getDate()%></td>
-            <td><%= flight.getTime()%></td>
-            <td><%= flight.getSourceAirport().getReferenceCode()%></td>
-            <td><%= flight.getDestinationAirport().getReferenceCode()%></td>
+            <td><%= flight.getId()%>
+            </td>
+            <td><%= flight.getCode()%>
+            </td>
+            <td><%= flight.getDate()%>
+            </td>
+            <td><%= flight.getTime()%>
+            </td>
+            <td><%= flight.getSourceAirport().getReferenceCode()%>
+            </td>
+            <td><%= flight.getDestinationAirport().getReferenceCode()%>
+            </td>
             <td>
-                <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=ViewFlight&type=return&customerId=<%= customerId%>&flightId=<%= flight.getId()%>'">View</button>
+                <form action="<%= request.getContextPath()%>/fourAces?command=ViewFlight" method="post">
+                    <input type="hidden" name="type" value="return">
+                    <input type="hidden" name="flightId" value=<%=flight.getId()%>>
+                    <button type="submit">View</button>
+                </form>
             </td>
         </tr>
         <%

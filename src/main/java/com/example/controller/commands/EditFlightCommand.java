@@ -9,7 +9,7 @@ import com.example.exception.AccessDeniedException;
 import javax.servlet.ServletException;
 import java.io.IOException;
 
-public class EditFlightCommand extends FrontCommand {
+public class EditFlightCommand extends AirlineCommand {
     @Override
     public void processGet() throws ServletException, IOException {
             Airline airline = (Airline) request.getSession(false).getAttribute("user");

@@ -94,11 +94,9 @@ public class TicketDataMapper extends AbstractDataMapper<Ticket> {
         } else {
             sql = String.format(SQLSelect, "*", this.table, "WHERE flight_id = ? AND passenger_id IS NOT NULL");
         }
-        System.out.println(sql);
         Connection conn = new DBController().connect();
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, flightId);
-        ps.setBoolean(2, isAvailable);
         ps.execute();
         ResultSet rs = ps.getResultSet();
         while(rs.next()){

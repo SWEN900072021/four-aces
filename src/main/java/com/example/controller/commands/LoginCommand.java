@@ -1,6 +1,7 @@
 package com.example.controller.commands;
 
 import com.example.authentication.AAEnforcer;
+import com.example.domain.User;
 import com.example.exception.TRSException;
 
 import javax.security.auth.login.LoginException;
@@ -47,6 +48,11 @@ public class LoginCommand extends FrontCommand {
             error(e);
             forward(etarget);
         }
+    }
+
+    @Override
+    protected User getCurrentUser() throws Exception {
+        return null;
     }
 
 }

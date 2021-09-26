@@ -9,7 +9,6 @@
 <body>
 <%
     List<Flight> flights = (List<Flight>) request.getAttribute("flights");
-    int customerId = Integer.parseInt(request.getParameter("customerId"));
 %>
 
 <div align="left">
@@ -46,6 +45,7 @@
             <td>
                 <form action="${pageContext.request.contextPath}/fourAces?command=ViewFlight" method="post">
                     <input type="hidden" name="flightId" value=<%=flight.getId()%>>
+                    <input type="hidden" name="type" value="go">
                     <button type="submit">View</button>
                 </form>
             </td>

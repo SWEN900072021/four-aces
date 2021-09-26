@@ -7,7 +7,6 @@
 </head>
 <body>
 <%
-    int customerId = Integer.parseInt(request.getParameter("customerId"));
     String type = request.getParameter("type");
     if (request.getAttribute("flight") != null) {
         Flight flight = (Flight) request.getAttribute("flight");
@@ -23,7 +22,11 @@
 <div>Destination: <%= flight.getDestinationAirport().getReferenceCode()%></div>
 <div>Airline: <%= flight.getAirline().getName()%></div>
 <br/>
-<button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=BookFlight&customerId=<%=customerId%>&flightId=<%=flight.getId()%>&type=<%=type%>'">Book</button>
+<form action="${pageContext.request.contextPath}/fourAces?command=BookFlight" method="post">
+    <input type="hidden" name="flightId" value=<%=flight.getId()%>>
+    <input type="hidden" name="type" value=<%=type%>>
+    <button type="submit">Book</button>
+</form>
 <%
 } else {
 %>

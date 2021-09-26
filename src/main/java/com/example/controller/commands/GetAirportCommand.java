@@ -16,17 +16,14 @@ public class GetAirportCommand extends AdminCommand {
 
     @Override
     public void processGet() throws ServletException, IOException {
-        Subject.doAs(aaEnforcer.getSubject(), new PrivilegedAction<Object>() {
-            @Override
-            public Object run() {
-                try {
-                    List<Airport> airports = AirportDataMapper.getInstance().getAll();
-                    request.setAttribute("airports", airports);
-                } catch (Exception e) {
-                    error(e);
-                }
-                return null;
+        Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
+            try {
+                List<Airport> airports = AirportDataMapper.getInstance().getAll();
+                request.setAttribute("airports", airports);
+            } catch (Exception e) {
+                error(e);
             }
+            return null;
         });
         forward("/airports.jsp");
     }
