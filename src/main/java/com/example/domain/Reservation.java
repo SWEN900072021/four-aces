@@ -1,9 +1,11 @@
 package com.example.domain;
 
+import com.example.datasource.FlightDataMapper;
 import com.example.datasource.TicketDataMapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Reservation extends DomainObject {
 
@@ -62,6 +64,19 @@ public class Reservation extends DomainObject {
     public void submitBooking() {
         this.submitted = true;
         UnitOfWork.getInstance().registerDirty(this);
+    }
+
+    public List<Flight> getFlights() throws Exception {
+        List<Flight> flights = new ArrayList<>();
+        if (this.goFlightId != null) {
+            System.out.println(goFlightId);
+            flights.add(FlightDataMapper.getInstance().findById(goFlightId));
+        }
+        if (this.returnFlightId != null) {
+            flights.add(FlightDataMapper.getInstance().findById(returnFlightId));
+        }
+
+        return flights;
     }
 
 }
