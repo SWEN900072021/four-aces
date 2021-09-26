@@ -8,21 +8,26 @@ import com.example.domain.Customer;
 import com.example.domain.Flight;
 import com.example.exception.TRSException;
 
+import javax.security.auth.Subject;
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.security.PrivilegedAction;
 import java.util.List;
 
-public class SubmitBookingCommand extends FrontCommand {
+public class SubmitBookingCommand extends CustomerCommand {
+
     @Override
     public void processGet() throws ServletException, IOException {
-        int customerId = Integer.parseInt(request.getParameter("customerId"));
-        try {
-            BookingController.getInstance().submitBooking(customerId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        forward("/confirmBooking.jsp?customerId=" + customerId);
-
+        Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
+            try {
+                Customer customer = getCurrentUser();
+                BookingController.getInstance().submitBooking(customer.getId());
+            } catch (Exception e) {
+                error(e);
+            }
+            return null;
+        });
+        forward("/confirmBooking.jsp");
     }
 
     @Override

@@ -38,8 +38,8 @@
                 <td><input type="submit" value="Create Account"></td>
             </tr>
         </table>
-        <p>Already have an account? <a href="login.jsp">Login</a></p>
     </form>
+    <p>Already have an account? <a href="login.jsp"><button>Login</button></a></p>
     <%
         if( error != null ){
     %>

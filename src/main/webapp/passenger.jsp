@@ -7,19 +7,28 @@
 </head>
 <body>
 <%
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Customer");
+%>
+<%
     if (request.getAttribute("passengers") != null) {
         List<Passenger> passengers = (List<Passenger>) request.getAttribute("passengers");
 %>
 
 <h2>All Passengers</h2>
 <%
-    for(int i = 0; i < passengers.size(); i++) {
+    for (Passenger passenger : passengers) {
 %>
-<div>passenger_id: <%= passengers.get(i).getId()%></div>
-<div>passenegr_firstName: <%= passengers.get(i).getfirstName()%></div>
-<div>passenger_lastName: <%= passengers.get(i).getlastName()%></div>
-<div>identificationType: <%= passengers.get(i).getIdentificationType()%></div>
-<div>identificationNumber: <%= passengers.get(i).getIdentificationNumber()%></div>
+<div>passenger_id: <%= passenger.getId()%>
+</div>
+<div>passenegr_firstName: <%= passenger.getfirstName()%>
+</div>
+<div>passenger_lastName: <%= passenger.getlastName()%>
+</div>
+<div>identificationType: <%= passenger.getIdentificationType()%>
+</div>
+<div>identificationNumber: <%= passenger.getIdentificationNumber()%>
+</div>
 
 <br/>
 <%

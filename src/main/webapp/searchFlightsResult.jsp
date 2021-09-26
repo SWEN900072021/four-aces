@@ -8,8 +8,11 @@
 </head>
 <body>
 <%
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Customer");
+%>
+<%
     List<Flight> flights = (List<Flight>) request.getAttribute("flights");
-    int customerId = Integer.parseInt(request.getParameter("customerId"));
     if (flights.size() == 0) {
 %>
     <h2>No flight found</h2>
@@ -33,18 +36,27 @@
         </thead>
         <tbody>
         <%
-            for(int i = 0; i < flights.size(); i++) {
-                Flight flight = flights.get(i);
+            for (Flight flight : flights) {
         %>
         <tr>
-            <td><%= flight.getId()%></td>
-            <td><%= flight.getCode()%></td>
-            <td><%= flight.getDate()%></td>
-            <td><%= flight.getTime()%></td>
-            <td><%= flight.getSourceAirport().getReferenceCode()%></td>
-            <td><%= flight.getDestinationAirport().getReferenceCode()%></td>
+            <td><%= flight.getId()%>
+            </td>
+            <td><%= flight.getCode()%>
+            </td>
+            <td><%= flight.getDate()%>
+            </td>
+            <td><%= flight.getTime()%>
+            </td>
+            <td><%= flight.getSourceAirport().getReferenceCode()%>
+            </td>
+            <td><%= flight.getDestinationAirport().getReferenceCode()%>
+            </td>
             <td>
-                <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=ViewFlight&type=go&customerId=<%= customerId%>&flightId=<%= flight.getId()%>'">View</button>
+                <form action="${pageContext.request.contextPath}/fourAces?command=ViewFlight" method="post">
+                    <input type="hidden" name="flightId" value=<%=flight.getId()%>>
+                    <input type="hidden" name="type" value="go">
+                    <button type="submit">View</button>
+                </form>
             </td>
         </tr>
         <%
@@ -52,7 +64,7 @@
         %>
         </tbody>
     </table>
-    <button onclick="window.location.href = '<%= request.getContextPath()%>/customer.jsp?customerId=<%=customerId%>'">Back to Homepage</button>
+    <a href="${pageContext.request.contextPath}/fourAces?command=Customer"><button>Back to Homepage</button></a>
 </div>
 <%
     }

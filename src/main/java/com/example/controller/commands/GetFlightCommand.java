@@ -2,28 +2,41 @@ package com.example.controller.commands;
 
 import com.example.datasource.AirlineDataMapper;
 import com.example.datasource.AirportDataMapper;
+import com.example.datasource.FlightDataMapper;
 import com.example.domain.Airline;
 import com.example.domain.Airport;
 import com.example.domain.Flight;
+import com.example.exception.TRSException;
 
+import javax.security.auth.Subject;
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.security.PrivilegedAction;
+import java.util.ArrayList;
 import java.util.List;
 
-public class GetFlightCommand extends FrontCommand {
+public class GetFlightCommand extends AirlineCommand {
     @Override
     public void processGet() throws ServletException, IOException {
-        int airlineId = Integer.parseInt(request.getParameter("airlineId"));
-        try {
-            Airline airline = AirlineDataMapper.getInstance().findById(airlineId);
-            List<Airport> airports = AirportDataMapper.getInstance().getAll();
-            List<Flight> flights = airline.getFlights();
-            request.setAttribute("flights", flights);
-            request.setAttribute("airports", airports);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        forward("/flights.jsp?airlineId=" + airlineId);
+        Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
+            try {
+                Airline airline = getCurrentUser();
+                List<Flight> allFlights = FlightDataMapper.getInstance().getAll();
+                // Only forward flights created by airline with id equals airlineId
+                List<Flight> flights = new ArrayList<>();
+                for (Flight flight : allFlights) {
+                    if (flight.getAirlineId() == (int) airline.getId()) {
+                        flights.add(flight);
+                    }
+                }
+                request.setAttribute("flights", flights);
+            } catch (Exception e) {
+                request.setAttribute("flights", new ArrayList<Flight>());
+                error(e);
+            }
+            return null;
+        });
+        forward("/flights.jsp");
     }
 
     @Override

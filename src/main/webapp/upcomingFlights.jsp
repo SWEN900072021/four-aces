@@ -8,6 +8,10 @@
 </head>
 <body>
 <%
+    if( session.getAttribute("auth") == null )
+        response.sendRedirect("fourAces?command=Customer");
+%>
+<%
     List<Flight> flights = (List<Flight>) request.getAttribute("flights");
     int customerId = Integer.parseInt(request.getParameter("customerId"));
 %>
@@ -27,16 +31,21 @@
         </thead>
         <tbody>
         <%
-            for(int i = 0; i < flights.size(); i++) {
-                Flight flight = flights.get(i);
+            for (Flight flight : flights) {
         %>
         <tr>
-            <td><%= flight.getId()%></td>
-            <td><%= flight.getCode()%></td>
-            <td><%= flight.getDate()%></td>
-            <td><%= flight.getTime()%></td>
-            <td><%= flight.getSourceAirport().getReferenceCode()%></td>
-            <td><%= flight.getDestinationAirport().getReferenceCode()%></td>
+            <td><%= flight.getId()%>
+            </td>
+            <td><%= flight.getCode()%>
+            </td>
+            <td><%= flight.getDate()%>
+            </td>
+            <td><%= flight.getTime()%>
+            </td>
+            <td><%= flight.getSourceAirport().getReferenceCode()%>
+            </td>
+            <td><%= flight.getDestinationAirport().getReferenceCode()%>
+            </td>
 
         </tr>
         <%

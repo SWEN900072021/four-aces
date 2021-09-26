@@ -1,10 +1,9 @@
 package com.example.domain;
 
-import com.example.datasource.AirlineDataMapper;
 import com.example.datasource.FlightDataMapper;
+import com.example.datasource.PassengerDataMapper;
 import com.example.exception.TRSException;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +12,7 @@ public class Airline extends User {
     private String name;
     private boolean pending;
     private List<Flight> flights;
+
 
     public Airline(Integer id, String username, String email, String password) {
         super(id);
@@ -35,6 +35,14 @@ public class Airline extends User {
         UnitOfWork.getInstance().registerNew(this);
     }
 
+    public Airline(Integer id, String username, String password) {
+        super(id);
+    }
+
+    public ArrayList<Passenger> viewPassengers() throws Exception {
+        return PassengerDataMapper.getInstance().getAll();
+    }
+
     public void setPending(boolean pending) {
         this.pending = pending;
         UnitOfWork.getInstance().registerDirty(this);
@@ -53,8 +61,8 @@ public class Airline extends User {
         return this.name;
     }
 
-    public Flight createFlight(HashMap<String, String> params) {
-        return null;
+    public void createFlight(String flightCode, String flightDate, String flightTime, int source, int destination, int airplaneId) {
+        new Flight(null, flightCode, flightDate, flightTime, source, destination, this.id, airplaneId);
     }
 
     public void editFlight(Flight flight, HashMap<String, String> params) {
@@ -70,14 +78,13 @@ public class Airline extends User {
     }
 
     @Override
-    public Airline login(String password) throws Exception {
+    public void login(String password) throws Exception {
         if (!this.password.equals(password)) {
             throw new TRSException("Wrong Password");
         }
         if (isPending()) {
             throw new TRSException("Waiting for the administrator to approve it.");
         }
-        return this;
     }
 
     public List<Flight> getFlights() throws Exception {

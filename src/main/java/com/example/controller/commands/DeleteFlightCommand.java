@@ -6,35 +6,37 @@ import com.example.domain.Flight;
 import com.example.domain.Ticket;
 import com.example.domain.UnitOfWork;
 
+import javax.security.auth.Subject;
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.security.PrivilegedAction;
 import java.util.List;
-
-public class DeleteFlightCommand extends FrontCommand {
+//TODO
+public class DeleteFlightCommand extends AirlineCommand {
     @Override
     public void processGet() throws ServletException, IOException {
-        int airlineId = Integer.parseInt(request.getParameter("airlineId"));
-        int flightId = Integer.parseInt(request.getParameter("flightId"));
-        try {
-            UnitOfWork uow = UnitOfWork.getInstance();
-            // Delete all tickets of the flight before deleting the flight
-            TicketDataMapper ticketDataMapper = TicketDataMapper.getInstance();
-            List<Ticket> tickets = ticketDataMapper.getAll(flightId);
-            for (int i = 0; i < tickets.size(); i++) {
-                    uow.getInstance().registerDeleted(tickets.get(i));
-            }
-            Flight flight = FlightDataMapper.getInstance().findById(flightId);
-            uow.getInstance().registerDeleted(flight);
-            uow.commit();
-        } catch (Exception e) {
-            // TODO: send error message to front
-            e.printStackTrace();
-        }
-        forward("/fourAces?command=GetFlight&airlineId=" + airlineId);
     }
 
     @Override
     public void processPost() throws ServletException, IOException {
+        Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
+            try {
+                int flightId = Integer.parseInt(request.getParameter("flightId"));
+                // Delete all tickets of the flight before deleting the flight
+                TicketDataMapper ticketDataMapper = TicketDataMapper.getInstance();
+                List<Ticket> tickets = ticketDataMapper.getAll(flightId);
+                for (Ticket ticket : tickets) {
+                    UnitOfWork.getInstance().registerDeleted(ticket);
+                }
+                Flight flight = FlightDataMapper.getInstance().findById(flightId);
+                UnitOfWork.getInstance().registerDeleted(flight);
+                UnitOfWork.getInstance().commit();
+            } catch (Exception e) {
+                error(e);
+            }
+            return null;
+        });
+        response.sendRedirect("/fourAces?command=GetFlight");
 
     }
 }

@@ -29,21 +29,26 @@ public class AdminDataMapper extends UserDataMapper<Admin> {
 
     @Override
     public void insert(Admin obj) throws Exception {
-        System.out.println(obj);
         try {
             findById(1);
+            throw new Exception("Admin already created");
         }catch ( TRSException e ){
             if( e.getMessage().equals("No record with this id was found in the database") ){
                 super.insert(obj);
-            }
-            else{
-                update(obj);
             }
         }
     }
 
     @Override
     public Admin newDomainObject(ResultSet rs) throws Exception{
-        return Admin.getAdmin();
+        String username = rs.getString(prefix+"username");
+        String password = rs.getString(prefix+"password");
+        int id = rs.getInt(prefix+"id");
+        return new Admin(id, username, password);
+    }
+
+    @Override
+    public Admin createUser(int id, String username, String email, String password) {
+        return new Admin(id, username, password);
     }
 }
