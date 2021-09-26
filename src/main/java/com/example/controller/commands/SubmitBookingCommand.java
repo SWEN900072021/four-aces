@@ -21,7 +21,7 @@ public class SubmitBookingCommand extends FrontCommand {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        forward("/confirmBooking.jsp");
+        forward("/confirmBooking.jsp?customerId=" + customerId);
 
     }
 
