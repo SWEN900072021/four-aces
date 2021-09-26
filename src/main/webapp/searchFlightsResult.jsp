@@ -10,6 +10,11 @@
 <%
     List<Flight> flights = (List<Flight>) request.getAttribute("flights");
     int customerId = Integer.parseInt(request.getParameter("customerId"));
+    if (flights.size() == 0) {
+%>
+    <h2>No flight found</h2>
+<%
+    } else {
 %>
 
 <div align="left">
@@ -48,5 +53,8 @@
         </tbody>
     </table>
 </div>
+<%
+    }
+%>
 </body>
 </html>
