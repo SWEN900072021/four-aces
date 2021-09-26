@@ -37,7 +37,18 @@ public class SearchFlightsCommand extends FrontCommand {
                 params.put("destination", Integer.toString(destinationAirports.get(0).getId()));
                 params.put("date", request.getParameter("date"));
                 flights = FlightDataMapper.getInstance().find(params);
-                request.setAttribute("flights", flights);
+                List<Flight> availableFLights = new ArrayList<>();
+                for (Flight flight : flights) {
+                    if (flight.getAvailableTickets().size() > 0) {
+                        availableFLights.add(flight);
+                    }
+                }
+                if (availableFLights.size() == 0) {
+                    request.setAttribute("error", "Flight not found. Please try searching another flight");
+                    forward("/customer.jsp?customerId=" + customerId);
+                } else {
+                    request.setAttribute("flights", availableFLights);
+                }
             } else {
                 request.setAttribute("flights", new ArrayList<Flight>());
             }

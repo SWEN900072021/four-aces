@@ -3,8 +3,12 @@ package com.example.domain;
 import com.example.datasource.AirlineDataMapper;
 import com.example.datasource.AirportDataMapper;
 import com.example.datasource.AirplaneDataMapper;
+import com.example.datasource.TicketDataMapper;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Flight extends DomainObject {
     private String code;
@@ -113,6 +117,19 @@ public class Flight extends DomainObject {
     public void setDestination(int destination) {
         this.destination = Flight.this.destination;
         UnitOfWork.getInstance().registerDirty(this);
+    }
+
+    public List<Ticket> getAvailableTickets() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("flight_id", Integer.toString(this.id));
+
+        List<Ticket> tickets = null;
+        try {
+            tickets = TicketDataMapper.getInstance().find(params);
+            return tickets;
+        } catch (Exception e) {
+            return new ArrayList<Ticket>();
+        }
     }
 }
 
