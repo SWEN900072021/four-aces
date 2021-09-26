@@ -2,15 +2,12 @@ package com.example.datasource;
 
 import com.example.controller.DBController;
 import com.example.domain.Flight;
-import com.example.exception.TRSException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class FlightDataMapper extends AbstractDataMapper<Flight> {
 
@@ -60,5 +57,24 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         ps.setInt(5, flight.getDestinationAirportId());
         ps.setInt(6, flight.getAirlineId());
         ps.setInt(7, flight.getAirplaneId());
+    }
+
+    public ArrayList<Flight> getAll(int airlineId) throws SQLException {
+        ArrayList<Flight> flights = new ArrayList<>();
+        String sql = String.format(SQLSelect, "*", this.table, "WHERE airline_id = ?");
+
+        Connection conn = new DBController().connect();
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, airlineId);
+        ps.execute();
+        ResultSet rs = ps.getResultSet();
+        while (rs.next()) {
+            Flight flight = newDomainObject(rs);
+            flights.add(flight);
+        }
+        rs.close();
+        ps.close();
+        conn.close();
+        return flights;
     }
 }
