@@ -9,6 +9,11 @@
 <body>
 <%
     List<Flight> flights = (List<Flight>) request.getAttribute("flights");
+    if (flights.size() == 0) {
+%>
+    <h2>No flight found</h2>
+<%
+    } else {
 %>
 
 <div align="left">
@@ -55,6 +60,10 @@
         %>
         </tbody>
     </table>
+    <a href="${pageContext.request.contextPath}/fourAces?command=Customer"><button>Back to Homepage</button></a>
 </div>
+<%
+    }
+%>
 </body>
 </html>

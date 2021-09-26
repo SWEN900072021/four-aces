@@ -1,6 +1,8 @@
 package com.example.controller.commands;
 
+import com.example.datasource.AirportDataMapper;
 import com.example.datasource.FlightDataMapper;
+import com.example.domain.Airport;
 import com.example.domain.Flight;
 
 import javax.security.auth.Subject;
@@ -23,21 +25,43 @@ public class SearchFlightsCommand extends CustomerCommand {
     public void processPost() throws ServletException, IOException {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             HashMap<String, String> params = new HashMap<>();
-//            params.put("date",request.getParameter("date"));
-//            params.put("time",request.getParameter("time"));
-            params.put("date","2021-09-28");
-            params.put("time","18:40");
-            ArrayList<Flight> flights = new ArrayList<>();
+            HashMap<String, String> originAirportParams = new HashMap<>();
+            originAirportParams.put("address", request.getParameter("origin"));
+            HashMap<String, String> destinationAirportParams = new HashMap<>();
+            destinationAirportParams.put("address", request.getParameter("destination"));
+
+            ArrayList<Flight> flights = null;
             try {
-                flights = FlightDataMapper.getInstance().find(params);
-                request.setAttribute("flights", flights);
+                List<Airport> originAirports = AirportDataMapper.getInstance().find(originAirportParams);
+                List<Airport> destinationAirports = AirportDataMapper.getInstance().find(destinationAirportParams);
+                if (originAirports.size() > 0 && destinationAirports.size() > 0) {
+                    params.put("origin", Integer.toString(originAirports.get(0).getId()));
+                    params.put("destination", Integer.toString(destinationAirports.get(0).getId()));
+                    params.put("date", request.getParameter("date"));
+                    flights = FlightDataMapper.getInstance().find(params);
+                    List<Flight> availableFLights = new ArrayList<>();
+                    for (Flight flight : flights) {
+                        if (flight.getAvailableTickets().size() > 0) {
+                            availableFLights.add(flight);
+                        }
+                    }
+                    if (availableFLights.size() == 0) {
+                        request.setAttribute("error", "Flight not found. Please try searching another flight");
+                        forward("/customer.jsp");
+                    } else {
+                        request.setAttribute("flights", availableFLights);
+                        forward("/searchFlightsResult.jsp");
+                    }
+                } else {
+                    request.setAttribute("error", "Flight not found. Please try searching another flight");
+                }
             } catch (Exception e) {
-                request.setAttribute("flights", flights);
-                error(e);
+                e.printStackTrace();
+                request.setAttribute("error", "Flight not found. Please try searching another flight");
             }
             return null;
         });
-        forward("/searchFlightsResult.jsp");
+        forward("/customer.jsp");
     }
 
 }

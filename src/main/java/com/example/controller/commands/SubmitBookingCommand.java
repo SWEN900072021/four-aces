@@ -30,7 +30,6 @@ public class SubmitBookingCommand extends CustomerCommand {
             }
         });
         forward("/confirmBooking.jsp");
-
     }
 
     @Override

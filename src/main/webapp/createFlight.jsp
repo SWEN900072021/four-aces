@@ -19,15 +19,15 @@
                 <table>
                     <tr>
                         <td>Flight Code</td>
-                        <td><input type = "text" name = "flightCode"></td>
+                        <td><input type = "text" name = "flightCode" placeholder="JQ569"></td>
                     </tr>
                     <tr>
                         <td>Flight Date</td>
-                        <td><input type = "text" name = "flightDate"></td>
+                        <td><input type = "text" name = "flightDate" placeholder="2021/09/27"></td>
                     </tr>
                     <tr>
                         <td>Flight Time</td>
-                        <td><input type = "text" name = "flightTime"></td>
+                        <td><input type = "text" name = "flightTime" placeholder="21:45"></td>
                     </tr>
                     <tr>
                         <td>

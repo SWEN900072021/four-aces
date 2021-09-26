@@ -8,13 +8,23 @@
   <h2>Customer Home Page</h2>
   <h3>You have successfully logged in</h3>
 
-  <form action="fourAces?command=SearchFlights" method="post">
+  <form action="fourAces?command=SearchFlights" method = "post">
     <label for="date">Date: </label><input type="date" id="date" name="date"><br>
-    <label for="date">Time: </label><input type="time" id="time" name="time"><br>
+    <label for="origin">Origin: </label><input type="text" id="origin" name="origin"><br>
+    <label for="destination">Destination: </label><input type="text" id="destination" name="destination"><br>
     <input type="submit" value="Search Flights">
   </form>
 
-  <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=UpcomingFlights'">View Upcoming Flights</button>
+  <a href="<%= request.getContextPath()%>/fourAces?command=UpcomingFlights"><button>View Upcoming Flights</button></a>
+  <a href="<%= request.getContextPath()%>/fourAces?command=PreviousFlights"><button>View Previous Flights</button></a>
 
+  <%
+    String error = (String) request.getAttribute("error");
+    if( request.getAttribute("error") != null ){
+  %>
+  <p style="color: red"><%=error%></p>
+  <%
+    }
+  %>
 </body>
 </html>
