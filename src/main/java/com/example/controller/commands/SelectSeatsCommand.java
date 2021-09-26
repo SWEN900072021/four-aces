@@ -20,24 +20,17 @@ public class SelectSeatsCommand extends FrontCommand {
         int customerId = Integer.parseInt(request.getParameter("customerId"));
         int passengerId = Integer.parseInt(request.getParameter("passengerId"));
         String type = request.getParameter("type");
-//        String[] selectedTicketIds = request.getParameterValues("selected");
-//        int ticketId = Integer.parseInt(selectedTicketIds[0]);
         int ticketId = Integer.parseInt(request.getParameter("select"));
         BookingController bookingController = BookingController.getInstance();
         try {
-            Ticket ticket = TicketDataMapper.getInstance().findById(ticketId);
-            ticket.setPassengerId(passengerId);
-            UnitOfWork.getInstance().commit();
             bookingController.bookTicket(customerId, passengerId, ticketId, type);
             boolean returning = bookingController.isReturning(customerId);
             if (type.equals("go") && returning) {
                 request.setAttribute("type", type);
-                Flight flight = bookingController.getReturnFlight(customerId);
-                List<Ticket> tickets = TicketDataMapper.getInstance().getAll(flight.getId(), true);
+                List<Ticket> tickets = bookingController.getAvailableReturnTickets(customerId);
                 request.setAttribute("tickets", tickets);
                 request.setAttribute("type", "return");
                 request.setAttribute("returning", returning);
-                //request.setAttribute("passengerId", passengerId);
                 forward("/chooseSeats.jsp?customerId=" + customerId + "&passengerId=" + passengerId);
             } else {
                 forward("/addPassenger.jsp?customerId=" + customerId);

@@ -7,6 +7,7 @@ public class Ticket extends DomainObject{
     private String seatNumber;
     private Boolean isAvailable;
     private Integer passengerId;
+    private Integer reservationId;
 
     public Ticket(Integer id, Double price, int flightId, String seatClass, String seatNumber) {
         super(id);
@@ -15,16 +16,18 @@ public class Ticket extends DomainObject{
         this.seatClass = seatClass;
         this.seatNumber = seatNumber;
         this.passengerId = null;
+        this.reservationId = null;
         UnitOfWork.getInstance().registerNew(this);
     }
 
-    public Ticket(Integer id, Double price, int flightId, String seatClass, String seatNumber, Integer passengerId) {
+    public Ticket(Integer id, Double price, int flightId, String seatClass, String seatNumber, Integer passengerId, Integer reservationId) {
         super(id);
         this.price = price;
         this.flightId = flightId;
         this.seatClass = seatClass;
         this.seatNumber = seatNumber;
         this.passengerId = passengerId;
+        this.reservationId = reservationId;
         UnitOfWork.getInstance().registerNew(this);
     }
 
@@ -48,11 +51,6 @@ public class Ticket extends DomainObject{
         return (passengerId == null);
     }
 
-    public void setAvailability(Boolean isAvailable) {
-        this.isAvailable = isAvailable;
-        UnitOfWork.getInstance().registerDirty(this);
-    }
-
     public void setPassengerId(int passengerId) {
         this.passengerId = passengerId;
         UnitOfWork.getInstance().registerDirty(this);
@@ -60,5 +58,14 @@ public class Ticket extends DomainObject{
 
     public Integer getPassengerId() {
         return this.passengerId;
+    }
+
+    public Integer getReservationId() {
+        return this.reservationId;
+    }
+
+    public void setReservationId(int reservationId) {
+        this.reservationId = reservationId;
+        UnitOfWork.getInstance().registerDirty(this);
     }
 }

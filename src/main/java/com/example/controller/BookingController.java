@@ -1,6 +1,8 @@
 package com.example.controller;
 
 import com.example.datasource.FlightDataMapper;
+import com.example.datasource.ReservationDataMapper;
+import com.example.datasource.TicketDataMapper;
 import com.example.domain.*;
 
 import java.util.ArrayList;
@@ -9,20 +11,10 @@ import java.util.List;
 
 public class BookingController {
     private static BookingController _instance = null;
-    private HashMap<Integer, Booking> map;
-
-//    public Booking getCustomer(Customer customer){
-//        Booking booking = null;
-//        for( Customer c: map.keySet() ){
-//            if( c.getId().equals(customer.getId()) ){
-//                booking = map.get(c);
-//            }
-//        }
-//        return booking;
-//    }
+    private HashMap<Integer, Reservation> map;
 
     private BookingController(){
-        this.map = new HashMap<Integer, Booking>();
+        this.map = new HashMap<Integer, Reservation>();
     }
 
     public static BookingController getInstance() {
@@ -31,23 +23,23 @@ public class BookingController {
         }
         return _instance;
     }
+    public Integer getReturnFlightId(int customerId) throws Exception { return map.get(customerId).getReturnFlightId(); }
 
-    public Flight getReturnFlight(int customerId) {
-        return map.get(customerId).getFlight();
-    }
-
-    public void bookFlight(int customerId, Flight flight) {
+    public void bookGoFlight(int customerId, int flightId) throws Exception {
         if (map.get(customerId) == null) {
-            map.put(customerId, new Booking(customerId));
+            Reservation reservation = new Reservation(null, customerId);
+            UnitOfWork.getInstance().commit();
+            HashMap<String, String> params = new HashMap<>();
+            params.put("customer_id", Integer.toString(customerId));
+            params.put("submitted", Boolean.toString(false));
+            Reservation savedReservation = ReservationDataMapper.getInstance().find(params).get(0);
+            map.put(customerId, savedReservation);
         }
-        map.get(customerId).selectFlight(flight);
+        map.get(customerId).bookGoFlight(flightId);
     }
 
-    public Flight getFlight(int customerId) {
-        return map.get(customerId).getFlight();
-    }
-
-    public List<Flight> getReturnFlights(Flight flight) throws Exception {
+    public List<Flight> getReturnFlights(int flightId) throws Exception {
+        Flight flight = FlightDataMapper.getInstance().findById(flightId);
         int origin = flight.getDestinationAirportId();
         int destination = flight.getSourceAirportId();
         HashMap<String, String> params = new HashMap<>();
@@ -57,42 +49,45 @@ public class BookingController {
         return returnFlights;
     }
 
-    public void bookReturnFlight(int customerId, Flight flight) {
+    public void bookReturnFlight(int customerId, int flightId) throws Exception {
         if (map.get(customerId) == null) {
-            map.put(customerId, new Booking(customerId));
+            Reservation reservation = new Reservation(null, customerId);
+            UnitOfWork.getInstance().commit();
+            HashMap<String, String> params = new HashMap<>();
+            params.put("customer_id", Integer.toString(customerId));
+            params.put("submitted", Boolean.toString(false));
+            Reservation savedReservation = ReservationDataMapper.getInstance().find(params).get(0);
+            map.put(customerId, savedReservation);
+
         }
-        map.get(customerId).selectReturnFlight(flight);
+        map.get(customerId).bookReturnFlight(flightId);
     }
 
-    public void addPassenger(int customerId, Passenger passenger) {
-        if (map.get(customerId) == null) {
-            map.put(customerId, new Booking(customerId));
-        }
-        map.get(customerId).addPassenger(passenger);
+    public List<Ticket> getAvailableGoTickets(int customerId) throws Exception {
+        int flightId = map.get(customerId).getGoFlightId();
+        List<Ticket> tickets = TicketDataMapper.getInstance().getAll(flightId, true);
+        return tickets;
     }
 
-    public List<Passenger> getPassengers(int customerId) {
-        return map.get(customerId).getPassengers();
+    public List<Ticket> getAvailableReturnTickets(int customerId) throws Exception {
+        int flightId = map.get(customerId).getReturnFlightId();
+        List<Ticket> tickets = TicketDataMapper.getInstance().getAll(flightId, true);
+        return tickets;
     }
 
-    public void bookTicket(int customerId, int passengerId, int ticketId, String type) {
-        switch (type) {
-            case "go":
-                map.get(customerId).bookGoTicket(passengerId, ticketId);
-                break;
-            case "return":
-                map.get(customerId).bookReturnTicket(passengerId, ticketId);
-                break;
-            default:
-                break;
-        }
+    public void bookTicket(int customerId, int passengerId, int ticketId, String type) throws Exception {
+        Ticket ticket = TicketDataMapper.getInstance().findById(ticketId);
+        ticket.setPassengerId(passengerId);
+        ticket.setReservationId(map.get(customerId).getId());
+        UnitOfWork.getInstance().commit();
     }
 
     public boolean isReturning(int customerId) {
-        return (map.get(customerId).getReturnFlight() != null);
+        return (map.get(customerId).getReturnFlightId() != null);
     }
 
-    public void submitBooking(int customerId) {
+    public void submitBooking(int customerId) throws Exception {
         map.get(customerId).submitBooking();
+        UnitOfWork.getInstance().commit();
     }
 }

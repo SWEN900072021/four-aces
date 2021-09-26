@@ -32,10 +32,7 @@ public class AddPassengerCommand extends FrontCommand {
         try {
             UnitOfWork.getInstance().commit();
             Passenger savedPassenger = PassengerDataMapper.getInstance().find(params).get(0);
-            Customer customer = CustomerDataMapper.getInstance().findById(customerId);
-            Flight flight = bookingController.getFlight(customerId);
-            List<Ticket> tickets = TicketDataMapper.getInstance().getAll(flight.getId(), true);
-            bookingController.addPassenger(customerId, savedPassenger);
+            List<Ticket> tickets = bookingController.getAvailableGoTickets(customerId);
             request.setAttribute("tickets", tickets);
             request.setAttribute("type", "go");
             request.setAttribute("passengerId", savedPassenger.getId());
