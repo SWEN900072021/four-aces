@@ -27,18 +27,26 @@
         </thead>
         <tbody>
         <%
-            for(int i = 0; i < flights.size(); i++) {
-                Flight flight = flights.get(i);
+            for (Flight flight : flights) {
         %>
         <tr>
-            <td><%= flight.getId()%></td>
-            <td><%= flight.getCode()%></td>
-            <td><%= flight.getDate()%></td>
-            <td><%= flight.getTime()%></td>
-            <td><%= flight.getSourceAirport().getReferenceCode()%></td>
-            <td><%= flight.getDestinationAirport().getReferenceCode()%></td>
+            <td><%= flight.getId()%>
+            </td>
+            <td><%= flight.getCode()%>
+            </td>
+            <td><%= flight.getDate()%>
+            </td>
+            <td><%= flight.getTime()%>
+            </td>
+            <td><%= flight.getSourceAirport().getReferenceCode()%>
+            </td>
+            <td><%= flight.getDestinationAirport().getReferenceCode()%>
+            </td>
             <td>
-                <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=ViewFlight&flightId=<%= flight.getId()%>'">View</button>
+                <form action="${pageContext.request.contextPath}/fourAces?command=ViewFlight" method="post">
+                    <input type="hidden" name="flightId" value=<%=flight.getId()%>>
+                    <button type="submit">View</button>
+                </form>
             </td>
         </tr>
         <%

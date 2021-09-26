@@ -167,7 +167,6 @@ public abstract class AbstractDataMapper<T extends DomainObject> implements Data
             throw new TRSException("No record with this id was found in the database");
         }
         T obj = this.newDomainObject(resultSet);
-        System.out.println(obj);
         resultSet.close();
         ps.close();
         conn.close();

@@ -12,7 +12,8 @@
 </head>
 <body>
 <h1>Admin Login</h1>
-<form action="fourAces?command=AdminLogin" method="post">
+<form action="fourAces?command=Login" method="post">
+    <input type="hidden" name="type" value="admin">
     <label for="username">Username: </label><input type="text" id="username" name="username"><br>
     <label for="password">Password: </label><input type="text" id="password" name="password"><br>
     <input type="submit" value="Login">

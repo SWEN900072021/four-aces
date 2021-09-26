@@ -49,8 +49,8 @@ public class Airline extends User {
         return this.name;
     }
 
-    public Flight createFlight(HashMap<String, String> params) {
-        return null;
+    public void createFlight(String flightCode, String flightDate, String flightTime, int source, int destination, int airplaneId) {
+        new Flight(null, flightCode, flightDate, flightTime, source, destination, this.id, airplaneId);
     }
 
     public void editFlight(Flight flight, HashMap<String, String> params) {
@@ -66,13 +66,12 @@ public class Airline extends User {
     }
 
     @Override
-    public Airline login(String password) throws Exception {
+    public void login(String password) throws Exception {
         if (!this.password.equals(password)) {
             throw new TRSException("Wrong Password");
         }
         if (isPending()) {
             throw new TRSException("Waiting for the administrator to approve it.");
         }
-        return this;
     }
 }

@@ -1,59 +1,52 @@
 package com.example.controller.commands;
 
-import com.example.datasource.AirlineDataMapper;
-import com.example.datasource.CustomerDataMapper;
-import com.example.domain.Airline;
-import com.example.domain.Customer;
-import com.example.domain.User;
+import com.example.authentication.AAEnforcer;
 import com.example.exception.TRSException;
 
+import javax.security.auth.login.LoginException;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
+@SuppressWarnings("unchecked")
 public class LoginCommand extends FrontCommand {
 
     @Override
     public void processGet() throws ServletException, IOException {
-
+        forward("/login.jsp");
     }
 
     @Override
     public void processPost() throws ServletException, IOException {
-        User user;
-        HashMap<String, String> params = new HashMap<>();
-        params.put("email",request.getParameter("email"));
-        String password = request.getParameter("password");
+        String target = "";
+        String etarget = "";
+        switch (request.getParameter("type")){
+            case "admin":
+                target = "fourAces?command=Admin";
+                etarget = "/adminLogin.jsp";
+                break;
+            case "airline":
+                target = "fourAces?command=Airline";
+                etarget = "/login.jsp";
+                break;
+            case "customer":
+                target = "fourAces?command=Customer";
+                etarget = "/login.jsp";
+                break;
+            default:
+                error(new TRSException("Invalid User Type"));
+                forward(etarget);
+        }
         try {
-
-            switch (request.getParameter("type")) {
-                case "airline":
-                    ArrayList<Airline> airlines = AirlineDataMapper.getInstance().find(params);
-                    if (airlines.size() == 0) throw new TRSException("Register first");
-                    if( airlines.size() != 1 ) throw new TRSException("Multiple Airline with same email address found in the system");
-                    user = airlines.get(0);
-                    user.login(password);
-                    request.setAttribute("user", user);
-                    forward("/airline.jsp?airlineId=" + user.getId());
-                    break;
-                case "customer":
-                    ArrayList<Customer> customers = CustomerDataMapper.getInstance().find(params);
-                    if (customers.size() == 0) throw new TRSException("Register first");
-                    if( customers.size() != 1 ) throw new TRSException("Multiple customers with same email address found in the system");
-                    user = customers.get(0);
-                    user.login(password);
-                    request.setAttribute("user", user);
-                    forward("/customer.jsp?customerId=" + user.getId());
-                    break;
-                default:
-                    throw new TRSException("Invalid User Type");
-            }
-        }catch (Exception e){
-            error(e, "/login.jsp");
+            AAEnforcer authn = new AAEnforcer(request);
+            authn.login();
+            if( authn.isLoggedIn() )
+                request.getSession().setAttribute("auth", authn);
+            else throw new TRSException("Login Failed");
+            response.sendRedirect(target);
+        } catch (LoginException | TRSException e) {
+            error(e);
+            forward(etarget);
         }
     }
+
 }

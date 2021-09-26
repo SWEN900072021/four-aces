@@ -3,17 +3,15 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.datasource.AirplaneDataMapper" %>
 <%@ page import="com.example.domain.Airplane" %>
+<%@ page import="com.example.domain.Airline" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>TRS</title>
 </head>
 <body>
-    <%
-        int airlineId = Integer.parseInt(request.getParameter("airlineId"));
-    %>
     <h2>Create Flight</h2>
-    <form action = "fourAces?command=CreateFlight&airlineId=<%=airlineId%>" method = "post">
+    <form action = "fourAces?command=CreateFlight" method = "post">
         <table>
             <tr>
                 <td>Flight Code</td>

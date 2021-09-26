@@ -6,7 +6,7 @@
 <%@ page import="com.example.util.HTMLFormatter" %>
 <%@ page import="com.example.domain.Customer" %><%--
   Created by IntelliJ IDEA.
-  User: yiyua
+  User: yiyuan
   Date: 21/09/2021
   Time: 10:00 pm
   To change this template use File | Settings | File Templates.
@@ -28,20 +28,20 @@
     String error = (String) request.getAttribute("error");
 %>
 <%
-    Admin admin = Admin.getAdmin();
-    if (admin.getUsername() == null) {
-        response.sendRedirect("adminLogin.jsp");
+    // Admin admin = (Admin) session.getAttribute("admin");
+    if (false) {
+        // response.sendRedirect("adminLogin.jsp");
     } else {
         String view = (String) request.getAttribute("view");
         if (view != null) {
             @SuppressWarnings("unchecked")
-            ArrayList<User> users = (ArrayList<User>) request.getAttribute("user");
+            ArrayList<User> users = (ArrayList<User>) request.getAttribute("users");
             if (users == null) {
                 request.setAttribute("error", new TRSException("No " + view + " found in the system"));
             } else {
 %>
-<p>Username: <%=admin.getUsername()%>
-</p>
+<%--<p>Username: <%=admin.getUsername()%>--%>
+<%--</p>--%>
 <%
     if (view.equals("user")) {
 %>

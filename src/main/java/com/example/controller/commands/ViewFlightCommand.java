@@ -6,7 +6,7 @@ import com.example.domain.Flight;
 import javax.servlet.ServletException;
 import java.io.IOException;
 
-public class ViewFlightCommand extends FrontCommand {
+public class ViewFlightCommand extends CustomerCommand {
 
     @Override
     public void processGet() throws ServletException, IOException {

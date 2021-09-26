@@ -1,33 +1,39 @@
 package com.example.controller.commands;
 
-import com.example.domain.Flight;
+import com.example.domain.Airline;
 import com.example.domain.UnitOfWork;
+import com.example.exception.AccessDeniedException;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
-import java.sql.SQLException;
 
-public class CreateFlightCommand extends FrontCommand {
+public class CreateFlightCommand extends AirlineCommand {
+
     @Override
     public void processGet() throws ServletException, IOException {
+        forward("/createFlight.jsp");
     }
 
     @Override
     public void processPost() throws ServletException, IOException {
-        int airlineId = Integer.parseInt(request.getParameter("airlineId"));
-        String flightCode = request.getParameter("flightCode");
-        String flightDate= request.getParameter("flightDate");
-        String flightTime = request.getParameter("flightTime");
-        int source = Integer.parseInt(request.getParameter("source"));
-        int destination = Integer.parseInt(request.getParameter("destination"));
-        int airplaneId = Integer.parseInt(request.getParameter("airplane"));
-        new Flight(null, flightCode, flightDate, flightTime, source, destination, airlineId, airplaneId);
         try {
+            Airline airline = (Airline) request.getSession(false).getAttribute("user");
+            String flightCode = request.getParameter("flightCode");
+            String flightDate= request.getParameter("flightDate");
+            String flightTime = request.getParameter("flightTime");
+            int source = Integer.parseInt(request.getParameter("source"));
+            int destination = Integer.parseInt(request.getParameter("destination"));
+            int airplaneId = Integer.parseInt(request.getParameter("airplane"));
+            airline.createFlight(flightCode, flightDate, flightTime, source, destination, airplaneId);
             UnitOfWork.getInstance().commit();
-        } catch (Exception e) {
+            forward("/airline.jsp");
+        }
+        catch ( AccessDeniedException e ){
+            forward("/login.jsp");
+        }
+        catch (Exception e) {
             // TODO: send error message
             e.printStackTrace();
         }
-        forward("/airline.jsp?airlineId=" + airlineId);
     }
 }

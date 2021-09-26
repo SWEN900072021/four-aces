@@ -15,11 +15,10 @@ public class User extends DomainObject {
         super(id);
     }
 
-    public User login(String password) throws Exception {
+    public void login(String password) throws Exception {
         if (!this.password.equals(password)) {
             throw new TRSException("Wrong Password");
         }
-        return this;
     }
 
     public void setUsername(String username) {
@@ -43,21 +42,15 @@ public class User extends DomainObject {
     }
 
     public String getUsername() {
-        if (this.username == null) load();
         return this.username;
     }
 
     public String getEmail() {
-        if (this.email == null) load();
         return this.email;
     }
 
     public String getPassword(){
-        if (this.password == null) load();
         return this.password;
-    }
-
-    public void load() {
     }
 
     @Override

@@ -12,7 +12,7 @@ public abstract class DomainObject {
     }
 
     @SuppressWarnings("unchecked")
-    public <E> E cast(java.lang.Class<?> clazz){
+    public <E> E cast(Class<?> clazz){
         return (E) this;
     }
 }
