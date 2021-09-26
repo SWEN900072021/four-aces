@@ -1,4 +1,4 @@
-
+<%@ page import="com.example.domain.Customer" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -16,4 +16,3 @@
 
 </body>
 </html>
-

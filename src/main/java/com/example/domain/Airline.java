@@ -1,15 +1,18 @@
 package com.example.domain;
 
 import com.example.datasource.AirlineDataMapper;
+import com.example.datasource.FlightDataMapper;
 import com.example.exception.TRSException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Airline extends User {
     private String name;
     private boolean pending;
+    private List<Flight> flights;
 
     public Airline(Integer id, String username, String email, String password) {
         super(id);
@@ -18,6 +21,7 @@ public class Airline extends User {
         this.password = password;
         this.name = username;
         this.pending = true; // true means is waiting for approval
+        this.flights = null;
         UnitOfWork.getInstance().registerNew(this);
     }
 
@@ -73,5 +77,16 @@ public class Airline extends User {
         if (isPending()) {
             throw new TRSException("Waiting for the administrator to approve it.");
         }
+    }
+
+    public List<Flight> getFlights() throws Exception {
+        if (this.flights == null) {
+            this.loadFlights();
+        }
+        return this.flights;
+    }
+
+    public void loadFlights() throws Exception {
+        this.flights = FlightDataMapper.getInstance().getAll(this.id);
     }
 }

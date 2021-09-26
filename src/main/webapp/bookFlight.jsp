@@ -14,11 +14,7 @@
 <div>ID: <%= customer.getId()%></div>
 <div>Username: <%= customer.getUsername()%></div>
 
-<button onclick="window.location.href = 'createFlight.jsp'">Create Flights</button>
-
-<button onclick="window.location.href = '<%= request.getContextPath()%>/frontServlet?command=GetFlights'">View Flights</button>
-
-<form action = "frontServlet?command=SearchFlight&customerId=<%= customer.getId()%>" method = "post">
+<form action = "frontServlet?command=BookFlight" method = "post">
     Date: <input type = "text" name = "flightDate"><br/>
     Time: <input type = "text" name = "flightTime"><br/>
     <input type = "submit" value = "Search Flights">

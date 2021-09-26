@@ -1,6 +1,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.domain.Flight" %>
-<%@ page import="com.example.domain.Airline" %>
+<%@ page import="com.example.datasource.TicketDataMapper" %>
+<%@ page import="com.example.domain.Ticket" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -30,7 +32,14 @@
             </thead>
         <tbody>
                 <%
+                    TicketDataMapper ticketDataMapper = TicketDataMapper.getInstance();
                     for (Flight flight : flights) {
+                        List<Ticket> tickets = new ArrayList<>();
+                        try {
+                            tickets = ticketDataMapper.getAll(flight.getId());
+                        } catch (Exception e) {
+                            String error = e.getMessage();
+                        }
                 %>
                 <tr>
                     <td><%= flight.getId()%>
@@ -51,7 +60,7 @@
                         <form action="fourAces?command=CreateTicket" method="post">
                             <input type="hidden" name="flightId" value=<%= flight.getId()%>>
                             <input type="hidden" name="airplaneId" value="<%=flight.getAirplaneId()%>">
-                            <button type="submit">Create Tickets</button>
+                            <button <%=tickets.size() > 0 ? "disabled" : ""%> type="submit">Create Tickets</button>
                         </form>
                     </td>
                     <td>

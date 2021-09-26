@@ -17,20 +17,20 @@ public class DBController {
     public static final String propertyFile = "config.properties";
 
     public DBController(){
-        try{
+        try {
             Properties prop = new Properties();
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertyFile);
 
-            if ( inputStream != null ){
+            if (inputStream != null) {
                 prop.load(inputStream);
-            }else{
+            } else {
                 throw new IOException(("File not found"));
             }
 
             this.url = prop.getProperty("url");
             this.name = prop.getProperty("name");
             this.password = prop.getProperty("password");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -38,7 +38,12 @@ public class DBController {
     public Connection connect() throws SQLException {
         Connection connection;
         DriverManager.registerDriver(new org.postgresql.Driver());
-        connection = DriverManager.getConnection(url, name, password);
+        try {
+            connection = DriverManager.getConnection(url, name, password);
+        } catch (SQLException e) {
+            String dbUrl = System.getenv("JDBC_DATABASE_URL");
+            connection = DriverManager.getConnection(dbUrl);
+        }
         return connection;
     }
 
@@ -46,4 +51,3 @@ public class DBController {
         connection.close();
     }
 }
-

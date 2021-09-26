@@ -9,6 +9,7 @@
 <body>
 <%
     List<Flight> flights = (List<Flight>) request.getAttribute("flights");
+    int customerId = Integer.parseInt(request.getParameter("customerId"));
 %>
 
 <div align="left">
