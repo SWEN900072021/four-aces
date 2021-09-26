@@ -90,5 +90,6 @@ public class BookingController {
     public void submitBooking(int customerId) throws Exception {
         map.get(customerId).submitBooking();
         UnitOfWork.getInstance().commit();
+        map.remove(customerId);
     }
 }
