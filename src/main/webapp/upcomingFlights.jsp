@@ -10,11 +10,6 @@
 <%
     List<Flight> flights = (List<Flight>) request.getAttribute("flights");
     int customerId = Integer.parseInt(request.getParameter("customerId"));
-    if (flights.size() == 0) {
-%>
-    <h2>No flight found</h2>
-<%
-    } else {
 %>
 
 <div align="left">
@@ -28,7 +23,6 @@
             <th>Flight Time</th>
             <th>Source Airport</th>
             <th>Destination Airport</th>
-            <th>View</th>
         </tr>
         </thead>
         <tbody>
@@ -43,9 +37,7 @@
             <td><%= flight.getTime()%></td>
             <td><%= flight.getSourceAirport().getReferenceCode()%></td>
             <td><%= flight.getDestinationAirport().getReferenceCode()%></td>
-            <td>
-                <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=ViewFlight&type=go&customerId=<%= customerId%>&flightId=<%= flight.getId()%>'">View</button>
-            </td>
+
         </tr>
         <%
             }
@@ -54,8 +46,5 @@
     </table>
     <button onclick="window.location.href = '<%= request.getContextPath()%>/customer.jsp?customerId=<%=customerId%>'">Back to Homepage</button>
 </div>
-<%
-    }
-%>
 </body>
 </html>

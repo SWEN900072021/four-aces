@@ -1,12 +1,13 @@
 package com.example.controller.commands;
 
 import com.example.controller.BookingController;
-import com.example.datasource.AbstractDataMapper;
-import com.example.datasource.CustomerDataMapper;
+import com.example.datasource.*;
 import com.example.domain.*;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 public class AddPassengerCommand extends FrontCommand {
     @Override
@@ -20,16 +21,29 @@ public class AddPassengerCommand extends FrontCommand {
         String lastName = request.getParameter("lastName");
         String idType = request.getParameter("idType");
         String idNum = request.getParameter("idNum");
+        BookingController bookingController = BookingController.getInstance();
+        Passenger passenger = new Passenger(null, firstName, lastName, idType, idNum);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("passenger_firstname", firstName);
+        params.put("passenger_lastname", lastName);
+        params.put("identificationtype", idType);
+        params.put("identificationnumber", idNum);
 
-        Passenger passenger = new Passenger(firstName, lastName, idType, idNum);
         try {
-            Customer customer = CustomerDataMapper.getInstance().findById(customerId);
             UnitOfWork.getInstance().commit();
-            BookingController.getInstance().addPassenger(customer, passenger);
-
+            Passenger savedPassenger = PassengerDataMapper.getInstance().find(params).get(0);
+            List<Ticket> tickets = bookingController.getAvailableGoTickets(customerId);
+            request.setAttribute("tickets", tickets);
+            request.setAttribute("type", "go");
+            request.setAttribute("passengerId", savedPassenger.getId());
+            request.setAttribute("returning", bookingController.isReturning(customerId));
+            forward("/chooseSeats.jsp?customerId=" + customerId + "&passengerId=" + savedPassenger.getId());
         } catch (Exception e) {
+            e.printStackTrace();
             request.setAttribute("error", e.getMessage());
+            forward("/unknown.jsp");
         }
-        forward("/addPassenger.jsp?customerId=" + customerId);
+
+
     }
 }

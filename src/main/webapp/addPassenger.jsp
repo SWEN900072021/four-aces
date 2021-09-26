@@ -25,7 +25,7 @@
         <input type="submit" value="Add Passenger">
     </form>
 
-    <button onclick="window.location.href = '<%= request.getContextPath()%>/chooseSeats.jsp?'">Proceed to choosing seats</button>
+    <button onclick="window.location.href = '<%= request.getContextPath()%>/fourAces?command=SubmitBooking&customerId=<%=customerId%>'">Submit booking</button>
 
 </body>
 </html>

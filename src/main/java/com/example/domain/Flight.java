@@ -3,6 +3,12 @@ package com.example.domain;
 import com.example.datasource.AirlineDataMapper;
 import com.example.datasource.AirportDataMapper;
 import com.example.datasource.AirplaneDataMapper;
+import com.example.datasource.TicketDataMapper;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Flight extends DomainObject {
     private String code;
@@ -35,6 +41,24 @@ public class Flight extends DomainObject {
 
     public String getTime() {
         return this.time;
+    }
+
+    public LocalDateTime getDateTime() {
+        LocalDateTime dateTime = null;
+        // Parse date and time string in this format: 2021/09/09, 16:00
+        String[] dateArray = this.date.split("/");
+        String[] timeArray = this.time.split(":");
+        if (dateArray.length == 3 && timeArray.length == 2) {
+            int year = Integer.parseInt(dateArray[0]);
+            int month = Integer.parseInt(dateArray[1]);
+            int day = Integer.parseInt(dateArray[2]);
+            int hour = Integer.parseInt(timeArray[0]);
+            int minute = Integer.parseInt(timeArray[1]);
+            dateTime = LocalDateTime.of(year, month, day, hour, minute);
+        } else {
+            System.out.println("Wrong date and time format");
+        }
+        return dateTime;
     }
 
     public Airline getAirline() throws Exception {
@@ -93,6 +117,19 @@ public class Flight extends DomainObject {
     public void setDestination(int destination) {
         this.destination = Flight.this.destination;
         UnitOfWork.getInstance().registerDirty(this);
+    }
+
+    public List<Ticket> getAvailableTickets() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("flight_id", Integer.toString(this.id));
+
+        List<Ticket> tickets = null;
+        try {
+            tickets = TicketDataMapper.getInstance().find(params);
+            return tickets;
+        } catch (Exception e) {
+            return new ArrayList<Ticket>();
+        }
     }
 }
 

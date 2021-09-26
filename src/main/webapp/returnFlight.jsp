@@ -14,7 +14,7 @@
     int customerId = Integer.parseInt(request.getParameter("customerId"));
 %>
 
-<button onclick="window.location.href = '<%= request.getContextPath()%>/addPassenger.jsp?'">One way only</button>
+<button onclick="window.location.href = '<%= request.getContextPath()%>/addPassenger.jsp?customerId=<%=customerId%>'">One way only</button>
 
 <div align="left">
     <table border="1" cellpadding="5">

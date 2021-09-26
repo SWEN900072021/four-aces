@@ -8,5 +8,22 @@
 | 793213        | Yiyuan Wei    | yiyuanw1@student.unimelb.edu.au |
 | 1006014       | Yuxiang Wu    | yuxiang2@student.unimelb.edu.au |
 
-# Part1
+# Part 1
 Release tag: https://github.com/SWEN900072021/four-aces/releases/tag/SWEN90007_2021_Part1_four-aces
+
+# Part 2
+Release tag:
+
+Link to Heroku deployed app: https://travel-reservation.herokuapp.com/
+
+Administrator 
+username:
+password:
+
+Airline
+username:
+password:
+
+Customer
+username:
+password:
