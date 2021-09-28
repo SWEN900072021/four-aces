@@ -38,7 +38,6 @@ public class UpcomingFlightsCommand extends CustomerCommand {
             request.setAttribute("flights", upcomingFlights);
             forward("/upcomingFlights.jsp");
         } catch (Exception e) {
-            e.printStackTrace();
             request.setAttribute("error", "You've got no upcoming flight");
         }
             return null;
