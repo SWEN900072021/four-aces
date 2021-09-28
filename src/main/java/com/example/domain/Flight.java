@@ -44,6 +44,7 @@ public class Flight extends DomainObject {
     }
 
     public LocalDateTime getDateTime() {
+        //
         LocalDateTime dateTime = null;
         // Parse date and time string in this format: 2021/09/09, 16:00
         String[] dateArray = this.date.split("-");
