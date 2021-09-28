@@ -13,7 +13,6 @@
 %>
 <%
     List<Flight> flights = (List<Flight>) request.getAttribute("flights");
-    int customerId = Integer.parseInt(request.getParameter("customerId"));
 %>
 
 <div align="left">
@@ -53,7 +52,7 @@
         %>
         </tbody>
     </table>
-    <button onclick="window.location.href = '<%= request.getContextPath()%>/customer.jsp?customerId=<%=customerId%>'">Back to Homepage</button>
+    <button onclick="window.location.href = '<%= request.getContextPath()%>/customer.jsp?command=Customer'">Back to Homepage</button>
 </div>
 </body>
 </html>
