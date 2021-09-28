@@ -3,11 +3,14 @@ package com.example.authentication;
 import com.example.exception.TRSException;
 
 import javax.security.auth.Subject;
+import javax.security.auth.login.AppConfigurationEntry;
+import javax.security.auth.login.Configuration;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -20,18 +23,26 @@ public class AAEnforcer {
     private Subject subject;
 
     public AAEnforcer(HttpServletRequest request) throws LoginException, TRSException {
-        URL jaasConfig = this.getClass().getClassLoader().getResource("TRSJaas.config");
-        String configFile = jaasConfig != null ? jaasConfig.getFile() : null;
-        System.setProperty("java.security.auth.login.config", configFile);
+        Configuration config = new Configuration() {
+            @Override
+            public AppConfigurationEntry[] getAppConfigurationEntry(String name) {
+                AppConfigurationEntry[] entry = new AppConfigurationEntry[1];
+                String Name = name.substring(0,1).toUpperCase() + name.substring(1);
+                String loginModuleName = String.format("com.example.authentication.%sLoginModule", Name);
+                HashMap<String, ?> options = new HashMap<>();
+                entry[0] = new AppConfigurationEntry(loginModuleName, AppConfigurationEntry.LoginModuleControlFlag.REQUISITE, options);
+                return entry;
+            }
+        };
         switch (request.getParameter("type")){
             case "admin":
-                lc = new LoginContext("admin", new AdminCallbackHandler(request));
+                lc = new LoginContext("admin", null, new AdminCallbackHandler(request), config);
                 break;
             case "airline":
-                lc = new LoginContext("airline", new AirlineCallbackHandler(request));
+                lc = new LoginContext("airline",null, new AirlineCallbackHandler(request), config);
                 break;
             case "customer":
-                lc = new LoginContext("customer", new CustomerCallbackHandler(request));
+                lc = new LoginContext("customer",null, new CustomerCallbackHandler(request), config);
                 break;
             default:
                 throw new TRSException("Invalid User type");
