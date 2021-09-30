@@ -21,15 +21,10 @@ public class GetFlightCommand extends AirlineCommand {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
                 Airline airline = getCurrentUser();
-                List<Flight> allFlights = FlightDataMapper.getInstance().getAll();
-                // Only forward flights created by airline with id equals airlineId
-                List<Flight> flights = new ArrayList<>();
-                for (Flight flight : allFlights) {
-                    if (flight.getAirlineId() == (int) airline.getId()) {
-                        flights.add(flight);
-                    }
-                }
+                List<Airport> airports = AirportDataMapper.getInstance().getAll();
+                List<Flight> flights = airline.getFlights();
                 request.setAttribute("flights", flights);
+                request.setAttribute("airports", airports);
             } catch (Exception e) {
                 request.setAttribute("flights", new ArrayList<Flight>());
                 error(e);
