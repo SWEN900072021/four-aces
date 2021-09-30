@@ -21,10 +21,8 @@ public class GetFlightCommand extends AirlineCommand {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
                 Airline airline = getCurrentUser();
-                List<Airport> airports = AirportDataMapper.getInstance().getAll();
                 List<Flight> flights = airline.getFlights();
                 request.setAttribute("flights", flights);
-                request.setAttribute("airports", airports);
             } catch (Exception e) {
                 request.setAttribute("flights", new ArrayList<Flight>());
                 error(e);
