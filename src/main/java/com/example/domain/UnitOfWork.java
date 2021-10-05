@@ -7,19 +7,27 @@ import java.util.List;
 import java.util.Objects;
 
 public class UnitOfWork {
-    private static UnitOfWork _instance = null;
+    private static ThreadLocal current = new ThreadLocal();
+
     private List<DomainObject> newObjects = new ArrayList<>();
     private List<DomainObject> dirtyObjects = new ArrayList<>();
     private List<DomainObject> deleteObjects = new ArrayList<>();
 
-    private UnitOfWork(){
+    public static void newCurrent() {
+        setCurrent(new UnitOfWork());
     }
 
-    public static UnitOfWork getInstance() {
-        if (_instance == null) {
-            _instance = new UnitOfWork();
+    public static void setCurrent(UnitOfWork uow) {
+        current.set(uow);
+    }
+
+    public static UnitOfWork getCurrent() {
+        if (Objects.isNull(current.get())) {
+            UnitOfWork uow = new UnitOfWork();
+            setCurrent(uow);
+            return uow;
         }
-        return _instance;
+        return (UnitOfWork) current.get();
     }
 
     public void registerNew(DomainObject obj) {

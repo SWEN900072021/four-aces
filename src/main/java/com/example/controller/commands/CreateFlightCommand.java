@@ -21,6 +21,7 @@ public class CreateFlightCommand extends AirlineCommand {
     public void processPost() throws ServletException, IOException {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
+                UnitOfWork.newCurrent();
                 Airline airline = getCurrentUser();
                 String flightCode = request.getParameter("flightCode");
                 String flightDate = request.getParameter("flightDate");
@@ -29,7 +30,7 @@ public class CreateFlightCommand extends AirlineCommand {
                 int destination = Integer.parseInt(request.getParameter("destination"));
                 int airplaneId = Integer.parseInt(request.getParameter("airplane"));
                 airline.createFlight(flightCode, flightDate, flightTime, source, destination, airplaneId);
-                UnitOfWork.getInstance().commit();
+                UnitOfWork.getCurrent().commit();
                 forward("/airline.jsp");
             } catch (Exception e) {
                 error(e);

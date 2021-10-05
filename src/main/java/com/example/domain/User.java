@@ -23,22 +23,22 @@ public class User extends DomainObject {
 
     public void setUsername(String username) {
         this.username = username;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public void setPassword(String password) {
         this.password = password;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public void setEmail(String email) {
         this.email = email;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public void setId(Integer id) {
         this.id = id;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public String getUsername() {

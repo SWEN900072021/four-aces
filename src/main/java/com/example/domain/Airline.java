@@ -5,8 +5,8 @@ import com.example.datasource.PassengerDataMapper;
 import com.example.exception.TRSException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class Airline extends User {
     private String name;
@@ -22,21 +22,7 @@ public class Airline extends User {
         this.name = username;
         this.pending = true; // true means is waiting for approval
         this.flights = null;
-        UnitOfWork.getInstance().registerNew(this);
-    }
-
-    public Airline(Integer id, String username, String email, String password, boolean pending) {
-        super(id);
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.name = username;
-        this.pending = pending;
-        UnitOfWork.getInstance().registerNew(this);
-    }
-
-    public Airline(Integer id, String username, String password) {
-        super(id);
+        UnitOfWork.getCurrent().registerNew(this);
     }
 
     public ArrayList<Passenger> viewPassengers() throws Exception {
@@ -45,12 +31,12 @@ public class Airline extends User {
 
     public void setPending(boolean pending) {
         this.pending = pending;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public void setName(String name) {
         this.name = name;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public boolean isPending() {
@@ -63,18 +49,6 @@ public class Airline extends User {
 
     public void createFlight(String flightCode, String flightDate, String flightTime, int source, int destination, int airplaneId) {
         new Flight(null, flightCode, flightDate, flightTime, source, destination, this.id, airplaneId);
-    }
-
-    public void editFlight(Flight flight, HashMap<String, String> params) {
-
-    }
-
-    public void deleteFlight(Flight flight) {
-
-    }
-
-    public void viewCustomers(Flight flight) {
-
     }
 
     @Override

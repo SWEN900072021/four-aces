@@ -1,8 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.domain.Flight" %>
-<%@ page import="com.example.datasource.TicketDataMapper" %>
 <%@ page import="com.example.domain.Ticket" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -36,14 +34,8 @@
             </thead>
         <tbody>
                 <%
-                    TicketDataMapper ticketDataMapper = TicketDataMapper.getInstance();
                     for (Flight flight : flights) {
-                        List<Ticket> tickets = new ArrayList<>();
-                        try {
-                            tickets = ticketDataMapper.getAll(flight.getId());
-                        } catch (Exception e) {
-                            String error = e.getMessage();
-                        }
+                        List<Ticket> tickets = flight.getAvailableTickets();
                 %>
                 <tr>
                     <td><%= flight.getId()%>

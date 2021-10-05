@@ -1,5 +1,7 @@
 package com.example.domain;
 
+import java.util.Objects;
+
 public class Passenger extends DomainObject {
     private String firstName;
     private String lastName;
@@ -12,7 +14,7 @@ public class Passenger extends DomainObject {
         this.lastName = lastName;
         this.idType = idType;
         this.idNumber = idNumber;
-        UnitOfWork.getInstance().registerNew(this);
+        UnitOfWork.getCurrent().registerNew(this);
     }
 
 

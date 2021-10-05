@@ -15,6 +15,7 @@ public class RegisterCommand extends FrontCommand{
 
     @Override
     public void processPost() throws ServletException, IOException {
+        UnitOfWork.newCurrent();
         String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -34,7 +35,7 @@ public class RegisterCommand extends FrontCommand{
                 forward("/register.jsp");
         }
         try{
-            UnitOfWork.getInstance().commit();
+            UnitOfWork.getCurrent().commit();
             response.sendRedirect("login.jsp");
         } catch (Exception e) {
             error(e);

@@ -1,10 +1,8 @@
 package com.example.controller.commands;
 
 import com.example.datasource.FlightDataMapper;
-import com.example.domain.Airline;
 import com.example.domain.Flight;
 import com.example.domain.UnitOfWork;
-import com.example.exception.AccessDeniedException;
 
 import javax.security.auth.Subject;
 import javax.servlet.ServletException;
@@ -20,6 +18,7 @@ public class EditFlightCommand extends AirlineCommand {
     public void processPost() throws ServletException, IOException {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
+                UnitOfWork.newCurrent();
                 if (request.getParameter("forward") != null){
                     forward("/editFlight.jsp");
                     return null;
@@ -37,7 +36,7 @@ public class EditFlightCommand extends AirlineCommand {
                 flight.setTime(flightTime);
                 flight.setSource(source);
                 flight.setDestination(destination);
-                UnitOfWork.getInstance().commit();
+                UnitOfWork.getCurrent().commit();
             } catch (Exception e) {
                 error(e);
             }
