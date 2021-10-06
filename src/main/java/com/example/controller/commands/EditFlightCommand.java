@@ -12,9 +12,6 @@ import java.io.IOException;
 import java.security.PrivilegedAction;
 
 public class EditFlightCommand extends AirlineCommand {
-    @Override
-    public void processGet() throws ServletException, IOException {
-    }
 
     @Override
     public void processPost() throws ServletException, IOException {
