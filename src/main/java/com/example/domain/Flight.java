@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class Flight extends DomainObject {
     private String code;
@@ -19,8 +18,10 @@ public class Flight extends DomainObject {
     private Integer destination;
     private Integer airlineId;
     private Integer airplaneId;
+    private List<Integer> stopovers;
 
-    public Flight(Integer id, String code, String date, String time, int source, int destination, Integer airlineId, Integer airplaneId) {
+    public Flight(Integer id, String code, String date, String time, int source, int destination,
+                  Integer airlineId, Integer airplaneId, List<Integer> stopovers) {
         super(id);
         this.code = code;
         this.date = date;
@@ -29,6 +30,7 @@ public class Flight extends DomainObject {
         this.destination = destination;
         this.airlineId = airlineId;
         this.airplaneId = airplaneId;
+        this.stopovers = stopovers;
         UnitOfWork.getCurrent().registerNew(this);
     }
 
@@ -72,6 +74,26 @@ public class Flight extends DomainObject {
 
     public Airport getDestinationAirport() throws Exception {
         return AirportDataMapper.getInstance().findById(destination);
+    }
+
+    public List<Airport> getStopoverAirports() throws Exception {
+        List<Airport> stopovers = new ArrayList<>();
+        AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
+        for (int airportId : this.stopovers) {
+            Airport airport = airportDataMapper.findById(airportId);
+            stopovers.add(airport);
+        }
+        return stopovers;
+    }
+
+    public String getStopoverAirportsString() throws Exception {
+        String stopovers = "";
+        AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
+        for (int airportId : this.stopovers) {
+            Airport airport = airportDataMapper.findById(airportId);
+            stopovers += airport.getReferenceCode() + " ";
+        }
+        return stopovers;
     }
 
     public Integer getAirlineId() {

@@ -26,6 +26,7 @@
                     <th>Flight Time</th>
                     <th>Source Airport</th>
                     <th>Destination Airport</th>
+                    <th>Stopovers</th>
                     <th>Airplane</th>
                     <th>Create Tickets</th>
                     <th>Edit</th>
@@ -49,6 +50,8 @@
                     <td><%= flight.getSourceAirport().getReferenceCode()%>
                     </td>
                     <td><%= flight.getDestinationAirport().getReferenceCode()%>
+                    </td>
+                    <td><%= flight.getStopoverAirportsString()%>
                     </td>
                     <td><%= flight.getAirplane().getType()%>
                     </td>
