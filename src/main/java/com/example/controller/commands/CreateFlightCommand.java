@@ -1,20 +1,28 @@
 package com.example.controller.commands;
 
+import com.example.datasource.AirportDataMapper;
 import com.example.domain.Airline;
+import com.example.domain.Airport;
 import com.example.domain.UnitOfWork;
-import com.example.exception.AccessDeniedException;
 
 import javax.security.auth.Subject;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.security.PrivilegedAction;
+import java.util.List;
 
 //TODO
 public class CreateFlightCommand extends AirlineCommand {
 
     @Override
     public void processGet() throws ServletException, IOException {
-        forward("/createFlight.jsp");
+        try {
+            List<Airport> airports = AirportDataMapper.getInstance().getAll();
+            request.setAttribute("airports", airports);
+            forward("/createFlight.jsp");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

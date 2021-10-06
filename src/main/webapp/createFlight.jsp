@@ -1,9 +1,7 @@
-<%@ page import="com.example.datasource.AirportDataMapper" %>
 <%@ page import="com.example.domain.Airport" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.datasource.AirplaneDataMapper" %>
 <%@ page import="com.example.domain.Airplane" %>
-<%@ page import="com.example.domain.Airline" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -15,7 +13,7 @@
         response.sendRedirect("fourAces?command=Airline");
 %>
     <%
-        List<Airport> airports = AirportDataMapper.getInstance().getAll();
+        List<Airport> airports = (List<Airport>) request.getAttribute("airports");
         if (airports.size() > 0) {
     %>
             <h2>Create Flight</h2>
@@ -64,6 +62,24 @@
                                         String referenceCode = airport.getReferenceCode();
                                 %>
                                 <option value=<%=airportId%>><%=referenceCode%>
+                                </option>
+                                <%
+                                    }
+                                %>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="stopover">Stopover</label>
+                        </td>
+                        <td>
+                            <select name="stopover" id="stopover">
+                                <%
+                                    for (Airport airport : airports) {
+                                        String referenceCode = airport.getReferenceCode();
+                                %>
+                                <option value=<%=airport%>><%=referenceCode%>
                                 </option>
                                 <%
                                     }
