@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -26,6 +27,8 @@ public abstract class FrontCommand {
     protected HttpServletResponse response;
     protected Class<? extends UserPrincipal> principal;
     protected AAEnforcer aaEnforcer;
+
+    private final Class<?>[] access_free_command = new Class[]{RegisterCommand.class, LogoutCommand.class, LoginCommand.class};
 
     public void init(
             ServletContext servletContext,
@@ -53,16 +56,13 @@ public abstract class FrontCommand {
     }
 
     public void checkAccess() throws IOException, ServletException {
-        if (this.getClass().equals(RegisterCommand.class) || this.getClass().equals((LoginCommand.class))) return;
-        System.out.println(this.getClass());
+        if (Arrays.asList(access_free_command).contains(this.getClass())) return;
         try{
             if( aaEnforcer == null || !aaEnforcer.isLoggedIn() ){
                 throw new TRSException("No Authentication Token");
             }else {
                 for (Principal p : aaEnforcer.getSubject().getPrincipals()) {
                     if (!p.getClass().equals(this.principal)) {
-                        System.out.println(p.getClass());
-                        System.out.println(principal.getClass());
                         throw new AccessDeniedException();
                     }
                 }
