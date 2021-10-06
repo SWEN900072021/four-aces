@@ -94,6 +94,7 @@
                     </td>
                     <td>
                         <form action="fourAces?command=ViewCustomer" method="post">
+                            <input type="hidden" name="flightId" value=<%=flight.getId()%>>
                             <button type="submit">View Customer</button>
                         </form>
                     </td>

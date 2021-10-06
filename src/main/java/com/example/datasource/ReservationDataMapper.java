@@ -82,4 +82,22 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
         conn.close();
         return passengersId;
     }
+    public ArrayList<Integer> getCustomersIdByReservations(ArrayList<Reservation> reservations) throws Exception {
+        ArrayList<Integer> customersId = new ArrayList<>();
+        Connection conn = new DBController().connect();
+        for (Reservation reservation : reservations) {
+            String sql = String.format(SQLSelect, "*", "reservation", "WHERE " + pkey + " = " + reservation.getId());
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.execute();
+            ResultSet resultSet = ps.getResultSet();
+            while (resultSet.next()) {
+                int cus_id = resultSet.getInt("cus_id");
+                customersId.add(cus_id);
+            }
+            resultSet.close();
+            ps.close();
+        }
+        conn.close();
+        return customersId;
+    }
 }
