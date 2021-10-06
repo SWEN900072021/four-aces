@@ -28,6 +28,7 @@
     <tr>
         <th>customerFirstName</th>
         <th>customerLastName</th>
+        <th>customerEmail</th>
     </tr>
     <%
         for (Customer customer : customers){
@@ -35,6 +36,7 @@
     <tr>
         <td><%=customer.getFirstName()%></td>
         <td><%=customer.getLastName()%></td>
+        <td><%=customer.getEmail()%></td>
     </tr>
     <%
         }

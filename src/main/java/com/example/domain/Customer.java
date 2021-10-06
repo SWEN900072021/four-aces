@@ -6,6 +6,7 @@ public class Customer extends User {
 
     private String firstName;
     private String lastName;
+    private String email;
     private List<Flight> selectedFlights;
 
     public Customer(Integer id, String username, String email, String password) {
@@ -24,6 +25,7 @@ public class Customer extends User {
         return this.lastName;
     }
 
+    public String getEmail(){ return this.email;}
     public void setFirstName(String firstName){
         this.firstName = firstName;
         UnitOfWork.getInstance().registerDirty(this);
@@ -31,6 +33,11 @@ public class Customer extends User {
 
     public void setLastName(String lastName){
         this.lastName = lastName;
+        UnitOfWork.getInstance().registerDirty(this);
+    }
+
+    public void setEmail(String email){
+        this.email = email;
         UnitOfWork.getInstance().registerDirty(this);
     }
 }
