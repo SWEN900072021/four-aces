@@ -1,6 +1,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.domain.Flight" %>
 <%@ page import="com.example.domain.Airport" %>
+<%@ page import="com.example.domain.Ticket" %>
+<%@ page import="java.util.HashMap" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,7 +14,7 @@
         response.sendRedirect("fourAces?command=Customer");
 %>
 <%
-    List<Flight> flights = (List<Flight>) request.getAttribute("flights");
+    HashMap<Flight, List<Ticket>> flights = (HashMap<Flight, List<Ticket>>) request.getAttribute("flights");
 %>
 
 <div align="left">
@@ -26,11 +28,12 @@
             <th>Flight Time</th>
             <th>Source Airport</th>
             <th>Destination Airport</th>
+            <th>Tickets</th>
         </tr>
         </thead>
         <tbody>
         <%
-            for (Flight flight : flights) {
+            for (Flight flight : flights.keySet()) {
         %>
         <tr>
             <td><%= flight.getId()%>
@@ -44,6 +47,23 @@
             <td><%= flight.getSourceAirport().getReferenceCode()%>
             </td>
             <td><%= flight.getDestinationAirport().getReferenceCode()%>
+            </td>
+            <td>
+                <%
+                    int i = 0;
+                    for (Ticket ticket : flights.get(flight)) {
+                        i = i + 1;
+                %>
+                <h3>Passenger <%=i%></h3>
+                <div>First Name: <%= ticket.getPassenger().getfirstName()%></div>
+                <div>Last Name: <%= ticket.getPassenger().getlastName()%></div>
+                <div>ID Type: <%= ticket.getPassenger().getIdentificationType()%></div>
+                <div>ID Number: <%= ticket.getPassenger().getIdentificationNumber()%></div>
+                <div>Seat Number: <%= ticket.getSeatNumber()%></div>
+                <div>Seat Class: <%= ticket.getSeatClass()%></div>
+                <%
+                    }
+                %>
             </td>
 
         </tr>

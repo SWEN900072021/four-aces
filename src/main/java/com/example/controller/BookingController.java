@@ -92,4 +92,12 @@ public class BookingController {
         UnitOfWork.getInstance().commit();
         map.remove(customerId);
     }
+
+    public List<Ticket> getReservedTickets(int reservationId, int flightId) throws Exception {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("reservation_id", Integer.toString(reservationId));
+        params.put("flight_id", Integer.toString(flightId));
+        List<Ticket> tickets = TicketDataMapper.getInstance().find(params);
+        return tickets;
+    }
 }
