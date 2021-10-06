@@ -49,7 +49,7 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         int airplaneId = Integer.parseInt(rs.getString("airplane_id"));
         String stopoversString = rs.getString("stopovers");
         Flight flight = new Flight(flightId, flightCode, flightDate, flightTime, source, destination,
-                                   airlineId, airplaneId, getStopoverAirports(stopoversString));
+                                   airlineId, airplaneId, toList(stopoversString));
         return flight;
     }
 
@@ -84,6 +84,7 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         return flights;
     }
 
+    // Covert List to PGObject for inserting in database
     private PGobject toPGObject(List<Airport> stopovers) throws SQLException {
         JSONObject stopoversObj = new JSONObject();
         JSONArray stopoversArray = new JSONArray();
@@ -104,7 +105,8 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         return pGobject;
     }
 
-    private List<Integer> getStopoverAirports(String stopoversString) {
+    // Covert JSON string to List
+    private List<Integer> toList(String stopoversString) {
         List<Integer> stopovers = new ArrayList<>();
         JSONObject stopoversObj = new JSONObject(stopoversString);
         JSONArray stopoversArr = stopoversObj.getJSONArray("stopovers");
