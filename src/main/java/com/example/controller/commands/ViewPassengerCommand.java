@@ -24,11 +24,9 @@ public class ViewPassengerCommand extends AirlineCommand {
             @Override
             public Flight run() {
                 String flightId = request.getParameter("flightId");
-                HashMap<String, String> params = new HashMap<>();
-                params.put("go_flight", flightId);
-                params.put("return_flight", flightId);
+                String condition = String.format("WHERE go_flight = '%s' OR return_flight = '%s'",flightId, flightId);
                 try {
-                    ArrayList<Reservation> reservations = ReservationDataMapper.getInstance().find(params);
+                    ArrayList<Reservation> reservations = ReservationDataMapper.getInstance().find(condition);
                     ArrayList<Integer> passengersId = ReservationDataMapper.getInstance().getPassengersIdByReservations(reservations);
                     ArrayList<Passenger> passengers = new ArrayList<>();
                     for (Integer passengerId : passengersId) {

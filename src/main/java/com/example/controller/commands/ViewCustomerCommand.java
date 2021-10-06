@@ -24,11 +24,9 @@ public class ViewCustomerCommand extends AirlineCommand {
             @Override
             public Flight run() {
                 String flightId = request.getParameter("flightId");
-                HashMap<String, String> params = new HashMap<>();
-                params.put("go_flight", flightId);
-                params.put("return_flight", flightId);
+                String condition = String.format("WHERE go_flight = '%s' OR return_flight = '%s'",flightId, flightId);
                 try {
-                    ArrayList<Reservation> reservations = ReservationDataMapper.getInstance().find(params);
+                    ArrayList<Reservation> reservations = ReservationDataMapper.getInstance().find(condition);
                     ArrayList<Customer> customers = new ArrayList<Customer>();
                     for (Reservation reservation : reservations) {
                         Customer customer = CustomerDataMapper.getInstance().findById(reservation.getCustomerId());
