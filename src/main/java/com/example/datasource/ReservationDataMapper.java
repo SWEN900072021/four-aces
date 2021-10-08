@@ -1,9 +1,12 @@
 package com.example.datasource;
 
 import com.example.controller.DBController;
+import com.example.domain.Customer;
+import com.example.domain.Flight;
 import com.example.domain.Passenger;
 import com.example.domain.Reservation;
 import com.example.exception.TRSException;
+import jdk.jfr.FlightRecorderPermission;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -42,22 +45,25 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
     public Reservation newDomainObject(ResultSet resultSet) throws Exception {
         int reservationId = resultSet.getInt("reservation_id");
         int customerId = resultSet.getInt("customer_id");
+        Customer customer = CustomerDataMapper.getInstance().findById(customerId);
         int goFlightId = resultSet.getInt("go_flight");
+        Flight goFlight = FlightDataMapper.getInstance().findById(goFlightId);
         int returnFlightId = resultSet.getInt("return_flight");
+        Flight returnFlight = FlightDataMapper.getInstance().findById(returnFlightId);
         boolean submitted = resultSet.getBoolean("submitted");
-        return new Reservation(reservationId, customerId, goFlightId, returnFlightId, submitted);
+        return new Reservation(reservationId, customer, goFlight, returnFlight, submitted);
     }
 
     @Override
     public void setPreparedStatement(PreparedStatement ps, Reservation obj) throws Exception {
-        ps.setInt(1, obj.getCustomerId());
-        if (obj.getGoFlightId() != null) {
-            ps.setInt(2, obj.getGoFlightId());
+        ps.setInt(1, obj.getCustomer().getId());
+        if (obj.getGoFlight().getId() != null) {
+            ps.setInt(2, obj.getGoFlight().getId());
         } else {
             ps.setNull(2, Types.NULL);
         }
-        if (obj.getReturnFlightId() != null) {
-            ps.setInt(3, obj.getReturnFlightId());
+        if (obj.getReturnFlight().getId() != null) {
+            ps.setInt(3, obj.getReturnFlight().getId());
         } else {
             ps.setNull(3, Types.NULL);
         }

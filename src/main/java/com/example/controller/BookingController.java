@@ -67,13 +67,13 @@ public class BookingController {
     }
 
     public List<Ticket> getAvailableGoTickets(int customerId) throws Exception {
-        int flightId = map.get(customerId).getGoFlightId();
+        int flightId = map.get(customerId).getGoFlight().getId();
         List<Ticket> tickets = TicketDataMapper.getInstance().getAll(flightId, true);
         return tickets;
     }
 
     public List<Ticket> getAvailableReturnTickets(int customerId) throws Exception {
-        int flightId = map.get(customerId).getReturnFlightId();
+        int flightId = map.get(customerId).getReturnFlight().getId();
         List<Ticket> tickets = TicketDataMapper.getInstance().getAll(flightId, true);
         return tickets;
     }
@@ -87,7 +87,7 @@ public class BookingController {
     }
 
     public boolean isReturning(int customerId) {
-        return (map.get(customerId).getReturnFlightId() != null);
+        return (map.get(customerId).getReturnFlight() != null);
     }
 
     public void submitBooking(int customerId) throws Exception {

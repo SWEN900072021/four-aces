@@ -10,60 +10,60 @@ import java.util.Objects;
 
 public class Reservation extends DomainObject {
 
-    private Integer customerId;
-    private Integer goFlightId;
-    private Integer returnFlightId;
+    private Customer customer;
+    private Flight goFlight;
+    private Flight returnFlight;
     private boolean submitted;
 
-    public Reservation(Integer reservationId, Integer customerId) {
+    public Reservation(Integer reservationId, Customer customer) {
         super(reservationId);
-        this.customerId = customerId;
-        this.goFlightId = null;
-        this.returnFlightId = null;
+        this.customer = customer;
+        this.goFlight = null;
+        this.returnFlight = null;
         this.submitted = false;
         UnitOfWork.getCurrent().registerNew(this);
     }
 
-    public Reservation(Integer reservationId, Integer customerId, Integer goFlightId, Integer returnFlightId, boolean submitted) {
+    public Reservation(Integer reservationId, Customer customer, Flight goFlight, Flight returnFlight, boolean submitted) {
         super(reservationId);
-        this.customerId = customerId;
-        if (goFlightId != 0) {
-            this.goFlightId = goFlightId;
+        this.customer = customer;
+        if (goFlight != null) {
+            this.goFlight = goFlight;
         } else {
-            this.goFlightId = null;
+            this.goFlight = null;
         }
-        if (returnFlightId != 0) {
-            this.returnFlightId = returnFlightId;
+        if (returnFlight != null) {
+            this.returnFlight = returnFlight;
         } else {
-            this.returnFlightId = null;
+            this.returnFlight = null;
         }
         this.submitted = submitted;
         UnitOfWork.getCurrent().registerNew(this);
     }
 
-    public void bookGoFlight(Integer goFlightId) {
-        this.goFlightId = goFlightId;
+    public void bookGoFlight(Flight goFlight) {
+        this.goFlight = goFlight;
         UnitOfWork.getCurrent().registerDirty(this);
     }
 
-    public void bookReturnFlight(Integer returnFlightId) {
-        this.returnFlightId = returnFlightId;
+    public void bookReturnFlight(Flight returnFlight) {
+        this.returnFlight = returnFlight;
         UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public void bookTicket(Integer ticket) {
     }
 
-    public Integer getReturnFlightId() {
-        return this.returnFlightId;
+    public Flight getReturnFlight() {
+        return this.returnFlight;
     }
 
-    public Integer getGoFlightId() {
-        return this.goFlightId;
+    public Flight getGoFlight() {
+        return this.goFlight;
     }
 
-    public Integer getCustomerId() {
-        return this.customerId;
+    public Customer getCustomer() {
+        return this.customer;
     }
 
     public boolean isSubmitted() {
@@ -77,12 +77,11 @@ public class Reservation extends DomainObject {
 
     public List<Flight> getFlights() throws Exception {
         List<Flight> flights = new ArrayList<>();
-        if (this.goFlightId != null) {
-            System.out.println(goFlightId);
-            flights.add(FlightDataMapper.getInstance().findById(goFlightId));
+        if (this.goFlight != null) {
+            flights.add(goFlight);
         }
-        if (this.returnFlightId != null) {
-            flights.add(FlightDataMapper.getInstance().findById(returnFlightId));
+        if (this.returnFlight != null) {
+            flights.add(returnFlight);
         }
 
         return flights;
