@@ -1,9 +1,15 @@
 package com.example.datasource;
 
+import com.example.controller.DBController;
 import com.example.domain.Passenger;
+import com.example.domain.Reservation;
+import com.example.exception.TRSException;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PassengerDataMapper extends AbstractDataMapper<Passenger> {
 
@@ -39,9 +45,9 @@ public class PassengerDataMapper extends AbstractDataMapper<Passenger> {
 
     @Override
     public void setPreparedStatement(PreparedStatement ps, Passenger obj) throws Exception {
-        ps.setString(1,obj.getfirstName());
-        ps.setString(2,obj.getlastName());
-        ps.setString(3,obj.getIdentificationType());
-        ps.setString(4,obj.getIdentificationNumber());
+        ps.setString(1, obj.getfirstName());
+        ps.setString(2, obj.getlastName());
+        ps.setString(3, obj.getIdentificationType());
+        ps.setString(4, obj.getIdentificationNumber());
     }
 }

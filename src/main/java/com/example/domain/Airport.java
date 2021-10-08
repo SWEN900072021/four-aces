@@ -1,5 +1,7 @@
 package com.example.domain;
 
+import java.util.Objects;
+
 public class Airport extends DomainObject{
     private String referenceCode;
     private String address;
@@ -8,7 +10,7 @@ public class Airport extends DomainObject{
         super(id);
         this.referenceCode = referenceCode;
         this.address = address;
-        UnitOfWork.getInstance().registerNew(this);
+        UnitOfWork.getCurrent().registerNew(this);
     }
     public String getReferenceCode() {
         return this.referenceCode;
@@ -20,11 +22,11 @@ public class Airport extends DomainObject{
 
     public void setReferenceCode(String referenceCode){
         this.referenceCode = referenceCode;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public void setAddress(String address){
         this.address = address;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 }

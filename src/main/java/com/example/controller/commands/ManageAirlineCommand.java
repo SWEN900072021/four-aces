@@ -38,9 +38,10 @@ public class ManageAirlineCommand extends AdminCommand {
             public Airline run() {
                 Airline airline = null;
                 try {
+                    UnitOfWork.newCurrent();
                     airline = AirlineDataMapper.getInstance().findById(Integer.parseInt(request.getParameter("id")));
                     airline.setPending(request.getParameter("pending") != null);
-                    UnitOfWork.getInstance().commit();
+                    UnitOfWork.getCurrent().commit();
                     ViewAirline();
                 } catch (Exception e) {
                     error(e);

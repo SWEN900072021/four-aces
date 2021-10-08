@@ -24,17 +24,18 @@ public class CreateAirportCommand extends AdminCommand {
     @Override
     public void processPost() throws ServletException, IOException {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Admin>) () -> {
-            String code = request.getParameter("referenceCode");
-            String address = request.getParameter("address");
-            new Airport(null, code, address);
+            try {
+                String code = request.getParameter("referenceCode");
+                String address = request.getParameter("address");
+                UnitOfWork.newCurrent();
+                new Airport(null, code, address);
+                UnitOfWork.getCurrent().commit();
+                response.sendRedirect("fourAces?command=GetAirport");
+            } catch (Exception e) {
+                error(e);
+            }
             return null;
         });
-        try {
-            UnitOfWork.getInstance().commit();
-        }catch (Exception e) {
-            error(e);
-        }
-        response.sendRedirect("fourAces?command=GetAirport");
     }
 }
 

@@ -21,16 +21,17 @@ public class DeleteFlightCommand extends AirlineCommand {
     public void processPost() throws ServletException, IOException {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
+                UnitOfWork.newCurrent();
                 int flightId = Integer.parseInt(request.getParameter("flightId"));
                 // Delete all tickets of the flight before deleting the flight
                 TicketDataMapper ticketDataMapper = TicketDataMapper.getInstance();
                 List<Ticket> tickets = ticketDataMapper.getAll(flightId);
                 for (Ticket ticket : tickets) {
-                    UnitOfWork.getInstance().registerDeleted(ticket);
+                    UnitOfWork.getCurrent().registerDeleted(ticket);
                 }
                 Flight flight = FlightDataMapper.getInstance().findById(flightId);
-                UnitOfWork.getInstance().registerDeleted(flight);
-                UnitOfWork.getInstance().commit();
+                UnitOfWork.getCurrent().registerDeleted(flight);
+                UnitOfWork.getCurrent().commit();
             } catch (Exception e) {
                 error(e);
             }

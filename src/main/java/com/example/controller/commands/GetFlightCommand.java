@@ -1,12 +1,7 @@
 package com.example.controller.commands;
 
-import com.example.datasource.AirlineDataMapper;
-import com.example.datasource.AirportDataMapper;
-import com.example.datasource.FlightDataMapper;
 import com.example.domain.Airline;
-import com.example.domain.Airport;
 import com.example.domain.Flight;
-import com.example.exception.TRSException;
 
 import javax.security.auth.Subject;
 import javax.servlet.ServletException;
@@ -21,14 +16,7 @@ public class GetFlightCommand extends AirlineCommand {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
                 Airline airline = getCurrentUser();
-                List<Flight> allFlights = FlightDataMapper.getInstance().getAll();
-                // Only forward flights created by airline with id equals airlineId
-                List<Flight> flights = new ArrayList<>();
-                for (Flight flight : allFlights) {
-                    if (flight.getAirlineId() == (int) airline.getId()) {
-                        flights.add(flight);
-                    }
-                }
+                List<Flight> flights = airline.getFlights();
                 request.setAttribute("flights", flights);
             } catch (Exception e) {
                 request.setAttribute("flights", new ArrayList<Flight>());

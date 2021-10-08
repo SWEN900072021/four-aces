@@ -10,6 +10,7 @@
     <title>TRS</title>
 </head>
 <body>
+<%@include file="components/navbar.jsp"%>
 <%
     if( session.getAttribute("auth") == null )
         response.sendRedirect("fourAces?command=Customer");

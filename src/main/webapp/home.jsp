@@ -5,6 +5,7 @@
     <title>TRS</title>
 </head>
 <body>
+<%@include file="components/navbar.jsp"%>
 <%
     if (request.getAttribute("customer") != null) {
         Customer customer = (Customer) request.getAttribute("customer");

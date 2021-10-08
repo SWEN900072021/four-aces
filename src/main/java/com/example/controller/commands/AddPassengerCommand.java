@@ -1,6 +1,5 @@
 package com.example.controller.commands;
 
-import com.example.controller.BookingController;
 import com.example.datasource.*;
 import com.example.domain.*;
 
@@ -8,9 +7,7 @@ import javax.security.auth.Subject;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.security.PrivilegedAction;
-import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 
 public class AddPassengerCommand extends CustomerCommand {
     @Override
@@ -26,8 +23,9 @@ public class AddPassengerCommand extends CustomerCommand {
         String idNum = request.getParameter("idNum");
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try{
+                UnitOfWork.newCurrent();
                 new Passenger(null, firstName, lastName, idType, idNum);
-                UnitOfWork.getInstance().commit();
+                UnitOfWork.getCurrent().commit();
 
                 HashMap<String, String> params = new HashMap<>();
                 params.put("passenger_firstname", firstName);
