@@ -1,5 +1,7 @@
 package com.example.domain;
 
+
+import com.example.datasource.PassengerDataMapper;
 import java.util.Objects;
 
 public class Ticket extends DomainObject{
@@ -69,5 +71,10 @@ public class Ticket extends DomainObject{
     public void setReservationId(int reservationId) {
         this.reservationId = reservationId;
         UnitOfWork.getCurrent().registerDirty(this);
+    }
+
+    public Passenger getPassenger() throws Exception {
+        Passenger passenger = PassengerDataMapper.getInstance().findById(passengerId);
+        return passenger;
     }
 }

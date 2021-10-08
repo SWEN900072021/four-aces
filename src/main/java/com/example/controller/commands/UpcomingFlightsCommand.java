@@ -1,9 +1,11 @@
 package com.example.controller.commands;
 
+import com.example.controller.BookingController;
 import com.example.datasource.ReservationDataMapper;
 import com.example.domain.Customer;
 import com.example.domain.Flight;
 import com.example.domain.Reservation;
+import com.example.domain.Ticket;
 
 import javax.security.auth.Subject;
 import javax.servlet.ServletException;
@@ -18,7 +20,9 @@ public class UpcomingFlightsCommand extends CustomerCommand {
     @Override
     public void processGet() throws ServletException, IOException {
         LocalDateTime now = LocalDateTime.now();
+        BookingController bookingController = BookingController.getInstance();
         HashMap<String, String> params = new HashMap<>();
+        HashMap<Flight, List<Ticket>> upcomingFlights = new HashMap<>();
         params.put("submitted", Boolean.toString(true));
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {try {
             Customer customer = getCurrentUser();
@@ -26,18 +30,20 @@ public class UpcomingFlightsCommand extends CustomerCommand {
             List<Reservation> reservations = ReservationDataMapper.getInstance().find(params);
             List<Flight> flights = new ArrayList<Flight>();
             for (Reservation reservation : reservations) {
-                flights.addAll(reservation.getFlights());
-            }
-            List<Flight> upcomingFlights = new ArrayList<Flight>();
-            for (Flight flight : flights) {
-                LocalDateTime flightDateTime = flight.getDateTime();
-                if (now.isBefore(flightDateTime)) {
-                    upcomingFlights.add(flight);
+                List<Flight> reservationFlights = reservation.getFlights();
+                for (Flight flight : reservationFlights) {
+                    LocalDateTime flightDateTime = flight.getDateTime();
+                    if (now.isBefore(flightDateTime)) {
+                        List<Ticket> tickets = bookingController.getReservedTickets(reservation.getId(), flight.getId());
+                        upcomingFlights.put(flight, tickets);
+                    }
                 }
+                flights.addAll(reservation.getFlights());
             }
             request.setAttribute("flights", upcomingFlights);
             forward("/upcomingFlights.jsp");
         } catch (Exception e) {
+            e.printStackTrace();
             request.setAttribute("error", "You've got no upcoming flight");
         }
             return null;
