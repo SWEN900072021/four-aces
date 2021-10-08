@@ -13,7 +13,6 @@ public class Airline extends User {
     private boolean pending;
     private List<Flight> flights;
 
-
     public Airline(Integer id, String username, String email, String password) {
         super(id);
         this.username = username;

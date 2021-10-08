@@ -9,6 +9,7 @@
   <title>TRS</title>
 </head>
 <body>
+<%@include file="components/navbar.jsp"%>
 <%
     if( session.getAttribute("auth") == null )
         response.sendRedirect("fourAces?command=Airline");
@@ -32,6 +33,8 @@
                     <th>Create Tickets</th>
                     <th>Edit</th>
                     <th>Delete</th>
+                    <th>View Passenger</th>
+                    <th>View Customer</th>
                 </tr>
             </thead>
         <tbody>
@@ -81,6 +84,18 @@
                         <form action="fourAces?command=DeleteFlight" method="post">
                             <input type="hidden" name="flightId" value=<%=flight.getId()%>>
                             <button type="submit">Delete Flight</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="fourAces?command=ViewPassenger" method="post">
+                            <input type="hidden" name="flightId" value=<%=flight.getId()%>>
+                            <button type="submit">View Passenger</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="fourAces?command=ViewCustomer" method="post">
+                            <input type="hidden" name="flightId" value=<%=flight.getId()%>>
+                            <button type="submit">View Customer</button>
                         </form>
                     </td>
                 </tr>

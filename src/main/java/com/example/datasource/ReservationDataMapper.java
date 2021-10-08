@@ -1,11 +1,11 @@
 package com.example.datasource;
 
+import com.example.controller.DBController;
 import com.example.domain.Passenger;
 import com.example.domain.Reservation;
+import com.example.exception.TRSException;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Types;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
@@ -22,17 +22,17 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
         };
     }
 
-    public static ReservationDataMapper getInstance(){
-        if( _instance == null ){
+    public static ReservationDataMapper getInstance() {
+        if (_instance == null) {
             return _instance = new ReservationDataMapper();
         }
         return _instance;
     }
 
     @Override
-    public String getSets(){
+    public String getSets() {
         ArrayList<String> sets = new ArrayList<>();
-        for( String field : fields ) {
+        for (String field : fields) {
             sets.add(field + " = ?");
         }
         return String.join(",", sets);
@@ -44,23 +44,42 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
         int customerId = resultSet.getInt("customer_id");
         int goFlightId = resultSet.getInt("go_flight");
         int returnFlightId = resultSet.getInt("return_flight");
-        boolean submitted  = resultSet.getBoolean("submitted");
+        boolean submitted = resultSet.getBoolean("submitted");
         return new Reservation(reservationId, customerId, goFlightId, returnFlightId, submitted);
     }
 
     @Override
     public void setPreparedStatement(PreparedStatement ps, Reservation obj) throws Exception {
-        ps.setInt(1,obj.getCustomerId());
+        ps.setInt(1, obj.getCustomerId());
         if (obj.getGoFlightId() != null) {
             ps.setInt(2, obj.getGoFlightId());
         } else {
             ps.setNull(2, Types.NULL);
         }
         if (obj.getReturnFlightId() != null) {
-            ps.setInt(3,obj.getReturnFlightId());
+            ps.setInt(3, obj.getReturnFlightId());
         } else {
             ps.setNull(3, Types.NULL);
         }
         ps.setBoolean(4, obj.isSubmitted());
+    }
+
+    public ArrayList<Integer> getPassengersIdByReservations(ArrayList<Reservation> reservations) throws Exception {
+        ArrayList<Integer> passengersId = new ArrayList<>();
+        Connection conn = new DBController().connect();
+        for (Reservation reservation : reservations) {
+            String sql = String.format(SQLSelect, "*", "passengerreservation", "WHERE " + pkey + " = " + reservation.getId());
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.execute();
+            ResultSet resultSet = ps.getResultSet();
+            while (resultSet.next()) {
+                int passenger_id = resultSet.getInt("passenger_id");
+                passengersId.add(passenger_id);
+            }
+            resultSet.close();
+            ps.close();
+        }
+        conn.close();
+        return passengersId;
     }
 }
