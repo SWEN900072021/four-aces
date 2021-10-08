@@ -1,16 +1,11 @@
 package com.example.controller.commands;
 
-import com.example.authentication.AAEnforcer;
 import com.example.authentication.CustomerPrincipal;
-import com.example.datasource.AdminDataMapper;
 import com.example.datasource.CustomerDataMapper;
 import com.example.domain.Customer;
-import com.example.domain.User;
-import com.example.exception.AccessDeniedException;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
-import java.security.Principal;
 import java.util.HashMap;
 
 public class CustomerCommand extends FrontCommand {

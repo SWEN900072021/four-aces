@@ -5,6 +5,7 @@ import com.example.datasource.CustomerDataMapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Admin extends User{
 
@@ -12,7 +13,7 @@ public class Admin extends User{
         super(id);
         this.username = username;
         this.password = password;
-        UnitOfWork.getInstance().registerNew(this);
+        UnitOfWork.getCurrent().registerNew(this);
     }
 
     public ArrayList<Airline> viewAirlines() throws Exception {
@@ -22,17 +23,4 @@ public class Admin extends User{
     public ArrayList<Customer> viewCustomers() throws Exception {
         return CustomerDataMapper.getInstance().getAll();
     }
-
-    public void viewCustomer(Customer customer){
-
-    }
-
-    public void updateAirport(Airport airport, HashMap<String, String> params){
-
-    }
-
-    public void deleteAirport(Airport airport){
-
-    }
-
 }

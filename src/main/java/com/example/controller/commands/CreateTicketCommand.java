@@ -2,7 +2,6 @@ package com.example.controller.commands;
 
 import com.example.datasource.AirplaneDataMapper;
 import com.example.domain.*;
-import com.example.exception.AccessDeniedException;
 
 import javax.security.auth.Subject;
 import javax.servlet.ServletException;
@@ -20,6 +19,7 @@ public class CreateTicketCommand extends AirlineCommand {
     public void processPost() throws ServletException, IOException {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
+                UnitOfWork.newCurrent();
                 int flightId = Integer.parseInt(request.getParameter("flightId"));
                 int airplaneId = Integer.parseInt(request.getParameter("airplaneId"));
                 AirplaneDataMapper airplaneDataMapper = AirplaneDataMapper.getInstance();
@@ -30,7 +30,7 @@ public class CreateTicketCommand extends AirlineCommand {
                     String seatClass = seat.getSeatClass();
                     String seatNumber = seat.getSeatNumber();
                     new Ticket(null, 100.0, flightId, seatClass, seatNumber);
-                    UnitOfWork.getInstance().commit();
+                    UnitOfWork.getCurrent().commit();
                 }
             }
             catch (Exception e) {

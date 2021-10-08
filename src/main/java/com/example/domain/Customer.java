@@ -1,6 +1,7 @@
 package com.example.domain;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Customer extends User {
 
@@ -14,7 +15,10 @@ public class Customer extends User {
         this.username = username;
         this.password = password;
         this.email = email;
-        UnitOfWork.getInstance().registerNew(this);
+        UnitOfWork uow = UnitOfWork.getCurrent();
+        if (!Objects.isNull(uow)) {
+            uow.registerNew(this);
+        }
     }
 
     public String getFirstName() {
@@ -28,12 +32,12 @@ public class Customer extends User {
     public String getEmail(){ return this.email;}
     public void setFirstName(String firstName){
         this.firstName = firstName;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public void setLastName(String lastName){
         this.lastName = lastName;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public void setEmail(String email){

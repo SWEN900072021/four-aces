@@ -6,6 +6,7 @@ import com.example.datasource.TicketDataMapper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class Reservation extends DomainObject {
 
@@ -20,7 +21,7 @@ public class Reservation extends DomainObject {
         this.goFlightId = null;
         this.returnFlightId = null;
         this.submitted = false;
-        UnitOfWork.getInstance().registerNew(this);
+        UnitOfWork.getCurrent().registerNew(this);
     }
 
     public Reservation(Integer reservationId, Integer customerId, Integer goFlightId, Integer returnFlightId, boolean submitted) {
@@ -37,17 +38,17 @@ public class Reservation extends DomainObject {
             this.returnFlightId = null;
         }
         this.submitted = submitted;
-        UnitOfWork.getInstance().registerNew(this);
+        UnitOfWork.getCurrent().registerNew(this);
     }
 
     public void bookGoFlight(Integer goFlightId) {
         this.goFlightId = goFlightId;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public void bookReturnFlight(Integer returnFlightId) {
         this.returnFlightId = returnFlightId;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public void bookTicket(Integer ticket) {
@@ -71,7 +72,7 @@ public class Reservation extends DomainObject {
 
     public void submitBooking() {
         this.submitted = true;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public List<Flight> getFlights() throws Exception {

@@ -29,8 +29,9 @@ public class ManagePassengerCommand extends CustomerCommand{
     @Override
     public void processPost() throws ServletException, IOException {
         try{
+            UnitOfWork.newCurrent();
             Passenger passenger = PassengerDataMapper.getInstance().findById(Integer.parseInt(request.getParameter("id")));
-            UnitOfWork.getInstance().commit();
+            UnitOfWork.getCurrent().commit();
             ViewPassenger();
         }catch (Exception e){
             error(e);

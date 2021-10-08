@@ -1,5 +1,7 @@
 package com.example.domain;
 
+import java.util.Objects;
+
 public class Ticket extends DomainObject{
     private double price;
     private int flightId;
@@ -17,7 +19,7 @@ public class Ticket extends DomainObject{
         this.seatNumber = seatNumber;
         this.passengerId = null;
         this.reservationId = null;
-        UnitOfWork.getInstance().registerNew(this);
+        UnitOfWork.getCurrent().registerNew(this);
     }
 
     public Ticket(Integer id, Double price, int flightId, String seatClass, String seatNumber, Integer passengerId, Integer reservationId) {
@@ -28,7 +30,7 @@ public class Ticket extends DomainObject{
         this.seatNumber = seatNumber;
         this.passengerId = passengerId;
         this.reservationId = reservationId;
-        UnitOfWork.getInstance().registerNew(this);
+        UnitOfWork.getCurrent().registerNew(this);
     }
 
     public double getPrice() {
@@ -53,7 +55,7 @@ public class Ticket extends DomainObject{
 
     public void setPassengerId(int passengerId) {
         this.passengerId = passengerId;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public Integer getPassengerId() {
@@ -66,6 +68,6 @@ public class Ticket extends DomainObject{
 
     public void setReservationId(int reservationId) {
         this.reservationId = reservationId;
-        UnitOfWork.getInstance().registerDirty(this);
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 }

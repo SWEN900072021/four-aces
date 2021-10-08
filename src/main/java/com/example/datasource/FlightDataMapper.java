@@ -1,13 +1,15 @@
 package com.example.datasource;
 
 import com.example.controller.DBController;
+import com.example.domain.Airport;
 import com.example.domain.Flight;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.postgresql.util.PGobject;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FlightDataMapper extends AbstractDataMapper<Flight> {
 
@@ -23,6 +25,7 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
                 "destination",
                 "airline_id",
                 "airplane_id",
+                "stopovers"
         };
         this.pkey = "flight_id";
     }
@@ -44,7 +47,9 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         int destination = Integer.parseInt(rs.getString("destination"));
         int airlineId = Integer.parseInt(rs.getString("airline_id"));
         int airplaneId = Integer.parseInt(rs.getString("airplane_id"));
-        Flight flight = new Flight(flightId, flightCode, flightDate, flightTime, source, destination, airlineId, airplaneId);
+        String stopoversString = rs.getString("stopovers");
+        Flight flight = new Flight(flightId, flightCode, flightDate, flightTime, source, destination,
+                                   airlineId, airplaneId, toList(stopoversString));
         return flight;
     }
 
@@ -57,6 +62,7 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         ps.setInt(5, flight.getDestinationAirportId());
         ps.setInt(6, flight.getAirlineId());
         ps.setInt(7, flight.getAirplaneId());
+        ps.setObject(8, toPGObject(flight.getStopoverAirports()));
     }
 
     public ArrayList<Flight> getAll(int airlineId) throws SQLException {
@@ -76,5 +82,41 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         ps.close();
         conn.close();
         return flights;
+    }
+
+    // Covert List to PGObject for inserting in database
+    private PGobject toPGObject(List<Airport> stopovers) throws SQLException {
+        JSONObject stopoversObj = new JSONObject();
+        JSONArray stopoversArray = new JSONArray();
+        for (Airport airport : stopovers) {
+            JSONObject airportObj = new JSONObject();
+            airportObj.put("airport_id", airport.getId());
+            airportObj.put("referenceCode", airport.getReferenceCode());
+            airportObj.put("address", airport.getAddress());
+            stopoversArray.put(airportObj);
+        }
+        stopoversObj.put("stopovers", stopoversArray);
+
+        // Wrap the JSONObject in a PGobject, otherwise it cannot be inserted into database
+        PGobject pGobject = new PGobject();
+        pGobject.setType("jsonb");
+        pGobject.setValue(stopoversObj.toString());
+
+        return pGobject;
+    }
+
+    // Covert JSON string to List
+    private List<Integer> toList(String stopoversString) {
+        List<Integer> stopovers = new ArrayList<>();
+        JSONObject stopoversObj = new JSONObject(stopoversString);
+        JSONArray stopoversArr = stopoversObj.getJSONArray("stopovers");
+        for (int i = 0; i < stopoversArr.length(); i++) {
+            int airportId = stopoversArr.getJSONObject(i).getInt("airport_id");
+            String referenceCode = stopoversArr.getJSONObject(i).getString("referenceCode");
+            String address = stopoversArr.getJSONObject(i).getString("address");
+            Airport airport = new Airport(airportId, referenceCode, address);
+            stopovers.add(airport.getId());
+        }
+        return stopovers;
     }
 }

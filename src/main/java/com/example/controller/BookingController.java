@@ -27,8 +27,9 @@ public class BookingController {
 
     public void bookGoFlight(int customerId, int flightId) throws Exception {
         if (map.get(customerId) == null) {
+            UnitOfWork.newCurrent();
             Reservation reservation = new Reservation(null, customerId);
-            UnitOfWork.getInstance().commit();
+            UnitOfWork.getCurrent().commit();
             HashMap<String, String> params = new HashMap<>();
             params.put("customer_id", Integer.toString(customerId));
             params.put("submitted", Boolean.toString(false));
@@ -52,8 +53,9 @@ public class BookingController {
 
     public void bookReturnFlight(int customerId, int flightId) throws Exception {
         if (map.get(customerId) == null) {
+            UnitOfWork.newCurrent();
             Reservation reservation = new Reservation(null, customerId);
-            UnitOfWork.getInstance().commit();
+            UnitOfWork.getCurrent().commit();
             HashMap<String, String> params = new HashMap<>();
             params.put("customer_id", Integer.toString(customerId));
             params.put("submitted", Boolean.toString(false));
@@ -77,10 +79,11 @@ public class BookingController {
     }
 
     public void bookTicket(int customerId, int passengerId, int ticketId, String type) throws Exception {
+        UnitOfWork.newCurrent();
         Ticket ticket = TicketDataMapper.getInstance().findById(ticketId);
         ticket.setPassengerId(passengerId);
         ticket.setReservationId(map.get(customerId).getId());
-        UnitOfWork.getInstance().commit();
+        UnitOfWork.getCurrent().commit();
     }
 
     public boolean isReturning(int customerId) {
@@ -88,8 +91,9 @@ public class BookingController {
     }
 
     public void submitBooking(int customerId) throws Exception {
+        UnitOfWork.newCurrent();
         map.get(customerId).submitBooking();
-        UnitOfWork.getInstance().commit();
+        UnitOfWork.getCurrent().commit();
         map.remove(customerId);
     }
 }

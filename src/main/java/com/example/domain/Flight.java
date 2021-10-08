@@ -18,8 +18,10 @@ public class Flight extends DomainObject {
     private Integer destination;
     private Integer airlineId;
     private Integer airplaneId;
+    private List<Integer> stopovers;
 
-    public Flight(Integer id, String code, String date, String time, int source, int destination, Integer airlineId, Integer airplaneId) {
+    public Flight(Integer id, String code, String date, String time, int source, int destination,
+                  Integer airlineId, Integer airplaneId, List<Integer> stopovers) {
         super(id);
         this.code = code;
         this.date = date;
@@ -28,7 +30,8 @@ public class Flight extends DomainObject {
         this.destination = destination;
         this.airlineId = airlineId;
         this.airplaneId = airplaneId;
-        UnitOfWork.getInstance().registerNew(this);
+        this.stopovers = stopovers;
+        UnitOfWork.getCurrent().registerNew(this);
     }
 
     public String getCode() {
@@ -61,14 +64,7 @@ public class Flight extends DomainObject {
         return dateTime;
     }
 
-    public Airline getAirline() throws Exception {
-        return AirlineDataMapper.getInstance().findById(airlineId);
-    }
-
-    public int getSource() { return this.source; }
-
     public Integer getSourceAirportId() { return this.source; }
-
 
     public Integer getDestinationAirportId() { return this.destination; }
 
@@ -80,43 +76,40 @@ public class Flight extends DomainObject {
         return AirportDataMapper.getInstance().findById(destination);
     }
 
+    public List<Airport> getStopoverAirports() throws Exception {
+        List<Airport> stopovers = new ArrayList<>();
+        AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
+        for (int airportId : this.stopovers) {
+            Airport airport = airportDataMapper.findById(airportId);
+            stopovers.add(airport);
+        }
+        return stopovers;
+    }
+
+    public String getStopoverAirportsString() throws Exception {
+        String stopovers = "";
+        AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
+        for (int airportId : this.stopovers) {
+            Airport airport = airportDataMapper.findById(airportId);
+            stopovers += airport.getReferenceCode() + " ";
+        }
+        return stopovers;
+    }
+
     public Integer getAirlineId() {
         return this.airlineId;
+    }
+
+    public Airline getAirline() throws Exception {
+        return AirlineDataMapper.getInstance().findById(this.airlineId);
     }
 
     public Integer getAirplaneId() {
         return this.airplaneId;
     }
 
-    public Airplane getAirplane() throws Exception {
-        AirplaneDataMapper airplaneDataMapper = AirplaneDataMapper.getInstance();
-        Airplane airplane = airplaneDataMapper.findById(this.airplaneId);
-        return airplane;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-        UnitOfWork.getInstance().registerDirty(this);
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-        UnitOfWork.getInstance().registerDirty(this);
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-        UnitOfWork.getInstance().registerDirty(this);
-    }
-
-    public void setSource(int source) {
-        this.source = source;
-        UnitOfWork.getInstance().registerDirty(this);
-    }
-
-    public void setDestination(int destination) {
-        this.destination = destination;
-        UnitOfWork.getInstance().registerDirty(this);
+    public Airplane getAirplane () throws Exception {
+        return AirplaneDataMapper.getInstance().findById(this.airplaneId);
     }
 
     public List<Ticket> getAvailableTickets() {
@@ -130,6 +123,31 @@ public class Flight extends DomainObject {
         } catch (Exception e) {
             return new ArrayList<Ticket>();
         }
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+        UnitOfWork.getCurrent().registerDirty(this);
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+        UnitOfWork.getCurrent().registerDirty(this);
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+        UnitOfWork.getCurrent().registerDirty(this);
+    }
+
+    public void setSource(int source) {
+        this.source = source;
+        UnitOfWork.getCurrent().registerDirty(this);
+    }
+
+    public void setDestination(int destination) {
+        this.destination = destination;
+        UnitOfWork.getCurrent().registerDirty(this);
     }
 }
 
