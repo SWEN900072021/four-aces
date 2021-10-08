@@ -1,6 +1,5 @@
 package com.example.domain;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Customer extends User {
@@ -8,7 +7,6 @@ public class Customer extends User {
     private String firstName;
     private String lastName;
     private String email;
-    private List<Flight> selectedFlights;
 
     public Customer(Integer id, String username, String email, String password) {
         super(id);
