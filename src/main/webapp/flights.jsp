@@ -50,9 +50,9 @@
                     </td>
                     <td><%= flight.getTime()%>
                     </td>
-                    <td><%= flight.getSourceAirport().getReferenceCode()%>
+                    <td><%= flight.getSource().getReferenceCode()%>
                     </td>
-                    <td><%= flight.getDestinationAirport().getReferenceCode()%>
+                    <td><%= flight.getDestination().getReferenceCode()%>
                     </td>
                     <td><%= flight.getStopoverAirportsString()%>
                     </td>
@@ -61,7 +61,7 @@
                     <td>
                         <form action="fourAces?command=CreateTicket" method="post">
                             <input type="hidden" name="flightId" value=<%= flight.getId()%>>
-                            <input type="hidden" name="airplaneId" value="<%=flight.getAirplaneId()%>">
+                            <input type="hidden" name="airplaneId" value="<%=flight.getAirplane().getId()%>">
                             <button <%=tickets.size() > 0 ? "disabled" : ""%> type="submit">Create Tickets</button>
                         </form>
                     </td>

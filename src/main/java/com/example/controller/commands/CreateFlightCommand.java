@@ -1,9 +1,8 @@
 package com.example.controller.commands;
 
+import com.example.datasource.AirplaneDataMapper;
 import com.example.datasource.AirportDataMapper;
-import com.example.domain.Airline;
-import com.example.domain.Airport;
-import com.example.domain.UnitOfWork;
+import com.example.domain.*;
 
 import javax.security.auth.Subject;
 import javax.servlet.ServletException;
@@ -31,24 +30,30 @@ public class CreateFlightCommand extends AirlineCommand {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
                 UnitOfWork.newCurrent();
+                AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
+                AirplaneDataMapper airplaneDataMapper = AirplaneDataMapper.getInstance();
+
                 Airline airline = getCurrentUser();
                 String flightCode = request.getParameter("flightCode");
                 String flightDate = request.getParameter("flightDate");
                 String flightTime = request.getParameter("flightTime");
-                int source = Integer.parseInt(request.getParameter("source"));
-                int destination = Integer.parseInt(request.getParameter("destination"));
-                int airplaneId = Integer.parseInt(request.getParameter("airplane"));
-                List<Integer> stopovers = new ArrayList<>();
+                Airport source = airportDataMapper.findById(Integer.parseInt(request.getParameter("source")));
+                Airport destination = airportDataMapper.findById(Integer.parseInt(request.getParameter("destination")));
+                Airplane airplane = airplaneDataMapper.findById(Integer.parseInt(request.getParameter("airplane")));
+                List<Airport> stopovers = new ArrayList<>();
                 if (request.getParameter("stopover1") != "") {
-                    stopovers.add(Integer.parseInt(request.getParameter("stopover1")));
+                    Airport stopover1 = airportDataMapper.findById(Integer.parseInt(request.getParameter("stopover1")));
+                    stopovers.add(stopover1);
                 }
                 if (request.getParameter("stopover2") != "") {
-                    stopovers.add(Integer.parseInt(request.getParameter("stopover2")));
+                    Airport stopover2 = airportDataMapper.findById(Integer.parseInt(request.getParameter("stopover2")));
+                    stopovers.add(stopover2);
                 }
                 if (request.getParameter("stopover3") != "") {
-                    stopovers.add(Integer.parseInt(request.getParameter("stopover3")));
+                    Airport stopover3 = airportDataMapper.findById(Integer.parseInt(request.getParameter("stopover3")));
+                    stopovers.add(stopover3);
                 }
-                airline.createFlight(flightCode, flightDate, flightTime, source, destination, airplaneId, stopovers);
+                new Flight(null, flightCode, flightDate, flightTime, source, destination, airline, airplane, stopovers);
                 UnitOfWork.getCurrent().commit();
                 forward("/airline.jsp");
             } catch (Exception e) {

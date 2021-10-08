@@ -1,6 +1,9 @@
 package com.example.controller.commands;
 
+import com.example.datasource.AirplaneDataMapper;
+import com.example.datasource.AirportDataMapper;
 import com.example.datasource.FlightDataMapper;
+import com.example.domain.Airport;
 import com.example.domain.Flight;
 import com.example.domain.UnitOfWork;
 
@@ -16,6 +19,8 @@ public class EditFlightCommand extends AirlineCommand {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
                 UnitOfWork.newCurrent();
+                AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
+                AirplaneDataMapper airplaneDataMapper = AirplaneDataMapper.getInstance();
                 if (request.getParameter("forward") != null){
                     forward("/editFlight.jsp");
                     return null;
@@ -24,8 +29,8 @@ public class EditFlightCommand extends AirlineCommand {
                 String flightCode = request.getParameter("flightCode");
                 String flightDate = request.getParameter("flightDate");
                 String flightTime = request.getParameter("flightTime");
-                int destination = Integer.parseInt(request.getParameter("destination"));
-                int source = Integer.parseInt(request.getParameter("source"));
+                Airport destination = airportDataMapper.findById(Integer.parseInt(request.getParameter("destination")));
+                Airport source = airportDataMapper.findById(Integer.parseInt(request.getParameter("source")));
                 Flight flight = null;
                 flight = FlightDataMapper.getInstance().findById(flightId);
                 flight.setCode(flightCode);
