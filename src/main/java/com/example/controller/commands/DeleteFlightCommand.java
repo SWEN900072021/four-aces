@@ -10,8 +10,9 @@ import javax.security.auth.Subject;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.security.PrivilegedAction;
+import java.util.HashMap;
 import java.util.List;
-//TODO
+
 public class DeleteFlightCommand extends AirlineCommand {
     @Override
     public void processGet() throws ServletException, IOException {
@@ -25,7 +26,9 @@ public class DeleteFlightCommand extends AirlineCommand {
                 int flightId = Integer.parseInt(request.getParameter("flightId"));
                 // Delete all tickets of the flight before deleting the flight
                 TicketDataMapper ticketDataMapper = TicketDataMapper.getInstance();
-                List<Ticket> tickets = ticketDataMapper.getAll(flightId);
+                HashMap<String, String> params = new HashMap<>();
+                params.put("flight_id", flightId+"");
+                List<Ticket> tickets = ticketDataMapper.find(params);
                 for (Ticket ticket : tickets) {
                     UnitOfWork.getCurrent().registerDeleted(ticket);
                 }

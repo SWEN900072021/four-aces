@@ -16,35 +16,19 @@ public class SelectSeatsCommand extends CustomerCommand {
 
     @Override
     public void processGet() throws ServletException, IOException {
-        Subject.doAs(aaEnforcer.getSubject(), new PrivilegedAction<Object>() {
-            @Override
-            public Object run() {
-                try {
-                    Customer customer = getCurrentUser();
-                    List<Ticket> tickets = BookingController.getInstance().getAvailableGoTickets(customer.getId());
-                    request.setAttribute("tickets", tickets);
-                    request.setAttribute("type", "go");
-                    request.setAttribute("returning", BookingController.getInstance().isReturning(customer.getId()));
-                } catch (Exception e) {
-                    error(e);
-                }
-                return null;
-            }
-        });
-        forward("/chooseSeats.jsp");
     }
 
     @Override
     public void processPost() throws ServletException, IOException {
         String type = request.getParameter("type");
-        int passengerId = Integer.parseInt(request.getParameter("passengerId"));
         int ticketId = Integer.parseInt(request.getParameter("select"));
+        Passenger passenger = (Passenger) request.getAttribute("passenger");
         Subject.doAs(aaEnforcer.getSubject(), new PrivilegedAction<Object>() {
             @Override
             public Object run() {try {
                 Customer customer = getCurrentUser();
                 int customerId = customer.getId();
-                BookingController.getInstance().bookTicket(customerId, passengerId, ticketId, type);
+                BookingController.getInstance().bookTicket(customerId, passenger, ticketId, type);
                 boolean returning = BookingController.getInstance().isReturning(customerId);
                 if (type.equals("go") && returning) {
                     request.setAttribute("type", type);
@@ -52,7 +36,7 @@ public class SelectSeatsCommand extends CustomerCommand {
                     request.setAttribute("tickets", tickets);
                     request.setAttribute("type", "return");
                     request.setAttribute("returning", returning);
-                    request.setAttribute("passengerId",passengerId);
+                    request.setAttribute("passenger",passenger);
                     forward("/chooseSeats.jsp" );
                 } else {
                     forward("/addPassenger.jsp");

@@ -1,9 +1,11 @@
 package com.example.datasource;
 
 import com.example.domain.Airport;
+import com.example.exception.NoRecordFoundException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AirportDataMapper extends AbstractDataMapper<Airport> {
 
@@ -25,7 +27,7 @@ public class AirportDataMapper extends AbstractDataMapper<Airport> {
     }
 
     @Override
-    public Airport newDomainObject(ResultSet resultSet) throws Exception {
+    public Airport newDomainObject(ResultSet resultSet) throws SQLException, NoRecordFoundException {
         Integer airportId = Integer.parseInt(resultSet.getString("airport_id"));
         String code = resultSet.getString("referencecode");
         String address = resultSet.getString("address");
@@ -33,7 +35,7 @@ public class AirportDataMapper extends AbstractDataMapper<Airport> {
     }
 
     @Override
-    public void setPreparedStatement(PreparedStatement ps, Airport obj) throws Exception {
+    public void setPreparedStatement(PreparedStatement ps, Airport obj) throws SQLException {
         ps.setString(1,obj.getReferenceCode());
         ps.setString(2,obj.getAddress());
     }

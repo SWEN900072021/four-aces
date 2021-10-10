@@ -1,6 +1,7 @@
 package com.example.datasource;
 
 import com.example.domain.User;
+import com.example.exception.NoRecordFoundException;
 
 import java.sql.*;
 
@@ -14,14 +15,14 @@ public abstract class UserDataMapper<T extends User> extends AbstractDataMapper<
         this.pkey = this.prefix+"id";
     }
 
-    public void setPreparedStatement(PreparedStatement ps, T user) throws Exception {
+    public void setPreparedStatement(PreparedStatement ps, T user) throws SQLException {
         ps.setString(1, user.getUsername());
         ps.setString(2, user.getPassword());
     }
 
 
     @Override
-    public T newDomainObject(ResultSet resultSet) throws Exception {
+    public T newDomainObject(ResultSet resultSet) throws SQLException, NoRecordFoundException {
         int id = resultSet.getInt(prefix + "id");
         String username = resultSet.getString(prefix + "username");
         String email = resultSet.getString(prefix + "email");

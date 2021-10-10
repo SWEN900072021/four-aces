@@ -7,9 +7,9 @@
     <title>TRS</title>
 </head>
 <body>
-<%@include file="components/navbar.jsp"%>
+<%@include file="components/navbar.jsp" %>
 <%
-    if( session.getAttribute("auth") == null )
+    if (session.getAttribute("auth") == null)
         response.sendRedirect("fourAces?command=Customer");
 %>
 <h2>Would you like a return flight?</h2>
@@ -19,7 +19,13 @@
 <a href="${pageContext.request.contextPath}/fourAces?command=AddPassenger">
     <button>One Way only</button>
 </a>
-
+<%
+    if (flights.isEmpty()) {
+%>
+<h2>No Return Flight Created</h2>
+<%
+} else {
+%>
 <div align="left">
     <table border="1" cellpadding="5">
         <caption><h2>List of return flights</h2></caption>
@@ -64,6 +70,9 @@
         %>
         </tbody>
     </table>
+    <%
+        }
+    %>
 </div>
 </body>
 </html>

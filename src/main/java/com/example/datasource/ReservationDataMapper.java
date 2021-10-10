@@ -39,7 +39,7 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
     }
 
     @Override
-    public Reservation newDomainObject(ResultSet resultSet) throws Exception {
+    public Reservation newDomainObject(ResultSet resultSet) throws SQLException {
         int reservationId = resultSet.getInt("reservation_id");
         int customerId = resultSet.getInt("customer_id");
         int goFlightId = resultSet.getInt("go_flight");
@@ -49,7 +49,7 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
     }
 
     @Override
-    public void setPreparedStatement(PreparedStatement ps, Reservation obj) throws Exception {
+    public void setPreparedStatement(PreparedStatement ps, Reservation obj) throws SQLException {
         ps.setInt(1, obj.getCustomerId());
         if (obj.getGoFlightId() != null) {
             ps.setInt(2, obj.getGoFlightId());

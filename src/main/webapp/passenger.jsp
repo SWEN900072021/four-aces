@@ -22,13 +22,13 @@
 %>
 <div>passenger_id: <%= passenger.getId()%>
 </div>
-<div>passenegr_firstName: <%= passenger.getfirstName()%>
+<div>passenger_firstName: <%= passenger.getFirstName()%>
 </div>
-<div>passenger_lastName: <%= passenger.getlastName()%>
+<div>passenger_lastName: <%= passenger.getLastName()%>
 </div>
-<div>identificationType: <%= passenger.getIdentificationType()%>
+<div>identificationType: <%= passenger.getIdType()%>
 </div>
-<div>identificationNumber: <%= passenger.getIdentificationNumber()%>
+<div>identificationNumber: <%= passenger.getIdNumber()%>
 </div>
 
 <br/>

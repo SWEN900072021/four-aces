@@ -12,7 +12,6 @@ import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO
 public class CreateFlightCommand extends AirlineCommand {
 
     @Override
