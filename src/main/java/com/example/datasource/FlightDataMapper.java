@@ -3,6 +3,7 @@ package com.example.datasource;
 import com.example.controller.DBController;
 import com.example.domain.Airport;
 import com.example.domain.Flight;
+import com.example.exception.NoRecordFoundException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.postgresql.util.PGobject;
@@ -54,7 +55,7 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
     }
 
     @Override
-    public void setPreparedStatement(PreparedStatement ps, Flight flight) throws Exception {
+    public void setPreparedStatement(PreparedStatement ps, Flight flight) throws SQLException, NoRecordFoundException {
         ps.setString(1, flight.getCode());
         ps.setString(2, flight.getDate());
         ps.setString(3, flight.getTime());

@@ -4,7 +4,9 @@ import com.example.datasource.AirlineDataMapper;
 import com.example.datasource.AirportDataMapper;
 import com.example.datasource.AirplaneDataMapper;
 import com.example.datasource.TicketDataMapper;
+import com.example.exception.NoRecordFoundException;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,15 +70,15 @@ public class Flight extends DomainObject {
 
     public Integer getDestinationAirportId() { return this.destination; }
 
-    public Airport getSourceAirport() throws Exception {
+    public Airport getSourceAirport() throws SQLException, NoRecordFoundException {
         return AirportDataMapper.getInstance().findById(source);
     }
 
-    public Airport getDestinationAirport() throws Exception {
+    public Airport getDestinationAirport() throws SQLException, NoRecordFoundException {
         return AirportDataMapper.getInstance().findById(destination);
     }
 
-    public List<Airport> getStopoverAirports() throws Exception {
+    public List<Airport> getStopoverAirports() throws SQLException, NoRecordFoundException {
         List<Airport> stopovers = new ArrayList<>();
         AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
         for (int airportId : this.stopovers) {
@@ -86,7 +88,7 @@ public class Flight extends DomainObject {
         return stopovers;
     }
 
-    public String getStopoverAirportsString() throws Exception {
+    public String getStopoverAirportsString() throws SQLException, NoRecordFoundException {
         String stopovers = "";
         AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
         for (int airportId : this.stopovers) {
@@ -100,7 +102,7 @@ public class Flight extends DomainObject {
         return this.airlineId;
     }
 
-    public Airline getAirline() throws Exception {
+    public Airline getAirline() throws SQLException, NoRecordFoundException {
         return AirlineDataMapper.getInstance().findById(this.airlineId);
     }
 
@@ -108,7 +110,7 @@ public class Flight extends DomainObject {
         return this.airplaneId;
     }
 
-    public Airplane getAirplane () throws Exception {
+    public Airplane getAirplane () throws SQLException, NoRecordFoundException {
         return AirplaneDataMapper.getInstance().findById(this.airplaneId);
     }
 

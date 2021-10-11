@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.security.PrivilegedAction;
 import java.util.List;
-//TODO
 public class CreateTicketCommand extends AirlineCommand {
     @Override
     public void processGet() throws ServletException, IOException {

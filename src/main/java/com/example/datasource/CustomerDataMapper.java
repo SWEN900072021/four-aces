@@ -1,9 +1,11 @@
 package com.example.datasource;
 
 import com.example.domain.Customer;
+import com.example.exception.NoRecordFoundException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class CustomerDataMapper extends UserDataMapper<Customer> {
 
@@ -26,7 +28,7 @@ public class CustomerDataMapper extends UserDataMapper<Customer> {
     }
 
     @Override
-    public void setPreparedStatement(PreparedStatement ps, Customer user) throws Exception {
+    public void setPreparedStatement(PreparedStatement ps, Customer user) throws SQLException {
         super.setPreparedStatement(ps, user);
         ps.setString(3, user.getEmail());
         ps.setString(4, user.getFirstName());
@@ -34,7 +36,7 @@ public class CustomerDataMapper extends UserDataMapper<Customer> {
     }
 
     @Override
-    public Customer newDomainObject(ResultSet resultSet) throws Exception {
+    public Customer newDomainObject(ResultSet resultSet) throws SQLException, NoRecordFoundException {
         Customer customer = super.newDomainObject(resultSet);
         customer.setFirstName(resultSet.getString(prefix + "firstname"));
         customer.setLastName(resultSet.getString(prefix + "lastname"));

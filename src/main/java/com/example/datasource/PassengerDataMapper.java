@@ -1,15 +1,10 @@
 package com.example.datasource;
 
-import com.example.controller.DBController;
 import com.example.domain.Passenger;
-import com.example.domain.Reservation;
-import com.example.exception.TRSException;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class PassengerDataMapper extends AbstractDataMapper<Passenger> {
 
@@ -34,20 +29,20 @@ public class PassengerDataMapper extends AbstractDataMapper<Passenger> {
     }
 
     @Override
-    public Passenger newDomainObject(ResultSet resultSet) throws Exception {
+    public Passenger newDomainObject(ResultSet resultSet) throws SQLException {
         String firstname = resultSet.getString("passenger_firstname");
         String lastname = resultSet.getString("passenger_lastname");
         String idType = resultSet.getString("identificationtype");
         String idNumber = resultSet.getString("identificationnumber");
         int id = resultSet.getInt("passenger_id");
-        return new Passenger(id, firstname,lastname,idType,idNumber);
+        return new Passenger(id,firstname,lastname,idType,idNumber);
     }
 
     @Override
-    public void setPreparedStatement(PreparedStatement ps, Passenger obj) throws Exception {
-        ps.setString(1, obj.getfirstName());
-        ps.setString(2, obj.getlastName());
-        ps.setString(3, obj.getIdentificationType());
-        ps.setString(4, obj.getIdentificationNumber());
+    public void setPreparedStatement(PreparedStatement ps, Passenger obj) throws SQLException {
+        ps.setString(1, obj.getFirstName());
+        ps.setString(2, obj.getLastName());
+        ps.setString(3, obj.getIdType());
+        ps.setString(4, obj.getIdNumber());
     }
 }

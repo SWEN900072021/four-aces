@@ -13,7 +13,6 @@ public class LoginCommand extends FrontCommand {
 
     @Override
     public void processGet() throws ServletException, IOException {
-        // forward("/login.jsp");
     }
 
     @Override

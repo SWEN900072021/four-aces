@@ -39,7 +39,6 @@
 
 <div align="left">
     <form action="fourAces?command=SelectSeats" method="post">
-        <input type="hidden" name="passengerId" value=<%=request.getParameter("passengerId")%>>
         <input type="hidden" name="type" value=<%=type%>>
     <table style="border: 1px solid black; border-collapse: collapse">
         <tbody>

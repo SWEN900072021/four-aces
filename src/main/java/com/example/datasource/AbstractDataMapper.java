@@ -2,6 +2,7 @@ package com.example.datasource;
 
 import com.example.controller.DBController;
 import com.example.domain.DomainObject;
+import com.example.exception.NoRecordFoundException;
 import com.example.exception.TRSException;
 
 import java.sql.*;
@@ -46,7 +47,7 @@ public abstract class AbstractDataMapper<T extends DomainObject> implements Data
      * @return
      * @throws Exception
      */
-    public abstract T newDomainObject(ResultSet resultSet) throws Exception;
+    public abstract T newDomainObject(ResultSet resultSet) throws SQLException, NoRecordFoundException;
 
     /**
      * set the PreparedStatement with object
@@ -54,7 +55,7 @@ public abstract class AbstractDataMapper<T extends DomainObject> implements Data
      * @param obj
      * @throws Exception
      */
-    public abstract void setPreparedStatement(PreparedStatement ps, T obj) throws Exception;
+    public abstract void setPreparedStatement(PreparedStatement ps, T obj) throws SQLException, NoRecordFoundException;
 
     /**
      * insert with a concrete object
@@ -62,7 +63,7 @@ public abstract class AbstractDataMapper<T extends DomainObject> implements Data
      * @throws Exception
      */
     @Override
-    public void insert(T obj) throws Exception {
+    public void insert(T obj) throws SQLException, TRSException, NoRecordFoundException {
         Connection conn = new DBController().connect();
         String[] valuesFormat = new String[fields.length];
         Arrays.fill(valuesFormat, "?");
@@ -70,10 +71,10 @@ public abstract class AbstractDataMapper<T extends DomainObject> implements Data
         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         this.setPreparedStatement(ps, obj);
         int rowAffected = ps.executeUpdate();
-        if (rowAffected == 0) throw new TRSException("No account has been created");
+        if (rowAffected == 0) throw new TRSException("Record Insertion Failed");
         if (rowAffected > 0) {
             ResultSet resultSet = ps.getGeneratedKeys();
-            if (!resultSet.next()) throw new TRSException("Account creation failed");
+            if (!resultSet.next()) throw new TRSException("Record Insertion Failed");
             resultSet.close();
         }
         ps.close();
@@ -83,10 +84,9 @@ public abstract class AbstractDataMapper<T extends DomainObject> implements Data
     /**
      * update database with a concrete object
      * @param obj
-     * @throws Exception
      */
     @Override
-    public void update(T obj) throws Exception {
+    public void update(T obj) throws SQLException, NoRecordFoundException {
         Connection conn = new DBController().connect();
         String sql = String.format(SQLUpdate, table, getSets(), String.format("%s = '%s'", pkey, obj.getId()));
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -95,26 +95,24 @@ public abstract class AbstractDataMapper<T extends DomainObject> implements Data
         ps.close();
         conn.close();
         if (rowAffected == 0) {
-            throw new TRSException("No record has the pkey value of " + obj.getId());
+            throw new NoRecordFoundException(table, obj.getId());
         }
     }
 
     /**
      * delete a record with a concrete object
      * @param obj
-     * @throws Exception
      */
     @Override
-    public void delete(T obj) throws Exception {
+    public void delete(T obj) throws SQLException {
         deleteById(obj.getId());
     }
 
     /**
      * delete record with id
      * @param id
-     * @throws Exception
      */
-    public void deleteById(int id) throws Exception{
+    public void deleteById(int id) throws SQLException{
         String sql = String.format(SQLDelete, table, String.format("%s='%d'", pkey, id));
         Connection conn = new DBController().connect();
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -126,10 +124,9 @@ public abstract class AbstractDataMapper<T extends DomainObject> implements Data
     /**
      * get all records in the table
      * @return ArrayList of the concrete instances
-     * @throws Exception
      */
     @Override
-    public ArrayList<T> getAll() throws Exception{
+    public ArrayList<T> getAll() throws SQLException, NoRecordFoundException {
         ArrayList<T> objs = new ArrayList<>();
         String sql = String.format(SQLSelect, "*", this.table, "");
 
@@ -137,13 +134,13 @@ public abstract class AbstractDataMapper<T extends DomainObject> implements Data
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.execute();
         ResultSet rs = ps.getResultSet();
+        conn.close();
         while(rs.next()){
             T obj = newDomainObject(rs);
             objs.add(obj);
         }
         rs.close();
         ps.close();
-        conn.close();
         return objs;
     }
 
@@ -151,22 +148,21 @@ public abstract class AbstractDataMapper<T extends DomainObject> implements Data
      * retrieve one record with id, may not applicable to some table such as airport
      * @param id
      * @return a concrete instance of the result
-     * @throws Exception
      */
     @Override
-    public T findById(int id) throws Exception {
+    public T findById(int id) throws SQLException, NoRecordFoundException  {
         Connection conn = new DBController().connect();
         String sql = String.format(SQLSelect, "*", table, "WHERE "+pkey+" = " + id);
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.execute();
         ResultSet resultSet = ps.getResultSet();
         if (!resultSet.next()) {
-            throw new TRSException("No record with this id was found in the database");
+            throw new NoRecordFoundException(table, id);
         }
+        conn.close();
         T obj = this.newDomainObject(resultSet);
         resultSet.close();
         ps.close();
-        conn.close();
         return obj;
     }
 
@@ -176,10 +172,10 @@ public abstract class AbstractDataMapper<T extends DomainObject> implements Data
      * @param params: HashMap(key, value): for example: searching customer with email, then ("email", email)
      * @return ArrayList of concrete instance that satisfies the condition
      * @throws SQLException
-     * @throws Exception
+     * @throws NoRecordFoundException
      */
     @Override
-    public ArrayList<T> find(HashMap<String, String> params) throws SQLException, Exception {
+    public ArrayList<T> find(HashMap<String, String> params) throws SQLException, NoRecordFoundException {
         ArrayList<String> conditions = new ArrayList<>();
         for (String key : params.keySet()) {
             // check if the key provided in the params is a column name in the database
@@ -201,25 +197,26 @@ public abstract class AbstractDataMapper<T extends DomainObject> implements Data
      * retrieve the records from the table with given condition, this can be used for inequalities
      * @param conditions, make sure it is String type,
      * @return ArrayList of concrete instances
-     * @throws Exception
+     * @throws SQLException, for sql errors
+     * @throws NoRecordFoundException, for no record found in the table
      */
-    public ArrayList<T> find(String conditions) throws Exception {
+    public ArrayList<T> find(String conditions) throws SQLException, NoRecordFoundException {
         ArrayList<T> objs = new ArrayList<>();
         Connection conn = new DBController().connect();
         String sql = String.format(SQLSelect, "*", table, conditions);
         PreparedStatement findStatement = conn.prepareStatement(sql);
         findStatement.execute();
         ResultSet resultSet = findStatement.getResultSet();
+        conn.close();
         while (resultSet.next()) {
             T obj = newDomainObject(resultSet);
             objs.add(obj);
         }
         if (objs.isEmpty()) {
-            throw new TRSException(String.format("No record found in table %s with condition %s", table, conditions));
+            throw new NoRecordFoundException(table, conditions);
         }
         resultSet.close();
         findStatement.close();
-        conn.close();
         return objs;
     }
 

@@ -34,10 +34,10 @@
         for (Passenger passenger : passengers){
 %>
     <tr>
-        <td><%=passenger.getfirstName()%></td>
-        <td><%=passenger.getlastName()%></td>
-        <td><%=passenger.getIdentificationType()%></td>
-        <td><%=passenger.getIdentificationNumber()%></td>
+        <td><%=passenger.getFirstName()%></td>
+        <td><%=passenger.getLastName()%></td>
+        <td><%=passenger.getIdType()%></td>
+        <td><%=passenger.getIdNumber()%></td>
     </tr>
 <%
         }

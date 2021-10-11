@@ -1,14 +1,11 @@
 package com.example.datasource;
 
 import com.example.domain.Admin;
-import com.example.domain.User;
+import com.example.exception.NoRecordFoundException;
 import com.example.exception.TRSException;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class AdminDataMapper extends UserDataMapper<Admin> {
 
@@ -28,19 +25,17 @@ public class AdminDataMapper extends UserDataMapper<Admin> {
     }
 
     @Override
-    public void insert(Admin obj) throws Exception {
+    public void insert(Admin obj) throws SQLException, TRSException, NoRecordFoundException {
         try {
             findById(1);
-            throw new Exception("Admin already created");
-        }catch ( TRSException e ){
-            if( e.getMessage().equals("No record with this id was found in the database") ){
-                super.insert(obj);
-            }
+            throw new TRSException("Admin account has been created");
+        }catch ( NoRecordFoundException e ){
+            super.insert(obj);
         }
     }
 
     @Override
-    public Admin newDomainObject(ResultSet rs) throws Exception{
+    public Admin newDomainObject(ResultSet rs) throws SQLException{
         String username = rs.getString(prefix+"username");
         String password = rs.getString(prefix+"password");
         int id = rs.getInt(prefix+"id");

@@ -4,6 +4,7 @@ import com.example.datasource.FlightDataMapper;
 import com.example.datasource.ReservationDataMapper;
 import com.example.datasource.TicketDataMapper;
 import com.example.domain.*;
+import com.example.exception.NoRecordFoundException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +48,12 @@ public class BookingController {
         HashMap<String, String> params = new HashMap<>();
         params.put("origin", Integer.toString(origin));
         params.put("destination", Integer.toString(destination));
-        List<Flight> returnFlights = FlightDataMapper.getInstance().find(params);
+        List<Flight> returnFlights;
+        try{
+            returnFlights = FlightDataMapper.getInstance().find(params);
+        }catch (NoRecordFoundException e){
+            returnFlights = new ArrayList<>();
+        }
         return returnFlights;
     }
 
@@ -61,7 +67,6 @@ public class BookingController {
             params.put("submitted", Boolean.toString(false));
             Reservation savedReservation = ReservationDataMapper.getInstance().find(params).get(0);
             map.put(customerId, savedReservation);
-
         }
         map.get(customerId).bookReturnFlight(flightId);
     }
@@ -78,11 +83,11 @@ public class BookingController {
         return tickets;
     }
 
-    public void bookTicket(int customerId, int passengerId, int ticketId, String type) throws Exception {
+    public void bookTicket(int customerId, Passenger passengerId, int ticketId, String type) throws Exception {
         UnitOfWork.newCurrent();
         Ticket ticket = TicketDataMapper.getInstance().findById(ticketId);
-        ticket.setPassengerId(passengerId);
-        ticket.setReservationId(map.get(customerId).getId());
+        ticket.setPassenger(passengerId);
+        ticket.setReservation(map.get(customerId));
         UnitOfWork.getCurrent().commit();
     }
 
@@ -101,7 +106,6 @@ public class BookingController {
         HashMap<String, String> params = new HashMap<>();
         params.put("reservation_id", Integer.toString(reservationId));
         params.put("flight_id", Integer.toString(flightId));
-        List<Ticket> tickets = TicketDataMapper.getInstance().find(params);
-        return tickets;
+        return TicketDataMapper.getInstance().find(params);
     }
 }

@@ -3,6 +3,7 @@ package com.example.datasource;
 import com.example.domain.Airline;
 import com.example.domain.Customer;
 import com.example.domain.Flight;
+import com.example.exception.NoRecordFoundException;
 import com.example.exception.TRSException;
 
 import java.sql.*;
@@ -30,7 +31,7 @@ public class AirlineDataMapper extends UserDataMapper<Airline>{
     }
 
     @Override
-    public void setPreparedStatement(PreparedStatement ps, Airline user) throws Exception {
+    public void setPreparedStatement(PreparedStatement ps, Airline user) throws SQLException {
         super.setPreparedStatement(ps, user);
         ps.setString(3, user.getEmail());
         ps.setString(4, user.getName());
@@ -38,7 +39,7 @@ public class AirlineDataMapper extends UserDataMapper<Airline>{
     }
 
     @Override
-    public Airline newDomainObject(ResultSet resultSet) throws Exception {
+    public Airline newDomainObject(ResultSet resultSet) throws SQLException, NoRecordFoundException {
         Airline airline = super.newDomainObject(resultSet);
         airline.setName(resultSet.getString(prefix+"name"));
         airline.setPending(resultSet.getBoolean(prefix+"pending"));

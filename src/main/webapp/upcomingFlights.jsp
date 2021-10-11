@@ -56,10 +56,10 @@
                         i = i + 1;
                 %>
                 <h3>Passenger <%=i%></h3>
-                <div>First Name: <%= ticket.getPassenger().getfirstName()%></div>
-                <div>Last Name: <%= ticket.getPassenger().getlastName()%></div>
-                <div>ID Type: <%= ticket.getPassenger().getIdentificationType()%></div>
-                <div>ID Number: <%= ticket.getPassenger().getIdentificationNumber()%></div>
+                <div>First Name: <%= ticket.getPassenger().getFirstName()%></div>
+                <div>Last Name: <%= ticket.getPassenger().getLastName()%></div>
+                <div>ID Type: <%= ticket.getPassenger().getIdType()%></div>
+                <div>ID Number: <%= ticket.getPassenger().getIdNumber()%></div>
                 <div>Seat Number: <%= ticket.getSeatNumber()%></div>
                 <div>Seat Class: <%= ticket.getSeatClass()%></div>
                 <%

@@ -11,19 +11,20 @@
     <title>Enter passenger detail</title>
 </head>
 <body>
-    <h2>Enter Passenger Detail</h2>
 
-    <form action="fourAces?command=AddPassenger" method = "post">
-        <label for="firstName">First Name: </label><input type="text" id="firstName" name="firstName"><br>
-        <label for="lastName">Last Name: </label><input type="text" id="lastName" name="lastName"><br>
-        <label for="idType">Identification Type: </label><input type="text" id="idType" name="idType"><br>
-        <label for="idNum">Identification Number: </label><input type="text" id="idNum" name="idNum"><br>
-        <input type="submit" value="Add Passenger">
-    </form>
+<h2>Enter Passenger Detail</h2>
 
-    <a href="<%= request.getContextPath()%>/fourAces?command=SubmitBooking">
-        <button>Submit booking</button>
-    </a>
+<form action="fourAces?command=AddPassenger" method="post">
+    <label for="firstName">First Name: </label><input type="text" id="firstName" name="firstName"><br>
+    <label for="lastName">Last Name: </label><input type="text" id="lastName" name="lastName"><br>
+    <label for="idType">Identification Type: </label><input type="text" id="idType" name="idType"><br>
+    <label for="idNum">Identification Number: </label><input type="text" id="idNum" name="idNum"><br>
+    <input type="submit" value="Add Passenger">
+</form>
+
+<a href="<%= request.getContextPath()%>/fourAces?command=SubmitBooking">
+    <button>Submit booking</button>
+</a>
 
 </body>
 </html>

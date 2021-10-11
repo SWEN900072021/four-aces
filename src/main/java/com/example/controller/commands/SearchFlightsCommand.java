@@ -4,6 +4,7 @@ import com.example.datasource.AirportDataMapper;
 import com.example.datasource.FlightDataMapper;
 import com.example.domain.Airport;
 import com.example.domain.Flight;
+import com.example.exception.NoRecordFoundException;
 
 import javax.security.auth.Subject;
 import javax.servlet.ServletException;
@@ -30,7 +31,6 @@ public class SearchFlightsCommand extends CustomerCommand {
             HashMap<String, String> destinationAirportParams = new HashMap<>();
             destinationAirportParams.put("address", request.getParameter("destination"));
 
-            ArrayList<Flight> flights = null;
             try {
                 List<Airport> originAirports = AirportDataMapper.getInstance().find(originAirportParams);
                 List<Airport> destinationAirports = AirportDataMapper.getInstance().find(destinationAirportParams);
@@ -38,7 +38,7 @@ public class SearchFlightsCommand extends CustomerCommand {
                     params.put("origin", Integer.toString(originAirports.get(0).getId()));
                     params.put("destination", Integer.toString(destinationAirports.get(0).getId()));
                     params.put("date", request.getParameter("date"));
-                    flights = FlightDataMapper.getInstance().find(params);
+                    ArrayList<Flight> flights = FlightDataMapper.getInstance().find(params);
                     List<Flight> availableFLights = new ArrayList<>();
                     for (Flight flight : flights) {
                         if (flight.getAvailableTickets().size() > 0) {
@@ -55,7 +55,7 @@ public class SearchFlightsCommand extends CustomerCommand {
                 } else {
                     request.setAttribute("error", "Flight not found. Please try searching another flight");
                 }
-            } catch (Exception e) {
+            } catch ( ServletException | SQLException | NoRecordFoundException | IOException e ) {
                 e.printStackTrace();
                 request.setAttribute("error", "Flight not found. Please try searching another flight");
             }

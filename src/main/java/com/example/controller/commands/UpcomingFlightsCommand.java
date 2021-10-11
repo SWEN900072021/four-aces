@@ -28,7 +28,6 @@ public class UpcomingFlightsCommand extends CustomerCommand {
             Customer customer = getCurrentUser();
             params.put("customer_id", Integer.toString(customer.getId()));
             List<Reservation> reservations = ReservationDataMapper.getInstance().find(params);
-            List<Flight> flights = new ArrayList<Flight>();
             for (Reservation reservation : reservations) {
                 List<Flight> reservationFlights = reservation.getFlights();
                 for (Flight flight : reservationFlights) {
@@ -38,7 +37,6 @@ public class UpcomingFlightsCommand extends CustomerCommand {
                         upcomingFlights.put(flight, tickets);
                     }
                 }
-                flights.addAll(reservation.getFlights());
             }
             request.setAttribute("flights", upcomingFlights);
             forward("/upcomingFlights.jsp");

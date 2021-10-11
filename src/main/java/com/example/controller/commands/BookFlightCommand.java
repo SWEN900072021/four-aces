@@ -35,6 +35,7 @@ public class BookFlightCommand extends CustomerCommand {
                         break;
                     case "return":
                         BookingController.getInstance().bookReturnFlight(customerId, flightId);
+                        // TODO: passing a list of existing passengers for users to choose
                         forward("/addPassenger.jsp");
                         break;
                     default:

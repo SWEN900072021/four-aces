@@ -42,7 +42,7 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
     }
 
     @Override
-    public Reservation newDomainObject(ResultSet resultSet) throws Exception {
+    public Reservation newDomainObject(ResultSet resultSet) throws SQLException {
         int reservationId = resultSet.getInt("reservation_id");
         int customerId = resultSet.getInt("customer_id");
         Customer customer = CustomerDataMapper.getInstance().findById(customerId);

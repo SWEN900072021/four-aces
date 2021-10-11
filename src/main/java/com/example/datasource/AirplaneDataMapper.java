@@ -28,12 +28,11 @@ public class AirplaneDataMapper extends AbstractDataMapper<Airplane> {
         int airplaneId = Integer.parseInt(rs.getString("airplane_id"));
         String airplaneType = rs.getString("airplane_type");
         String seats = rs.getString("seats");
-        Airplane airplane = new Airplane(airplaneId, airplaneType, seats);
-        return airplane;
+        return new Airplane(airplaneId, airplaneType, seats);
     }
 
     @Override
-    public void setPreparedStatement(PreparedStatement ps, Airplane airplane) throws Exception {
+    public void setPreparedStatement(PreparedStatement ps, Airplane airplane) throws SQLException {
         ps.setString(1, airplane.getType());
         ps.setString(2, airplane.getSeatsString());
 

@@ -9,9 +9,8 @@ public class Ticket extends DomainObject{
     private int flightId;
     private String seatClass;
     private String seatNumber;
-    private Boolean isAvailable;
-    private Integer passengerId;
-    private Integer reservationId;
+    private Passenger passenger;
+    private Reservation reservation;
 
     public Ticket(Integer id, Double price, int flightId, String seatClass, String seatNumber) {
         super(id);
@@ -19,19 +18,19 @@ public class Ticket extends DomainObject{
         this.flightId = flightId;
         this.seatClass = seatClass;
         this.seatNumber = seatNumber;
-        this.passengerId = null;
-        this.reservationId = null;
+        this.passenger = null;
+        this.reservation = null;
         UnitOfWork.getCurrent().registerNew(this);
     }
 
-    public Ticket(Integer id, Double price, int flightId, String seatClass, String seatNumber, Integer passengerId, Integer reservationId) {
+    public Ticket(Integer id, Double price, int flightId, String seatClass, String seatNumber, Passenger passenger, Reservation reservation) {
         super(id);
         this.price = price;
         this.flightId = flightId;
         this.seatClass = seatClass;
         this.seatNumber = seatNumber;
-        this.passengerId = passengerId;
-        this.reservationId = reservationId;
+        this.passenger = passenger;
+        this.reservation = reservation;
         UnitOfWork.getCurrent().registerNew(this);
     }
 
@@ -52,29 +51,25 @@ public class Ticket extends DomainObject{
     }
 
     public Boolean isAvailable() {
-        return (passengerId == null);
+        return (passenger == null);
     }
 
-    public void setPassengerId(int passengerId) {
-        this.passengerId = passengerId;
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
         UnitOfWork.getCurrent().registerDirty(this);
     }
 
-    public Integer getPassengerId() {
-        return this.passengerId;
-    }
-
-    public Integer getReservationId() {
-        return this.reservationId;
-    }
-
-    public void setReservationId(int reservationId) {
-        this.reservationId = reservationId;
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
         UnitOfWork.getCurrent().registerDirty(this);
     }
 
-    public Passenger getPassenger() throws Exception {
-        Passenger passenger = PassengerDataMapper.getInstance().findById(passengerId);
-        return passenger;
+    public Passenger getPassenger() {
+        return this.passenger;
     }
+
+    public Reservation getReservation() {
+        return this.reservation;
+    }
+
 }

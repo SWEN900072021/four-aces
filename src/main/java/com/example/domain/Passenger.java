@@ -1,5 +1,7 @@
 package com.example.domain;
 
+import com.example.datasource.PassengerDataMapper;
+
 import java.util.Objects;
 
 public class Passenger extends DomainObject {
@@ -17,24 +19,19 @@ public class Passenger extends DomainObject {
         UnitOfWork.getCurrent().registerNew(this);
     }
 
-
-    public Integer getId() {
-        return this.id;
-    }
-
-    public String getfirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public String getlastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    public String getIdentificationType() {
+    public String getIdType() {
         return idType;
     }
 
-    public String getIdentificationNumber() {
+    public String getIdNumber() {
         return idNumber;
     }
 
