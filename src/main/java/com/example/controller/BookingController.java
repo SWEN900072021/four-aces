@@ -43,8 +43,8 @@ public class BookingController {
 
     public List<Flight> getReturnFlights(int flightId) throws Exception {
         Flight flight = FlightDataMapper.getInstance().findById(flightId);
-        int origin = flight.getDestinationAirportId();
-        int destination = flight.getSourceAirportId();
+        int origin = flight.getDestination().getId();
+        int destination = flight.getSource().getId();
         HashMap<String, String> params = new HashMap<>();
         params.put("origin", Integer.toString(origin));
         params.put("destination", Integer.toString(destination));

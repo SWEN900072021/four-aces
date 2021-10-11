@@ -43,7 +43,7 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
 
 
     @Override
-    public Flight newDomainObject(ResultSet rs) throws Exception {
+    public Flight newDomainObject(ResultSet rs) throws SQLException, NoRecordFoundException {
         AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
         AirplaneDataMapper airplaneDataMapper = AirplaneDataMapper.getInstance();
         AirlineDataMapper airlineDataMapper = AirlineDataMapper.getInstance();
