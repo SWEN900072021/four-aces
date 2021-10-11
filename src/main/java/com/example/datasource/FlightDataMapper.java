@@ -1,6 +1,8 @@
 package com.example.datasource;
 
 import com.example.controller.DBController;
+import com.example.domain.Airline;
+import com.example.domain.Airplane;
 import com.example.domain.Airport;
 import com.example.domain.Flight;
 import com.example.exception.NoRecordFoundException;
@@ -38,19 +40,25 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         return _instance;
     }
 
+
+
     @Override
-    public Flight newDomainObject(ResultSet rs) throws SQLException {
+    public Flight newDomainObject(ResultSet rs) throws Exception {
+        AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
+        AirplaneDataMapper airplaneDataMapper = AirplaneDataMapper.getInstance();
+        AirlineDataMapper airlineDataMapper = AirlineDataMapper.getInstance();
+
         int flightId = Integer.parseInt(rs.getString("flight_id"));
         String flightCode = rs.getString("flight_code");
         String flightDate = rs.getString("flight_date");
         String flightTime = rs.getString("flight_time");
-        int source = Integer.parseInt(rs.getString("origin"));
-        int destination = Integer.parseInt(rs.getString("destination"));
-        int airlineId = Integer.parseInt(rs.getString("airline_id"));
-        int airplaneId = Integer.parseInt(rs.getString("airplane_id"));
+        Airport source = airportDataMapper.findById(Integer.parseInt(rs.getString("origin")));
+        Airport destination = airportDataMapper.findById(Integer.parseInt(rs.getString("destination")));
+        Airline airline = airlineDataMapper.findById(Integer.parseInt(rs.getString("airline_id")));
+        Airplane airplane = airplaneDataMapper.findById(Integer.parseInt(rs.getString("airplane_id")));
         String stopoversString = rs.getString("stopovers");
         Flight flight = new Flight(flightId, flightCode, flightDate, flightTime, source, destination,
-                                   airlineId, airplaneId, toList(stopoversString));
+                                   airline, airplane, toList(stopoversString));
         return flight;
     }
 
@@ -59,14 +67,14 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
         ps.setString(1, flight.getCode());
         ps.setString(2, flight.getDate());
         ps.setString(3, flight.getTime());
-        ps.setInt(4, flight.getSourceAirportId());
-        ps.setInt(5, flight.getDestinationAirportId());
-        ps.setInt(6, flight.getAirlineId());
-        ps.setInt(7, flight.getAirplaneId());
+        ps.setInt(4, flight.getSource().getId());
+        ps.setInt(5, flight.getDestination().getId());
+        ps.setInt(6, flight.getAirline().getId());
+        ps.setInt(7, flight.getAirplane().getId());
         ps.setObject(8, toPGObject(flight.getStopoverAirports()));
     }
 
-    public ArrayList<Flight> getAll(int airlineId) throws SQLException {
+    public ArrayList<Flight> getAll(int airlineId) throws Exception {
         ArrayList<Flight> flights = new ArrayList<>();
         String sql = String.format(SQLSelect, "*", this.table, "WHERE airline_id = ?");
 
@@ -107,8 +115,8 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
     }
 
     // Covert JSON string to List
-    private List<Integer> toList(String stopoversString) {
-        List<Integer> stopovers = new ArrayList<>();
+    private List<Airport> toList(String stopoversString) {
+        List<Airport> stopovers = new ArrayList<>();
         JSONObject stopoversObj = new JSONObject(stopoversString);
         JSONArray stopoversArr = stopoversObj.getJSONArray("stopovers");
         for (int i = 0; i < stopoversArr.length(); i++) {
@@ -116,7 +124,7 @@ public class FlightDataMapper extends AbstractDataMapper<Flight> {
             String referenceCode = stopoversArr.getJSONObject(i).getString("referenceCode");
             String address = stopoversArr.getJSONObject(i).getString("address");
             Airport airport = new Airport(airportId, referenceCode, address);
-            stopovers.add(airport.getId());
+            stopovers.add(airport);
         }
         return stopovers;
     }
