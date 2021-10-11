@@ -25,26 +25,29 @@ public class SelectSeatsCommand extends CustomerCommand {
         Passenger passenger = (Passenger) request.getAttribute("passenger");
         Subject.doAs(aaEnforcer.getSubject(), new PrivilegedAction<Object>() {
             @Override
-            public Object run() {try {
-                Customer customer = getCurrentUser();
-                int customerId = customer.getId();
-                BookingController.getInstance().bookTicket(customerId, passenger, ticketId, type);
-                boolean returning = BookingController.getInstance().isReturning(customerId);
-                if (type.equals("go") && returning) {
-                    request.setAttribute("type", type);
-                    List<Ticket> tickets = BookingController.getInstance().getAvailableReturnTickets(customerId);
-                    request.setAttribute("tickets", tickets);
-                    request.setAttribute("type", "return");
-                    request.setAttribute("returning", returning);
-                    request.setAttribute("passenger",passenger);
-                    forward("/chooseSeats.jsp" );
-                } else {
-                    forward("/addPassenger.jsp");
+            public Object run() {
+                try {
+                    Customer customer = getCurrentUser();
+                    UnitOfWork unitOfWork = UnitOfWork.getCurrent();
+                    Reservation reservation = (Reservation) unitOfWork.getNewObjectOf("Reservation");
+                    Ticket ticket = TicketDataMapper.getInstance().findById(ticketId);
+                    ticket.setPassenger(passenger);
+                    reservation.bookTicket(ticket);
+                    boolean returning = reservation.isReturning();
+                    if (type.equals("go") && returning) {
+                        request.setAttribute("type", type);
+                        List<Ticket> tickets = BookingController.getInstance().getAvailableTickets(reservation.getReturnFlight());
+                        request.setAttribute("tickets", tickets);
+                        request.setAttribute("type", "return");
+                        request.setAttribute("returning", returning);
+                        request.setAttribute("passenger",passenger);
+                        forward("/chooseSeats.jsp" );
+                    } else {
+                        forward("/addPassenger.jsp");
+                    }
+                } catch (Exception e) {
+                    error(e);
                 }
-
-            } catch (Exception e) {
-                error(e);
-            }
                 return null;
             }
         });

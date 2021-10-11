@@ -6,6 +6,7 @@ import com.example.datasource.FlightDataMapper;
 import com.example.domain.Booking;
 import com.example.domain.Customer;
 import com.example.domain.Flight;
+import com.example.domain.UnitOfWork;
 import com.example.exception.TRSException;
 
 import javax.security.auth.Subject;
@@ -21,7 +22,7 @@ public class SubmitBookingCommand extends CustomerCommand {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
                 Customer customer = getCurrentUser();
-                BookingController.getInstance().submitBooking(customer.getId());
+                UnitOfWork.getCurrent().commit();
             } catch (Exception e) {
                 error(e);
             }

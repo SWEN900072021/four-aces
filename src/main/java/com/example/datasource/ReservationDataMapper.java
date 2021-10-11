@@ -5,8 +5,8 @@ import com.example.domain.Customer;
 import com.example.domain.Flight;
 import com.example.domain.Passenger;
 import com.example.domain.Reservation;
+import com.example.exception.NoRecordFoundException;
 import com.example.exception.TRSException;
-import jdk.jfr.FlightRecorderPermission;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
     }
 
     @Override
-    public Reservation newDomainObject(ResultSet resultSet) throws SQLException {
+    public Reservation newDomainObject(ResultSet resultSet) throws SQLException, NoRecordFoundException {
         int reservationId = resultSet.getInt("reservation_id");
         int customerId = resultSet.getInt("customer_id");
         Customer customer = CustomerDataMapper.getInstance().findById(customerId);
@@ -50,12 +50,11 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
         Flight goFlight = FlightDataMapper.getInstance().findById(goFlightId);
         int returnFlightId = resultSet.getInt("return_flight");
         Flight returnFlight = FlightDataMapper.getInstance().findById(returnFlightId);
-        boolean submitted = resultSet.getBoolean("submitted");
-        return new Reservation(reservationId, customer, goFlight, returnFlight, submitted);
+        return new Reservation(reservationId, customer, goFlight, returnFlight);
     }
 
     @Override
-    public void setPreparedStatement(PreparedStatement ps, Reservation obj) throws Exception {
+    public void setPreparedStatement(PreparedStatement ps, Reservation obj) throws SQLException {
         ps.setInt(1, obj.getCustomer().getId());
         if (obj.getGoFlight().getId() != null) {
             ps.setInt(2, obj.getGoFlight().getId());
@@ -67,7 +66,6 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
         } else {
             ps.setNull(3, Types.NULL);
         }
-        ps.setBoolean(4, obj.isSubmitted());
     }
 
     public ArrayList<Integer> getPassengersIdByReservations(ArrayList<Reservation> reservations) throws Exception {

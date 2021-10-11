@@ -70,4 +70,19 @@ public class UnitOfWork {
         deleteObjects.clear();
     }
 
+    public void abortAll() {
+        newObjects.clear();
+        dirtyObjects.clear();
+        deleteObjects.clear();
+    }
+
+    public DomainObject getNewObjectOf(String className) throws ClassNotFoundException {
+        Class<?> objClass = Class.forName(className);
+        for (DomainObject obj : newObjects) {
+            if (objClass.isInstance(obj)) {
+                return obj;
+            }
+        }
+        return null;
+    }
 }
