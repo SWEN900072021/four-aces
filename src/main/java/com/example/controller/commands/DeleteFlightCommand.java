@@ -5,6 +5,7 @@ import com.example.datasource.TicketDataMapper;
 import com.example.domain.Flight;
 import com.example.domain.Ticket;
 import com.example.domain.UnitOfWork;
+import com.example.exception.NoRecordFoundException;
 
 import javax.security.auth.Subject;
 import javax.servlet.ServletException;
@@ -28,9 +29,13 @@ public class DeleteFlightCommand extends AirlineCommand {
                 TicketDataMapper ticketDataMapper = TicketDataMapper.getInstance();
                 HashMap<String, String> params = new HashMap<>();
                 params.put("flight_id", flightId+"");
-                List<Ticket> tickets = ticketDataMapper.find(params);
-                for (Ticket ticket : tickets) {
-                    UnitOfWork.getCurrent().registerDeleted(ticket);
+                try {
+                    List<Ticket> tickets = ticketDataMapper.find(params);
+                    for (Ticket ticket : tickets) {
+                        UnitOfWork.getCurrent().registerDeleted(ticket);
+                    }
+                } catch (NoRecordFoundException e) {
+//                    e.printStackTrace();
                 }
                 Flight flight = FlightDataMapper.getInstance().findById(flightId);
                 UnitOfWork.getCurrent().registerDeleted(flight);
@@ -40,7 +45,6 @@ public class DeleteFlightCommand extends AirlineCommand {
             }
             return null;
         });
-        response.sendRedirect("/fourAces?command=GetFlight");
-
+        response.sendRedirect("fourAces?command=GetFlight");
     }
 }
