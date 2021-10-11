@@ -78,13 +78,12 @@ public class Flight extends DomainObject {
         return stopovers;
     }
 
-    public String getStopoverAirportsString() throws SQLException, NoRecordFoundException {
+    public String getStopoverAirportsString() {
         String stopovers = "";
-        // AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
-        // for (int airportId : this.stopovers) {
-        // Airport airport = airportDataMapper.findById(airportId);
-        // stopovers += airport.getReferenceCode() + " ";
-        // }
+         for (Airport airport: this.stopovers) {
+             stopovers += airport.getReferenceCode();
+             stopovers += " ";
+         }
         return stopovers;
     }
 
@@ -131,6 +130,11 @@ public class Flight extends DomainObject {
 
     public void setDestination(Airport destination) {
         this.destination = destination;
+        UnitOfWork.getCurrent().registerDirty(this);
+    }
+
+    public void setAirplane(Airplane airplane) {
+        this.airplane = airplane;
         UnitOfWork.getCurrent().registerDirty(this);
     }
 }

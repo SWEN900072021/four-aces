@@ -69,9 +69,6 @@
                         <form action="fourAces?command=EditFlight" method="post">
                             <input type="hidden" name="forward" value="forward">
                             <input type="hidden" name="flightId" value=<%= flight.getId()%>>
-                            <input type="hidden" name="code" value=<%=flight.getCode()%>>
-                            <input type="hidden" name="date" value=<%=flight.getDate()%>>
-                            <input type="hidden" name="time" value=<%=flight.getTime()%>>
                             <button type="submit">Edit Flight</button>
                         </form>
                     </td>
