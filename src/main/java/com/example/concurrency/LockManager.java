@@ -12,7 +12,7 @@ public class LockManager {
 
     private LockManager(){}
 
-    public static LockManager getInstance(){
+    public static synchronized LockManager getInstance(){
         if( _instance == null ){
             _instance = new LockManager();
         }
