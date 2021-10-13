@@ -99,5 +99,9 @@
         </table>
         <input type = "submit" value = "Save Edit">
     </form>
+    <p style="color: red">${error}</p>
+    <%
+        session.removeAttribute("error");
+    %>
 </body>
 </html>
