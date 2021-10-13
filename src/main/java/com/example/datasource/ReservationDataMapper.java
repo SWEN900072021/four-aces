@@ -47,14 +47,14 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
         int customerId = resultSet.getInt("customer_id");
         Customer customer = CustomerDataMapper.getInstance().findById(customerId);
         Flight goFlight;
-        if (resultSet.getInt("go_flight") >= 1) {
+        if (resultSet.getString("go_flight") != null) {
             int goFlightId = resultSet.getInt("return_flight");
             goFlight = FlightDataMapper.getInstance().findById(goFlightId);
         } else {
             goFlight = null;
         }
         Flight returnFlight;
-        if (resultSet.getInt("return_flight") >= 1) {
+        if (resultSet.getString("return_flight") != null) {
             int returnFlightId = resultSet.getInt("return_flight");
             returnFlight = FlightDataMapper.getInstance().findById(returnFlightId);
         } else {

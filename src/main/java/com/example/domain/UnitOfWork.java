@@ -77,9 +77,10 @@ public class UnitOfWork {
     }
 
     public DomainObject getNewObjectOf(String className) throws ClassNotFoundException {
-        Class<?> objClass = Class.forName(className);
+        Class<?> objClass = Class.forName("com.example.domain."+className);
         for (DomainObject obj : newObjects) {
             if (objClass.isInstance(obj)) {
+                System.out.println("FOUND IT");
                 return obj;
             }
         }

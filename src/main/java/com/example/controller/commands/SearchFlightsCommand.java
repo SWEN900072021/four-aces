@@ -37,7 +37,7 @@ public class SearchFlightsCommand extends CustomerCommand {
                 if (originAirports.size() > 0 && destinationAirports.size() > 0) {
                     params.put("origin", Integer.toString(originAirports.get(0).getId()));
                     params.put("destination", Integer.toString(destinationAirports.get(0).getId()));
-                    params.put("date", request.getParameter("date"));
+                    params.put("flight_date", request.getParameter("date"));
                     ArrayList<Flight> flights = FlightDataMapper.getInstance().find(params);
                     List<Flight> availableFLights = new ArrayList<>();
                     for (Flight flight : flights) {
@@ -46,6 +46,7 @@ public class SearchFlightsCommand extends CustomerCommand {
                         }
                     }
                     if (availableFLights.size() == 0) {
+                        System.out.println("NO FLIGHT FOUND");
                         request.setAttribute("error", "Flight not found. Please try searching another flight");
                         forward("/customer.jsp");
                     } else {
@@ -53,15 +54,26 @@ public class SearchFlightsCommand extends CustomerCommand {
                         forward("/searchFlightsResult.jsp");
                     }
                 } else {
+                    System.out.println("NO AIRPORT FOUND");
                     request.setAttribute("error", "Flight not found. Please try searching another flight");
+                    forward("/customer.jsp");
                 }
-            } catch ( ServletException | SQLException | NoRecordFoundException | IOException e ) {
+            } catch (NoRecordFoundException e) {
                 e.printStackTrace();
                 request.setAttribute("error", "Flight not found. Please try searching another flight");
+                try {
+                    forward("/customer.jsp");
+                } catch (ServletException ex) {
+                    ex.printStackTrace();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            } catch ( ServletException | SQLException | IOException e ) {
+                e.printStackTrace();
             }
             return null;
         });
-        forward("/customer.jsp");
+
     }
 
 }
