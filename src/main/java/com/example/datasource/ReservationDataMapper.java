@@ -46,10 +46,21 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
         int reservationId = resultSet.getInt("reservation_id");
         int customerId = resultSet.getInt("customer_id");
         Customer customer = CustomerDataMapper.getInstance().findById(customerId);
-        int goFlightId = resultSet.getInt("go_flight");
-        Flight goFlight = FlightDataMapper.getInstance().findById(goFlightId);
-        int returnFlightId = resultSet.getInt("return_flight");
-        Flight returnFlight = FlightDataMapper.getInstance().findById(returnFlightId);
+        Flight goFlight;
+        if (resultSet.getInt("go_flight") >= 1) {
+            int goFlightId = resultSet.getInt("return_flight");
+            goFlight = FlightDataMapper.getInstance().findById(goFlightId);
+        } else {
+            goFlight = null;
+        }
+        Flight returnFlight;
+        if (resultSet.getInt("return_flight") >= 1) {
+            int returnFlightId = resultSet.getInt("return_flight");
+            returnFlight = FlightDataMapper.getInstance().findById(returnFlightId);
+        } else {
+            returnFlight = null;
+        }
+
         return new Reservation(reservationId, customer, goFlight, returnFlight);
     }
 
