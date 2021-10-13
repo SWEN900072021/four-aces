@@ -16,22 +16,22 @@ public class Flight extends DomainObject {
     private String code;
     private String date;
     private String time;
-    private Integer source;
-    private Integer destination;
-    private Integer airlineId;
-    private Integer airplaneId;
-    private List<Integer> stopovers;
+    private Airport source;
+    private Airport destination;
+    private Airline airline;
+    private Airplane airplane;
+    private List<Airport> stopovers;
 
-    public Flight(Integer id, String code, String date, String time, int source, int destination,
-                  Integer airlineId, Integer airplaneId, List<Integer> stopovers) {
+    public Flight(Integer id, String code, String date, String time, Airport source, Airport destination,
+            Airline airline, Airplane airplane, List<Airport> stopovers) {
         super(id);
         this.code = code;
         this.date = date;
         this.time = time;
         this.source = source;
         this.destination = destination;
-        this.airlineId = airlineId;
-        this.airplaneId = airplaneId;
+        this.airline = airline;
+        this.airplane = airplane;
         this.stopovers = stopovers;
         UnitOfWork.getCurrent().registerNew(this);
     }
@@ -66,52 +66,33 @@ public class Flight extends DomainObject {
         return dateTime;
     }
 
-    public Integer getSourceAirportId() { return this.source; }
-
-    public Integer getDestinationAirportId() { return this.destination; }
-
-    public Airport getSourceAirport() throws SQLException, NoRecordFoundException {
-        return AirportDataMapper.getInstance().findById(source);
+    public Airport getSource() {
+        return this.source;
     }
 
-    public Airport getDestinationAirport() throws SQLException, NoRecordFoundException {
-        return AirportDataMapper.getInstance().findById(destination);
+    public Airport getDestination() {
+        return this.destination;
     }
 
-    public List<Airport> getStopoverAirports() throws SQLException, NoRecordFoundException {
-        List<Airport> stopovers = new ArrayList<>();
-        AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
-        for (int airportId : this.stopovers) {
-            Airport airport = airportDataMapper.findById(airportId);
-            stopovers.add(airport);
-        }
+    public List<Airport> getStopoverAirports() {
         return stopovers;
     }
 
-    public String getStopoverAirportsString() throws SQLException, NoRecordFoundException {
+    public String getStopoverAirportsString() {
         String stopovers = "";
-        AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
-        for (int airportId : this.stopovers) {
-            Airport airport = airportDataMapper.findById(airportId);
-            stopovers += airport.getReferenceCode() + " ";
-        }
+         for (Airport airport: this.stopovers) {
+             stopovers += airport.getReferenceCode();
+             stopovers += " ";
+         }
         return stopovers;
     }
 
-    public Integer getAirlineId() {
-        return this.airlineId;
+    public Airline getAirline() {
+        return this.airline;
     }
 
-    public Airline getAirline() throws SQLException, NoRecordFoundException {
-        return AirlineDataMapper.getInstance().findById(this.airlineId);
-    }
-
-    public Integer getAirplaneId() {
-        return this.airplaneId;
-    }
-
-    public Airplane getAirplane () throws SQLException, NoRecordFoundException {
-        return AirplaneDataMapper.getInstance().findById(this.airplaneId);
+    public Airplane getAirplane() {
+        return this.airplane;
     }
 
     public List<Ticket> getAvailableTickets() {
@@ -142,14 +123,18 @@ public class Flight extends DomainObject {
         UnitOfWork.getCurrent().registerDirty(this);
     }
 
-    public void setSource(int source) {
+    public void setSource(Airport source) {
         this.source = source;
         UnitOfWork.getCurrent().registerDirty(this);
     }
 
-    public void setDestination(int destination) {
+    public void setDestination(Airport destination) {
         this.destination = destination;
         UnitOfWork.getCurrent().registerDirty(this);
     }
-}
 
+    public void setAirplane(Airplane airplane) {
+        this.airplane = airplane;
+        UnitOfWork.getCurrent().registerDirty(this);
+    }
+}

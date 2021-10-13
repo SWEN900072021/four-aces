@@ -23,6 +23,7 @@ public class BookingController {
     public List<Flight> getReturnFlights(Flight flight) throws Exception {
         int origin = flight.getDestinationAirportId();
         int destination = flight.getSourceAirportId();
+
         HashMap<String, String> params = new HashMap<>();
         params.put("origin", Integer.toString(origin));
         params.put("destination", Integer.toString(destination));

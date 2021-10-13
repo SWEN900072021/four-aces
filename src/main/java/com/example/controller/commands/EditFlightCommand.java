@@ -1,6 +1,11 @@
 package com.example.controller.commands;
 
+import com.example.concurrency.LockManager;
+import com.example.datasource.AirplaneDataMapper;
+import com.example.datasource.AirportDataMapper;
 import com.example.datasource.FlightDataMapper;
+import com.example.domain.Airplane;
+import com.example.domain.Airport;
 import com.example.domain.Flight;
 import com.example.domain.UnitOfWork;
 
@@ -15,17 +20,25 @@ public class EditFlightCommand extends AirlineCommand {
     public void processPost() throws ServletException, IOException {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
-                UnitOfWork.newCurrent();
-                if (request.getParameter("forward") != null){
+                AirportDataMapper airportDataMapper = AirportDataMapper.getInstance();
+                AirplaneDataMapper airplaneDataMapper = AirplaneDataMapper.getInstance();
+                String httpSessionId = request.getSession(true).getId();
+                if (request.getParameter("forward") != null) {
+                    int flightId = Integer.parseInt(request.getParameter("flightId"));
+                    LockManager.getInstance().acquireLock("flight-" + flightId, httpSessionId);
+                    Flight flight = FlightDataMapper.getInstance().findById(flightId);
+                    request.setAttribute("flight", flight);
                     forward("/editFlight.jsp");
                     return null;
                 }
+                UnitOfWork.newCurrent();
                 int flightId = Integer.parseInt(request.getParameter("flightId"));
                 String flightCode = request.getParameter("flightCode");
                 String flightDate = request.getParameter("flightDate");
                 String flightTime = request.getParameter("flightTime");
-                int destination = Integer.parseInt(request.getParameter("destination"));
-                int source = Integer.parseInt(request.getParameter("source"));
+                Airport destination = airportDataMapper.findById(Integer.parseInt(request.getParameter("destination")));
+                Airport source = airportDataMapper.findById(Integer.parseInt(request.getParameter("source")));
+                Airplane airplane = airplaneDataMapper.findById(Integer.parseInt(request.getParameter("airplane")));
                 Flight flight = null;
                 flight = FlightDataMapper.getInstance().findById(flightId);
                 flight.setCode(flightCode);
@@ -33,9 +46,13 @@ public class EditFlightCommand extends AirlineCommand {
                 flight.setTime(flightTime);
                 flight.setSource(source);
                 flight.setDestination(destination);
+                flight.setAirplane(airplane);
                 UnitOfWork.getCurrent().commit();
+
+                LockManager.getInstance().releaseLock("flight-" + flightId, httpSessionId);
             } catch (Exception e) {
-                error(e);
+                e.printStackTrace();
+                request.getSession().setAttribute("error", "Unable to edit flight. " + e);
             }
             return null;
         });

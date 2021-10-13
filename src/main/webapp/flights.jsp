@@ -50,9 +50,9 @@
                     </td>
                     <td><%= flight.getTime()%>
                     </td>
-                    <td><%= flight.getSourceAirport().getReferenceCode()%>
+                    <td><%= flight.getSource().getReferenceCode()%>
                     </td>
-                    <td><%= flight.getDestinationAirport().getReferenceCode()%>
+                    <td><%= flight.getDestination().getReferenceCode()%>
                     </td>
                     <td><%= flight.getStopoverAirportsString()%>
                     </td>
@@ -61,7 +61,7 @@
                     <td>
                         <form action="fourAces?command=CreateTicket" method="post">
                             <input type="hidden" name="flightId" value=<%= flight.getId()%>>
-                            <input type="hidden" name="airplaneId" value="<%=flight.getAirplaneId()%>">
+                            <input type="hidden" name="airplaneId" value="<%=flight.getAirplane().getId()%>">
                             <button <%=tickets.size() > 0 ? "disabled" : ""%> type="submit">Create Tickets</button>
                         </form>
                     </td>
@@ -69,9 +69,6 @@
                         <form action="fourAces?command=EditFlight" method="post">
                             <input type="hidden" name="forward" value="forward">
                             <input type="hidden" name="flightId" value=<%= flight.getId()%>>
-                            <input type="hidden" name="code" value=<%=flight.getCode()%>>
-                            <input type="hidden" name="date" value=<%=flight.getDate()%>>
-                            <input type="hidden" name="time" value=<%=flight.getTime()%>>
                             <button type="submit">Edit Flight</button>
                         </form>
                     </td>
@@ -102,5 +99,9 @@
     </div>
     <br/>
     <button onclick="window.location.href = '<%= request.getContextPath()%>/airline.jsp'">Return to Home Page</button>
+    <p style="color: red">${error}</p>
+    <%
+        session.removeAttribute("error");
+    %>
 </body>
 </html>

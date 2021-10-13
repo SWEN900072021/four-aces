@@ -46,11 +46,6 @@ public class Airline extends User {
         return this.name;
     }
 
-    public void createFlight(String flightCode, String flightDate, String flightTime, int source, int destination,
-                             int airplaneId, List<Integer> stopovers) {
-        new Flight(null, flightCode, flightDate, flightTime, source, destination, this.id, airplaneId, stopovers);
-    }
-
     @Override
     public void login(String password) throws Exception {
         if (!this.password.equals(password)) {
