@@ -99,5 +99,9 @@
     </div>
     <br/>
     <button onclick="window.location.href = '<%= request.getContextPath()%>/airline.jsp'">Return to Home Page</button>
+    <p style="color: red">${error}</p>
+    <%
+        session.removeAttribute("error");
+    %>
 </body>
 </html>
