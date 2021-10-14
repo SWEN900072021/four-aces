@@ -15,9 +15,7 @@ public class BookingUnitOfWork {
     private Reservation reservation = null;
     private HashMap<Passenger, ArrayList<Ticket>> passengerTickets = new HashMap<>();
 
-    public BookingUnitOfWork(Reservation reservation) {
-        this.reservation = reservation;
-    }
+    private Passenger currentPassenger = null;
 
     public BookingUnitOfWork() {
     }
@@ -32,11 +30,8 @@ public class BookingUnitOfWork {
         }
     }
 
-    public void registerTicket(Passenger passenger, Ticket ticket) {
-        if (!passengerTickets.containsKey(passenger)) {
-            passengerTickets.put(passenger, new ArrayList<>());
-        }
-        passengerTickets.get(passenger).add(ticket);
+    public void registerTicket(Ticket ticket) {
+        passengerTickets.get(currentPassenger).add(ticket);
     }
 
     public void commit() throws Exception {
@@ -70,5 +65,12 @@ public class BookingUnitOfWork {
         this.passengerTickets.clear();
     }
 
+    public Passenger getCurrentPassenger() {
+        return currentPassenger;
+    }
+
+    public void setCurrentPassenger(Passenger currentPassenger) {
+        this.currentPassenger = currentPassenger;
+    }
 }
 

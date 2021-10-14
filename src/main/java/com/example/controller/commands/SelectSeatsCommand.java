@@ -20,20 +20,21 @@ public class SelectSeatsCommand extends CustomerCommand {
 
     @Override
     public void processPost() throws ServletException, IOException {
-        String type = request.getParameter("type");
-        int ticketId = Integer.parseInt(request.getParameter("select"));
-        Passenger passenger = (Passenger) request.getAttribute("passenger");
         Subject.doAs(aaEnforcer.getSubject(), new PrivilegedAction<Object>() {
             @Override
             public Object run() {
                 try {
+                    String type = request.getParameter("type");
+                    int ticketId = Integer.parseInt(request.getParameter("select"));
+                    Passenger passenger = (Passenger) request.getAttribute("passenger");
                     Customer customer = getCurrentUser();
                     //UnitOfWork unitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
                     BookingUnitOfWork bookingUnitOfWork = (BookingUnitOfWork) request.getSession().getAttribute("bookingUnitOfWork");
+                    //Passenger passenger = bookingUnitOfWork.getCurrentPassenger();
                     //Reservation reservation = (Reservation) unitOfWork.getNewObjectOf("Reservation");
                     Reservation reservation = bookingUnitOfWork.getReservation();
                     Ticket ticket = TicketDataMapper.getInstance().findById(ticketId);
-                    bookingUnitOfWork.registerTicket(passenger, ticket);
+                    bookingUnitOfWork.registerTicket(ticket);
 //                    ticket.setPassenger(passenger);
 //                    reservation.bookTicket(passenger, ticket);
                     boolean returning = reservation.isReturning();
@@ -43,7 +44,7 @@ public class SelectSeatsCommand extends CustomerCommand {
                         request.setAttribute("tickets", tickets);
                         request.setAttribute("type", "return");
                         request.setAttribute("returning", returning);
-                        request.setAttribute("passenger",passenger);
+                        //request.setAttribute("passenger",passenger);
                         forward("/chooseSeats.jsp" );
                     } else {
                         forward("/addPassenger.jsp");

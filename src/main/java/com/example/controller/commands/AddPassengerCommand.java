@@ -32,10 +32,11 @@ public class AddPassengerCommand extends CustomerCommand {
                 Passenger passenger = new Passenger(null, firstName, lastName, idType, idNum);
                 bookingUnitOfWork.registerPassenger(passenger);
                 Reservation reservation = bookingUnitOfWork.getReservation();
+                bookingUnitOfWork.setCurrentPassenger(passenger);
                 //reservation.addPassenger(passenger);
                 Flight flight = reservation.getGoFlight();
                 List<Ticket> tickets = BookingController.getInstance().getAvailableTickets(flight);
-                request.setAttribute("passenger", passenger);
+                //request.setAttribute("passenger", passenger);
                 request.setAttribute("tickets", tickets);
                 request.setAttribute("type", "go");
                 request.setAttribute("returning", reservation.isReturning());
