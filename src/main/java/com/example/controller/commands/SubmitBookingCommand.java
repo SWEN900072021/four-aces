@@ -3,10 +3,7 @@ package com.example.controller.commands;
 import com.example.controller.BookingController;
 import com.example.datasource.CustomerDataMapper;
 import com.example.datasource.FlightDataMapper;
-import com.example.domain.Booking;
-import com.example.domain.Customer;
-import com.example.domain.Flight;
-import com.example.domain.UnitOfWork;
+import com.example.domain.*;
 import com.example.exception.TRSException;
 
 import javax.security.auth.Subject;
@@ -22,8 +19,9 @@ public class SubmitBookingCommand extends CustomerCommand {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
                 Customer customer = getCurrentUser();
-                UnitOfWork unitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
-
+                //UnitOfWork unitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
+                BookingUnitOfWork bookingUnitOfWork = (BookingUnitOfWork) request.getSession().getAttribute("bookingUnitOfWork");
+                bookingUnitOfWork.commit();
             } catch (Exception e) {
                 error(e);
             }

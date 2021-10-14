@@ -45,6 +45,9 @@ public class BookingUnitOfWork {
         for (Passenger passenger : passengerTickets.keySet()) {
             Passenger savedPassenger;
             try {
+                if (passenger == null) {
+                    System.out.println("PASSENGER IS NULL");
+                }
                 savedPassenger = PassengerDataMapper.getInstance().find(passenger);
             } catch (NoRecordFoundException e) {
                 PassengerDataMapper.getInstance().insert(passenger);
@@ -53,7 +56,7 @@ public class BookingUnitOfWork {
             for (Ticket ticket : passengerTickets.get(passenger)) {
                 ticket.setPassenger(savedPassenger);
                 ticket.setReservation(savedReservation);
-                TicketDataMapper.getInstance().insert(ticket);
+                TicketDataMapper.getInstance().update(ticket);
             }
         }
     }

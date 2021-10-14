@@ -29,20 +29,22 @@ public class BookFlightCommand extends CustomerCommand {
                 int customerId = customer.getId();
                 switch (type) {
                     case "go":
-                        UnitOfWork unitOfWork = UnitOfWork.getCurrent();
-                        //BookingUnitOfWork bookingUnitOfWork = new BookingUnitOfWork();
+                        //UnitOfWork unitOfWork = UnitOfWork.getCurrent();
+                        BookingUnitOfWork bookingUnitOfWork = new BookingUnitOfWork();
                         Reservation reservation = new Reservation(null, customer);
                         reservation.bookGoFlight(flight);
-                        //bookingUnitOfWork.registerReservation(reservation);
+                        bookingUnitOfWork.registerReservation(reservation);
                         List<Flight> returnFlights = BookingController.getInstance().getReturnFlights(flight);
                         request.setAttribute("returnFlights", returnFlights);
-                        request.getSession().setAttribute("unitOfWork", unitOfWork);
-
+                        //request.getSession().setAttribute("unitOfWork", unitOfWork);
+                        request.getSession().setAttribute("bookingUnitOfWork", bookingUnitOfWork);
                         forward("/returnFlight.jsp");
                         break;
                     case "return":
-                        UnitOfWork newUnitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
-                        Reservation createdReservation = (Reservation) newUnitOfWork.getNewObjectOf("Reservation");
+                        BookingUnitOfWork newUnitOfWork = (BookingUnitOfWork) request.getSession().getAttribute("bookingUnitOfWork");
+                        //UnitOfWork newUnitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
+                        //Reservation createdReservation = (Reservation) newUnitOfWork.getNewObjectOf("Reservation");
+                        Reservation createdReservation = newUnitOfWork.getReservation();
                         createdReservation.bookReturnFlight(flight);
                         //request.getSession().setAttribute("unitOfWork", newUnitOfWork);
                         // TODO: passing a list of existing passengers for users to choose

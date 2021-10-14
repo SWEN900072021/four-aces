@@ -52,7 +52,8 @@ public class PassengerDataMapper extends AbstractDataMapper<Passenger> {
         Passenger result = find("WHERE passenger_firstname='" + passenger.getFirstName() +
                 "' AND passenger_lastname= '" + passenger.getLastName() +
                 "' AND identificationType= '" + passenger.getIdType() +
-                "' AND identificationNumber= '" + passenger.getIdNumber()).get(0);
+                "' AND identificationNumber= '" + passenger.getIdNumber() +
+                "'").get(0);
         return result;
     }
 }

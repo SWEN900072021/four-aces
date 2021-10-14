@@ -21,32 +21,18 @@ public class AddPassengerCommand extends CustomerCommand {
     @Override
     public void processPost() throws ServletException, IOException {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
+            String firstName = request.getParameter("firstName");
+            String lastName = request.getParameter("lastName");
+            String idType = request.getParameter("idType");
+            String idNum = request.getParameter("idNum");
             try{
-                String firstName = request.getParameter("firstName");
-                String lastName = request.getParameter("lastName");
-                String idType = request.getParameter("idType");
-                String idNum = request.getParameter("idNum");
                 Customer customer = getCurrentUser();
-                UnitOfWork unitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
-                Passenger passenger;
-                HashMap<String, String> params = new HashMap<>();
-                params.put("passenger_firstname", firstName);
-                params.put("passenger_lastname", lastName);
-                params.put("identificationtype", idType);
-                params.put("identificationnumber", idNum);
-                try {
-                    passenger = PassengerDataMapper.getInstance().find(params).get(0);
-                } catch (NoRecordFoundException e) {
-                    passenger = new Passenger(null, firstName, lastName, idType, idNum);
-                    PassengerDataMapper.getInstance().insert(passenger);
-                    try {
-                        passenger = PassengerDataMapper.getInstance().find(params).get(0);
-                    } catch (NoRecordFoundException ex) {
-                        e.printStackTrace();
-                    }
-                }
-                Reservation reservation = (Reservation) unitOfWork.getNewObjectOf("Reservation");
-                reservation.addPassenger(passenger);
+                //UnitOfWork unitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
+                BookingUnitOfWork bookingUnitOfWork = (BookingUnitOfWork) request.getSession().getAttribute("bookingUnitOfWork");
+                Passenger passenger = new Passenger(null, firstName, lastName, idType, idNum);
+                bookingUnitOfWork.registerPassenger(passenger);
+                Reservation reservation = bookingUnitOfWork.getReservation();
+                //reservation.addPassenger(passenger);
                 Flight flight = reservation.getGoFlight();
                 List<Ticket> tickets = BookingController.getInstance().getAvailableTickets(flight);
                 request.setAttribute("passenger", passenger);

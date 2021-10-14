@@ -28,11 +28,14 @@ public class SelectSeatsCommand extends CustomerCommand {
             public Object run() {
                 try {
                     Customer customer = getCurrentUser();
-                    UnitOfWork unitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
-                    Reservation reservation = (Reservation) unitOfWork.getNewObjectOf("Reservation");
+                    //UnitOfWork unitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
+                    BookingUnitOfWork bookingUnitOfWork = (BookingUnitOfWork) request.getSession().getAttribute("bookingUnitOfWork");
+                    //Reservation reservation = (Reservation) unitOfWork.getNewObjectOf("Reservation");
+                    Reservation reservation = bookingUnitOfWork.getReservation();
                     Ticket ticket = TicketDataMapper.getInstance().findById(ticketId);
-                    ticket.setPassenger(passenger);
-                    reservation.bookTicket(passenger, ticket);
+                    bookingUnitOfWork.registerTicket(passenger, ticket);
+//                    ticket.setPassenger(passenger);
+//                    reservation.bookTicket(passenger, ticket);
                     boolean returning = reservation.isReturning();
                     if (type.equals("go") && returning) {
                         request.setAttribute("type", type);

@@ -24,7 +24,6 @@ public class UnitOfWork {
 
     public static UnitOfWork getCurrent() {
         if (Objects.isNull(current.get())) {
-            System.out.println("NEW UNITOFWORK CURRENT IS CREATED AGAIN");
             UnitOfWork uow = new UnitOfWork();
             setCurrent(uow);
             return uow;
@@ -82,7 +81,6 @@ public class UnitOfWork {
         Class<?> objClass = Class.forName("com.example.domain."+className);
         for (DomainObject obj : newObjects) {
             if (objClass.isInstance(obj)) {
-                System.out.println("FOUND IT");
                 return obj;
             }
         }
