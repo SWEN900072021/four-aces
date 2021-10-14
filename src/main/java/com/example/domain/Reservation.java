@@ -16,6 +16,7 @@ public class Reservation extends DomainObject {
     private Flight goFlight;
     private Flight returnFlight;
     private ArrayList<Ticket> tickets;
+    private HashMap<Passenger, ArrayList<Ticket>> passengerTickets;
 
     public Reservation(Integer reservationId, Customer customer) {
         super(reservationId);
@@ -23,6 +24,7 @@ public class Reservation extends DomainObject {
         this.goFlight = null;
         this.returnFlight = null;
         this.tickets = null;
+        this.passengerTickets = null;
         UnitOfWork.getCurrent().registerNew(this);
     }
 
@@ -40,6 +42,7 @@ public class Reservation extends DomainObject {
             this.returnFlight = null;
         }
         this.tickets = null;
+        this.passengerTickets = null;
         UnitOfWork.getCurrent().registerNew(this);
     }
 
@@ -99,10 +102,48 @@ public class Reservation extends DomainObject {
         return (this.returnFlight != null);
     }
 
-    public void bookTicket(Ticket ticket) throws SQLException {
+    public void bookTicket(Ticket ticket) {
         if (this.tickets == null) {
-            getTickets();
+            this.tickets = new ArrayList<>();
         }
-            this.tickets.add(ticket);
+        this.tickets.add(ticket);
     }
+
+    public HashMap<Passenger, ArrayList<Ticket>> getPassengerTickets() {
+        if (this.passengerTickets == null) {
+            this.passengerTickets = new HashMap<Passenger, ArrayList<Ticket>>();
+            if (this.tickets == null || this.tickets.size() == 0) {
+                return this.passengerTickets;
+            } else {
+                for (Ticket ticket : tickets) {
+                    if (passengerTickets.containsKey(ticket.getPassenger())) {
+                        passengerTickets.get(ticket.getPassenger()).add(ticket);
+                    } else {
+                        passengerTickets.put(ticket.getPassenger(), new ArrayList<>());
+                        passengerTickets.get(ticket.getPassenger()).add(ticket);
+                    }
+                }
+                return this.passengerTickets;
+            }
+        } else {
+            return this.passengerTickets;
+        }
+    }
+
+    public void addPassenger(Passenger passenger) {
+        getPassengerTickets();
+        if (!passengerTickets.containsKey(passenger)) {
+            passengerTickets.put(passenger, new ArrayList<>());
+        }
+    }
+
+    public void bookTicket(Passenger passenger, Ticket ticket) {
+        this.bookTicket(ticket);
+        if (!passengerTickets.containsKey(passenger)) {
+            passengerTickets.put(passenger, new ArrayList<>());
+        }
+        passengerTickets.get(passenger).add(ticket);
+    }
+
+
 }

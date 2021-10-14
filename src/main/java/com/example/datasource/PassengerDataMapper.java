@@ -1,6 +1,8 @@
 package com.example.datasource;
 
 import com.example.domain.Passenger;
+import com.example.domain.Reservation;
+import com.example.exception.NoRecordFoundException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,5 +46,13 @@ public class PassengerDataMapper extends AbstractDataMapper<Passenger> {
         ps.setString(2, obj.getLastName());
         ps.setString(3, obj.getIdType());
         ps.setString(4, obj.getIdNumber());
+    }
+
+    public Passenger find(Passenger passenger) throws SQLException, NoRecordFoundException {
+        Passenger result = find("WHERE passenger_firstname='" + passenger.getFirstName() +
+                "' AND passenger_lastname= '" + passenger.getLastName() +
+                "' AND identificationType= '" + passenger.getIdType() +
+                "' AND identificationNumber= '" + passenger.getIdNumber()).get(0);
+        return result;
     }
 }

@@ -22,7 +22,8 @@ public class SubmitBookingCommand extends CustomerCommand {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
                 Customer customer = getCurrentUser();
-                UnitOfWork.getCurrent().commit();
+                UnitOfWork unitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
+
             } catch (Exception e) {
                 error(e);
             }

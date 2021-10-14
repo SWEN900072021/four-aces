@@ -28,25 +28,28 @@ public class AddPassengerCommand extends CustomerCommand {
                 String idNum = request.getParameter("idNum");
                 Customer customer = getCurrentUser();
                 UnitOfWork unitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
-                Passenger savedPassenger;
+                Passenger passenger;
                 HashMap<String, String> params = new HashMap<>();
                 params.put("passenger_firstname", firstName);
                 params.put("passenger_lastname", lastName);
                 params.put("identificationtype", idType);
                 params.put("identificationnumber", idNum);
                 try {
-                    savedPassenger = PassengerDataMapper.getInstance().find(params).get(0);
+                    passenger = PassengerDataMapper.getInstance().find(params).get(0);
                 } catch (NoRecordFoundException e) {
-                    e.printStackTrace();
-                    Passenger passenger = new Passenger(null, firstName, lastName, idType, idNum);
+                    passenger = new Passenger(null, firstName, lastName, idType, idNum);
                     PassengerDataMapper.getInstance().insert(passenger);
-                    savedPassenger = PassengerDataMapper.getInstance().find(params).get(0);
+                    try {
+                        passenger = PassengerDataMapper.getInstance().find(params).get(0);
+                    } catch (NoRecordFoundException ex) {
+                        e.printStackTrace();
+                    }
                 }
                 Reservation reservation = (Reservation) unitOfWork.getNewObjectOf("Reservation");
-
+                reservation.addPassenger(passenger);
                 Flight flight = reservation.getGoFlight();
                 List<Ticket> tickets = BookingController.getInstance().getAvailableTickets(flight);
-                request.setAttribute("passenger", savedPassenger);
+                request.setAttribute("passenger", passenger);
                 request.setAttribute("tickets", tickets);
                 request.setAttribute("type", "go");
                 request.setAttribute("returning", reservation.isReturning());

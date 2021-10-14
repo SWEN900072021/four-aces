@@ -97,4 +97,11 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
         conn.close();
         return passengersId;
     }
+
+    public Reservation find(Reservation reservation) throws SQLException, NoRecordFoundException {
+        Reservation result = find("WHERE customer_id='" + reservation.getCustomer().getId() +
+                "' AND go_flight= '" + reservation.getGoFlight().getId() +
+                "' AND return_flight= '" + reservation.getReturnFlight().getId()).get(0);
+        return result;
+    }
 }
