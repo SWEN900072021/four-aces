@@ -32,17 +32,19 @@ public class BookFlightCommand extends CustomerCommand {
                 int customerId = customer.getId();
                 switch (type) {
                     case "go":
-                        UnitOfWork.newCurrent();
+                        UnitOfWork unitOfWork = UnitOfWork.getCurrent();
                         Reservation reservation = new Reservation(null, customer);
                         reservation.bookGoFlight(flight);
                         List<Flight> returnFlights = BookingController.getInstance().getReturnFlights(flight);
                         request.setAttribute("returnFlights", returnFlights);
+                        request.getSession().setAttribute("unitOfWork", unitOfWork);
                         forward("/returnFlight.jsp");
                         break;
                     case "return":
-                        UnitOfWork unitOfWork = UnitOfWork.getCurrent();
-                        Reservation createdReservation = (Reservation) unitOfWork.getNewObjectOf("Reservation");
+                        UnitOfWork newUnitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
+                        Reservation createdReservation = (Reservation) newUnitOfWork.getNewObjectOf("Reservation");
                         createdReservation.bookReturnFlight(flight);
+                        //request.getSession().setAttribute("unitOfWork", newUnitOfWork);
                         // TODO: passing a list of existing passengers for users to choose
                         forward("/addPassenger.jsp");
                         break;

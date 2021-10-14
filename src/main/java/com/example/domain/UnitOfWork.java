@@ -14,6 +14,7 @@ public class UnitOfWork {
     private List<DomainObject> deleteObjects = new ArrayList<>();
 
     public static void newCurrent() {
+        System.out.println("SETTING NEW CURRENT");
         setCurrent(new UnitOfWork());
     }
 
@@ -23,6 +24,7 @@ public class UnitOfWork {
 
     public static UnitOfWork getCurrent() {
         if (Objects.isNull(current.get())) {
+            System.out.println("NEW UNITOFWORK CURRENT IS CREATED AGAIN");
             UnitOfWork uow = new UnitOfWork();
             setCurrent(uow);
             return uow;
@@ -84,6 +86,7 @@ public class UnitOfWork {
                 return obj;
             }
         }
+
         return null;
     }
 }

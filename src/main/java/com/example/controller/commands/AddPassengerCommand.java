@@ -20,14 +20,14 @@ public class AddPassengerCommand extends CustomerCommand {
 
     @Override
     public void processPost() throws ServletException, IOException {
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String idType = request.getParameter("idType");
-        String idNum = request.getParameter("idNum");
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try{
+                String firstName = request.getParameter("firstName");
+                String lastName = request.getParameter("lastName");
+                String idType = request.getParameter("idType");
+                String idNum = request.getParameter("idNum");
                 Customer customer = getCurrentUser();
-                UnitOfWork unitOfWork = UnitOfWork.getCurrent();
+                UnitOfWork unitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
                 Passenger savedPassenger;
                 HashMap<String, String> params = new HashMap<>();
                 params.put("passenger_firstname", firstName);
