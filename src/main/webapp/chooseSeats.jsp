@@ -66,6 +66,9 @@
     </table>
         <input type="submit" value="Select Seat">
     </form>
+    <a href="<%= request.getContextPath()%>/fourAces?command=CancelBooking">
+        <button>Cancel</button>
+    </a>
 </div>
 </body>
 </html>
