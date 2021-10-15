@@ -2,18 +2,14 @@ package com.example.controller.commands;
 
 import com.example.concurrency.LockManager;
 import com.example.datasource.FlightDataMapper;
+import com.example.datasource.ReservationDataMapper;
 import com.example.datasource.TicketDataMapper;
-import com.example.domain.Airline;
-import com.example.domain.Flight;
-import com.example.domain.Ticket;
-import com.example.domain.UnitOfWork;
+import com.example.domain.*;
 import com.example.exception.NoRecordFoundException;
 
 import javax.security.auth.Subject;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.List;
@@ -32,15 +28,23 @@ public class DeleteFlightCommand extends AirlineCommand {
                 int flightId = Integer.parseInt(request.getParameter("flightId"));
                 // Delete all tickets of the flight before deleting the flight
                 TicketDataMapper ticketDataMapper = TicketDataMapper.getInstance();
+                ReservationDataMapper reservationDataMapper = ReservationDataMapper.getInstance();
                 HashMap<String, String> params = new HashMap<>();
                 params.put("flight_id", flightId+"");
                 try {
                     List<Ticket> tickets = ticketDataMapper.find(params);
                     for (Ticket ticket : tickets) {
+                        // Delete all reservations
+                        if (ticket.getReservation() != null) {
+                            int reservationId = ticket.getReservation().getId();
+                            Reservation reservation = reservationDataMapper.findById(reservationId);
+                            UnitOfWork.getCurrent().registerDeleted(reservation);
+                        }
+
                         UnitOfWork.getCurrent().registerDeleted(ticket);
                     }
                 } catch (NoRecordFoundException e) {
-//                    e.printStackTrace();
+                    e.printStackTrace();
                 }
                 String httpSessionId = request.getSession(true).getId();
                 LockManager.getInstance().acquireLock("flight-" + flightId, httpSessionId);
