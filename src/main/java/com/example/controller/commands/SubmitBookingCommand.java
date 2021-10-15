@@ -1,5 +1,6 @@
 package com.example.controller.commands;
 
+import com.example.concurrency.LockManager;
 import com.example.controller.BookingController;
 import com.example.datasource.CustomerDataMapper;
 import com.example.datasource.FlightDataMapper;
@@ -18,10 +19,15 @@ public class SubmitBookingCommand extends CustomerCommand {
     public void processGet() throws ServletException, IOException {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
+                String httpSessionId = request.getSession(true).getId();
                 Customer customer = getCurrentUser();
                 //UnitOfWork unitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
                 BookingUnitOfWork bookingUnitOfWork = (BookingUnitOfWork) request.getSession().getAttribute("bookingUnitOfWork");
                 bookingUnitOfWork.commit();
+                for (Ticket ticket : bookingUnitOfWork.getAllTickets()) {
+                    LockManager.getInstance().releaseLock("ticket-" + ticket.getId(), httpSessionId);
+                }
+                bookingUnitOfWork.rollback();
             } catch (Exception e) {
                 error(e);
             }

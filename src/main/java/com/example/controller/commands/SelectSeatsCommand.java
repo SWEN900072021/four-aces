@@ -1,5 +1,6 @@
 package com.example.controller.commands;
 
+import com.example.concurrency.LockManager;
 import com.example.controller.BookingController;
 import com.example.datasource.CustomerDataMapper;
 import com.example.datasource.PassengerDataMapper;
@@ -24,6 +25,7 @@ public class SelectSeatsCommand extends CustomerCommand {
             @Override
             public Object run() {
                 try {
+                    String httpSessionId = request.getSession(true).getId();
                     String type = request.getParameter("type");
                     int ticketId = Integer.parseInt(request.getParameter("select"));
                     Passenger passenger = (Passenger) request.getAttribute("passenger");
@@ -34,6 +36,7 @@ public class SelectSeatsCommand extends CustomerCommand {
                     //Reservation reservation = (Reservation) unitOfWork.getNewObjectOf("Reservation");
                     Reservation reservation = bookingUnitOfWork.getReservation();
                     Ticket ticket = TicketDataMapper.getInstance().findById(ticketId);
+                    LockManager.getInstance().acquireLock("ticket-"+ticketId, httpSessionId);
                     bookingUnitOfWork.registerTicket(ticket);
 //                    ticket.setPassenger(passenger);
 //                    reservation.bookTicket(passenger, ticket);

@@ -1,11 +1,9 @@
 package com.example.controller.commands;
 
+import com.example.concurrency.LockManager;
 import com.example.controller.BookingController;
 import com.example.datasource.FlightDataMapper;
-import com.example.domain.BookingUnitOfWork;
-import com.example.domain.Customer;
-import com.example.domain.Flight;
-import com.example.domain.Reservation;
+import com.example.domain.*;
 import com.example.exception.TRSException;
 
 import javax.security.auth.Subject;
@@ -19,9 +17,13 @@ public class CancelBookingCommand extends CustomerCommand {
     public void processGet() throws ServletException, IOException {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
+                String httpSessionId = request.getSession(true).getId();
                 Customer customer = getCurrentUser();
                 //UnitOfWork unitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
                 BookingUnitOfWork bookingUnitOfWork = (BookingUnitOfWork) request.getSession().getAttribute("bookingUnitOfWork");
+                for (Ticket ticket : bookingUnitOfWork.getAllTickets()) {
+                    LockManager.getInstance().releaseLock("ticket-" + ticket.getId(), httpSessionId);
+                }
                 bookingUnitOfWork.rollback();
                 request.getSession().removeAttribute("bookingUnitOfWork");
             } catch (Exception e) {

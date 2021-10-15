@@ -63,6 +63,7 @@ public class BookingUnitOfWork {
     public void rollback() {
         this.reservation = null;
         this.passengerTickets.clear();
+        this.currentPassenger = null;
     }
 
     public Passenger getCurrentPassenger() {
@@ -71,6 +72,16 @@ public class BookingUnitOfWork {
 
     public void setCurrentPassenger(Passenger currentPassenger) {
         this.currentPassenger = currentPassenger;
+    }
+
+    public ArrayList<Ticket> getAllTickets() {
+        ArrayList<Ticket> result = new ArrayList<>();
+        for (ArrayList<Ticket> tickets : passengerTickets.values()) {
+            for (Ticket ticket : tickets) {
+                result.add(ticket);
+            }
+        }
+        return result;
     }
 }
 

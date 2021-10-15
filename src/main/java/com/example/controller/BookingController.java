@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.concurrency.LockManager;
 import com.example.datasource.FlightDataMapper;
 import com.example.datasource.ReservationDataMapper;
 import com.example.datasource.TicketDataMapper;
@@ -40,7 +41,15 @@ public class BookingController {
     public List<Ticket> getAvailableTickets(Flight flight) throws Exception {
         int flightId = flight.getId();
         List<Ticket> tickets = TicketDataMapper.getInstance().getAll(flightId, true);
-        return tickets;
+        List<Ticket> result = new ArrayList<>();
+        for (Ticket ticket : tickets) {
+            if (LockManager.getInstance().isAvailable("ticket-" + ticket.getId())) {
+                System.out.println("ticket-" + ticket.getId());
+                result.add(ticket);
+            }
+        }
+        System.out.println(tickets);
+        return result;
     }
 
     public List<Ticket> getReservedTickets(int reservationId, int flightId) throws Exception {
