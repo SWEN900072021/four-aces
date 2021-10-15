@@ -23,8 +23,8 @@
 <div>Flight Code: <%= flight.getCode()%></div>
 <div>Date: <%= flight.getDate()%></div>
 <div>Time: <%= flight.getTime()%></div>
-<div>Source: <%= flight.getSourceAirport().getReferenceCode()%></div>
-<div>Destination: <%= flight.getDestinationAirport().getReferenceCode()%></div>
+<div>Source: <%= flight.getSource().getReferenceCode()%></div>
+<div>Destination: <%= flight.getDestination().getReferenceCode()%></div>
 <div>Airline: <%= flight.getAirline().getName()%></div>
 <br/>
 <form action="${pageContext.request.contextPath}/fourAces?command=BookFlight" method="post">
