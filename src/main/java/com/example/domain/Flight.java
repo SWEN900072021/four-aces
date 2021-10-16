@@ -104,7 +104,7 @@ public class Flight extends DomainObject {
             tickets = TicketDataMapper.getInstance().find(params);
             return tickets;
         } catch (Exception e) {
-            return new ArrayList<Ticket>();
+            return new ArrayList<>();
         }
     }
 

@@ -1,4 +1,6 @@
-<%@ page import="com.example.domain.Passenger" %><%--
+<%@ page import="com.example.domain.Passenger" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.example.domain.BookingUnitOfWork" %><%--
   Created by IntelliJ IDEA.
   User: tienhinh
   Date: 24/9/21
@@ -11,14 +13,42 @@
     <title>Enter passenger detail</title>
 </head>
 <body>
+<%@include file="components/navbar.jsp" %>
 
 <h2>Enter Passenger Detail</h2>
-
+<%
+    ArrayList<Passenger> passengers;
+    if ((passengers = ((BookingUnitOfWork) session.getAttribute("bookingUnitOfWork")).getPassengers()) != null) {
+%>
+<table border="1" cellpadding="5">
+    <tr>
+        <th>First Name</th>
+        <td>Last Name</td>
+        <td>Identification Type</td>
+        <td>Identification Number</td>
+    </tr>
+    <%
+        for (Passenger passenger : passengers) {
+    %>
+    <tr>
+        <td><%=passenger.getFirstName()%></td>
+        <td><%=passenger.getLastName()%></td>
+        <td><%=passenger.getIdType()%></td>
+        <td><%=passenger.getIdNumber()%></td>
+    </tr>
+    <%
+        }
+    %>
+</table>
+<%
+    }
+%>
+<br>
 <form action="fourAces?command=AddPassenger" method="post">
-    <label for="firstName">First Name: </label><input type="text" id="firstName" name="firstName"><br>
-    <label for="lastName">Last Name: </label><input type="text" id="lastName" name="lastName"><br>
-    <label for="idType">Identification Type: </label><input type="text" id="idType" name="idType"><br>
-    <label for="idNum">Identification Number: </label><input type="text" id="idNum" name="idNum"><br>
+    <label for="firstName">First Name: </label><input type="text" id="firstName" name="firstName" required><br>
+    <label for="lastName">Last Name: </label><input type="text" id="lastName" name="lastName" required><br>
+    <label for="idType">Identification Type: </label><input type="text" id="idType" name="idType" required><br>
+    <label for="idNum">Identification Number: </label><input type="text" id="idNum" name="idNum" required><br>
     <input type="submit" value="Add Passenger">
 </form>
 

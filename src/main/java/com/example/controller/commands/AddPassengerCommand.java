@@ -9,6 +9,7 @@ import javax.security.auth.Subject;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.security.PrivilegedAction;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,7 +27,6 @@ public class AddPassengerCommand extends CustomerCommand {
             String idType = request.getParameter("idType");
             String idNum = request.getParameter("idNum");
             try{
-                Customer customer = getCurrentUser();
                 //UnitOfWork unitOfWork = (UnitOfWork) request.getSession().getAttribute("unitOfWork");
                 BookingUnitOfWork bookingUnitOfWork = (BookingUnitOfWork) request.getSession().getAttribute("bookingUnitOfWork");
                 Passenger passenger = new Passenger(null, firstName, lastName, idType, idNum);

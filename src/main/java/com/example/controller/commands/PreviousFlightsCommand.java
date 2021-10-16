@@ -42,7 +42,7 @@ public class PreviousFlightsCommand extends CustomerCommand {
             forward("/upcomingFlights.jsp");
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "You've got no upcoming flight");
+            request.setAttribute("error", "You've got no previous flight");
         }
             return null;
         });
