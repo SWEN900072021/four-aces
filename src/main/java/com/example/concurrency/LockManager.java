@@ -36,6 +36,7 @@ public class LockManager {
             throw new ConcurrencyException("Unable to lock "+ lockable);
         }
         lockList.put(lockable, owner);
+        System.out.println(lockList);
     }
 
     /**
@@ -48,6 +49,11 @@ public class LockManager {
         if (!lockList.get(lockable).equals(user)) {
             throw new ConcurrencyException(String.format("Unable to release lock %d because the owner of this lock is someone else", lockable));
         }
+        System.out.println(lockList);
         lockList.remove(lockable);
+    }
+
+    public boolean isAvailable(String lockable) {
+        return (!this.lockList.containsKey(lockable));
     }
 }

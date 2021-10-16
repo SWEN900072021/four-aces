@@ -2,7 +2,9 @@ package com.example.domain;
 
 import com.example.datasource.FlightDataMapper;
 import com.example.datasource.TicketDataMapper;
+import com.example.exception.NoRecordFoundException;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,82 +12,138 @@ import java.util.Objects;
 
 public class Reservation extends DomainObject {
 
-    private Integer customerId;
-    private Integer goFlightId;
-    private Integer returnFlightId;
-    private boolean submitted;
+    private Customer customer;
+    private Flight goFlight;
+    private Flight returnFlight;
+//    private ArrayList<Ticket> tickets;
+//    private HashMap<Passenger, ArrayList<Ticket>> passengerTickets;
 
-    public Reservation(Integer reservationId, Integer customerId) {
+    public Reservation(Integer reservationId, Customer customer) {
         super(reservationId);
-        this.customerId = customerId;
-        this.goFlightId = null;
-        this.returnFlightId = null;
-        this.submitted = false;
+        this.customer = customer;
+        this.goFlight = null;
+        this.returnFlight = null;
+//        this.tickets = null;
+//        this.passengerTickets = null;
         UnitOfWork.getCurrent().registerNew(this);
     }
 
-    public Reservation(Integer reservationId, Integer customerId, Integer goFlightId, Integer returnFlightId, boolean submitted) {
+    public Reservation(Integer reservationId, Customer customer, Flight goFlight, Flight returnFlight) {
         super(reservationId);
-        this.customerId = customerId;
-        if (goFlightId != 0) {
-            this.goFlightId = goFlightId;
+        this.customer = customer;
+        if (goFlight != null) {
+            this.goFlight = goFlight;
         } else {
-            this.goFlightId = null;
+            this.goFlight = null;
         }
-        if (returnFlightId != 0) {
-            this.returnFlightId = returnFlightId;
+        if (returnFlight != null) {
+            this.returnFlight = returnFlight;
         } else {
-            this.returnFlightId = null;
+            this.returnFlight = null;
         }
-        this.submitted = submitted;
+//        this.tickets = null;
+//        this.passengerTickets = null;
         UnitOfWork.getCurrent().registerNew(this);
     }
 
-    public void bookGoFlight(Integer goFlightId) {
-        this.goFlightId = goFlightId;
+    public void bookGoFlight(Flight goFlight) {
+        this.goFlight = goFlight;
         UnitOfWork.getCurrent().registerDirty(this);
     }
 
-    public void bookReturnFlight(Integer returnFlightId) {
-        this.returnFlightId = returnFlightId;
+    public void bookReturnFlight(Flight returnFlight) {
+        this.returnFlight = returnFlight;
         UnitOfWork.getCurrent().registerDirty(this);
     }
 
     public void bookTicket(Integer ticket) {
     }
 
-    public Integer getReturnFlightId() {
-        return this.returnFlightId;
+    public Flight getReturnFlight() {
+        return this.returnFlight;
     }
 
-    public Integer getGoFlightId() {
-        return this.goFlightId;
+    public Flight getGoFlight() {
+        return this.goFlight;
     }
 
-    public Integer getCustomerId() {
-        return this.customerId;
-    }
-
-    public boolean isSubmitted() {
-        return this.submitted;
-    }
-
-    public void submitBooking() {
-        this.submitted = true;
-        UnitOfWork.getCurrent().registerDirty(this);
+    public Customer getCustomer() {
+        return this.customer;
     }
 
     public List<Flight> getFlights() throws Exception {
         List<Flight> flights = new ArrayList<>();
-        if (this.goFlightId != null) {
-            System.out.println(goFlightId);
-            flights.add(FlightDataMapper.getInstance().findById(goFlightId));
+        if (this.goFlight != null) {
+            flights.add(goFlight);
         }
-        if (this.returnFlightId != null) {
-            flights.add(FlightDataMapper.getInstance().findById(returnFlightId));
+        if (this.returnFlight != null) {
+            flights.add(returnFlight);
         }
 
         return flights;
+
     }
+
+//    public ArrayList<Ticket> getTickets() throws SQLException {
+//        if (this.tickets == null) {
+//            HashMap<String, String> params = new HashMap<>();
+//            params.put("reservation_id", Integer.toString(this.id));
+//            try {
+//                ArrayList<Ticket> tickets = TicketDataMapper.getInstance().find(params);
+//                return tickets;
+//            } catch (NoRecordFoundException e) {
+//                this.tickets = new ArrayList<>();
+//            }
+//        }
+//        return this.tickets;
+//    }
+
+    public boolean isReturning() {
+        return (this.returnFlight != null);
+    }
+
+//    public void bookTicket(Ticket ticket) {
+//        if (this.tickets == null) {
+//            this.tickets = new ArrayList<>();
+//        }
+//        this.tickets.add(ticket);
+//    }
+//
+//    public HashMap<Passenger, ArrayList<Ticket>> getPassengerTickets() {
+//        if (this.passengerTickets == null) {
+//            this.passengerTickets = new HashMap<Passenger, ArrayList<Ticket>>();
+//            if (this.tickets == null || this.tickets.size() == 0) {
+//                return this.passengerTickets;
+//            } else {
+//                for (Ticket ticket : tickets) {
+//                    if (passengerTickets.containsKey(ticket.getPassenger())) {
+//                        passengerTickets.get(ticket.getPassenger()).add(ticket);
+//                    } else {
+//                        passengerTickets.put(ticket.getPassenger(), new ArrayList<>());
+//                        passengerTickets.get(ticket.getPassenger()).add(ticket);
+//                    }
+//                }
+//                return this.passengerTickets;
+//            }
+//        } else {
+//            return this.passengerTickets;
+//        }
+//    }
+//
+//    public void addPassenger(Passenger passenger) {
+//        getPassengerTickets();
+//        if (!passengerTickets.containsKey(passenger)) {
+//            passengerTickets.put(passenger, new ArrayList<>());
+//        }
+//    }
+//
+//    public void bookTicket(Passenger passenger, Ticket ticket) {
+//        this.bookTicket(ticket);
+//        if (!passengerTickets.containsKey(passenger)) {
+//            passengerTickets.put(passenger, new ArrayList<>());
+//        }
+//        passengerTickets.get(passenger).add(ticket);
+//    }
+//
 
 }
