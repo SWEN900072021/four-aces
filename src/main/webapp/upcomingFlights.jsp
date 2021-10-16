@@ -45,9 +45,9 @@
             </td>
             <td><%= flight.getTime()%>
             </td>
-            <td><%= flight.getSourceAirport().getReferenceCode()%>
+            <td><%= flight.getSource().getReferenceCode()%>
             </td>
-            <td><%= flight.getDestinationAirport().getReferenceCode()%>
+            <td><%= flight.getDestination().getReferenceCode()%>
             </td>
             <td>
                 <%

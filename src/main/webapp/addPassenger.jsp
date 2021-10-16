@@ -25,6 +25,9 @@
 <a href="<%= request.getContextPath()%>/fourAces?command=SubmitBooking">
     <button>Submit booking</button>
 </a>
+<a href="<%= request.getContextPath()%>/fourAces?command=CancelBooking">
+    <button>Cancel</button>
+</a>
 
 </body>
 </html>

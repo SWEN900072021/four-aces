@@ -10,13 +10,13 @@ public class Passenger extends DomainObject {
     private String idType;
     private String idNumber;
 
-    public Passenger(Integer id, String firstName, String lastName,String idType, String idNumber){
+    public Passenger(Integer id, String firstName, String lastName, String idType, String idNumber){
         super(id);
         this.firstName = firstName;
         this.lastName = lastName;
         this.idType = idType;
         this.idNumber = idNumber;
-        UnitOfWork.getCurrent().registerNew(this);
+        //UnitOfWork.getCurrent().registerNew(this);
     }
 
     public String getFirstName() {

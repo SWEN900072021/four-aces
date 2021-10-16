@@ -1,8 +1,11 @@
 package com.example.datasource;
 
 import com.example.controller.DBController;
+import com.example.domain.Customer;
+import com.example.domain.Flight;
 import com.example.domain.Passenger;
 import com.example.domain.Reservation;
+import com.example.exception.NoRecordFoundException;
 import com.example.exception.TRSException;
 
 import java.sql.*;
@@ -17,8 +20,7 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
         this.fields = new String[]{
                 "customer_id",
                 "go_flight",
-                "return_flight",
-                "submitted"
+                "return_flight"
         };
     }
 
@@ -39,29 +41,41 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
     }
 
     @Override
-    public Reservation newDomainObject(ResultSet resultSet) throws SQLException {
+    public Reservation newDomainObject(ResultSet resultSet) throws SQLException, NoRecordFoundException {
         int reservationId = resultSet.getInt("reservation_id");
         int customerId = resultSet.getInt("customer_id");
-        int goFlightId = resultSet.getInt("go_flight");
-        int returnFlightId = resultSet.getInt("return_flight");
-        boolean submitted = resultSet.getBoolean("submitted");
-        return new Reservation(reservationId, customerId, goFlightId, returnFlightId, submitted);
+        Customer customer = CustomerDataMapper.getInstance().findById(customerId);
+        Flight goFlight;
+        if (resultSet.getString("go_flight") != null) {
+            int goFlightId = resultSet.getInt("return_flight");
+            goFlight = FlightDataMapper.getInstance().findById(goFlightId);
+        } else {
+            goFlight = null;
+        }
+        Flight returnFlight;
+        if (resultSet.getString("return_flight") != null) {
+            int returnFlightId = resultSet.getInt("return_flight");
+            returnFlight = FlightDataMapper.getInstance().findById(returnFlightId);
+        } else {
+            returnFlight = null;
+        }
+
+        return new Reservation(reservationId, customer, goFlight, returnFlight);
     }
 
     @Override
     public void setPreparedStatement(PreparedStatement ps, Reservation obj) throws SQLException {
-        ps.setInt(1, obj.getCustomerId());
-        if (obj.getGoFlightId() != null) {
-            ps.setInt(2, obj.getGoFlightId());
+        ps.setInt(1, obj.getCustomer().getId());
+        if (obj.getGoFlight().getId() != null) {
+            ps.setInt(2, obj.getGoFlight().getId());
         } else {
             ps.setNull(2, Types.NULL);
         }
-        if (obj.getReturnFlightId() != null) {
-            ps.setInt(3, obj.getReturnFlightId());
+        if (obj.getReturnFlight().getId() != null) {
+            ps.setInt(3, obj.getReturnFlight().getId());
         } else {
             ps.setNull(3, Types.NULL);
         }
-        ps.setBoolean(4, obj.isSubmitted());
     }
 
     public ArrayList<Integer> getPassengersIdByReservations(ArrayList<Reservation> reservations) throws Exception {
@@ -81,5 +95,13 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
         }
         conn.close();
         return passengersId;
+    }
+
+    public Reservation find(Reservation reservation) throws SQLException, NoRecordFoundException {
+        Reservation result = find("WHERE customer_id='" + reservation.getCustomer().getId() +
+                "' AND go_flight= '" + reservation.getGoFlight().getId() +
+                "' AND return_flight= '" + reservation.getReturnFlight().getId() +
+                "'").get(0);
+        return result;
     }
 }

@@ -28,8 +28,14 @@ public class UpcomingFlightsCommand extends CustomerCommand {
             Customer customer = getCurrentUser();
             params.put("customer_id", Integer.toString(customer.getId()));
             List<Reservation> reservations = ReservationDataMapper.getInstance().find(params);
+            if (reservations.size() == 0) {
+                System.out.println("NO UPCOMING RESERVATION");
+            }
             for (Reservation reservation : reservations) {
                 List<Flight> reservationFlights = reservation.getFlights();
+                if (reservationFlights.size() == 0) {
+                    System.out.println("NO UPCOMING RESERVATION FLIGHT");
+                }
                 for (Flight flight : reservationFlights) {
                     LocalDateTime flightDateTime = flight.getDateTime();
                     if (now.isBefore(flightDateTime)) {
