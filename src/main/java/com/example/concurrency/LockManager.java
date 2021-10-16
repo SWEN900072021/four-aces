@@ -3,10 +3,14 @@ package com.example.concurrency;
 import com.example.exception.ConcurrencyException;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class LockManager {
 
     private HashMap<String, String> lockList;
+    private HashMap<String, Long> lockTime;
+
+    public static final long TIME_OUT_LIMIT = 30*60*1000; // 30 minutes
 
     private static LockManager _instance;
 
@@ -32,10 +36,13 @@ public class LockManager {
      * @throws ConcurrencyException, when the id of the lockable item is in the list
      */
     public void acquireLock(String lockable, String owner) throws ConcurrencyException {
-        if (this.lockList.containsKey(lockable)) {
-            throw new ConcurrencyException("Unable to lock "+ lockable);
+        if (this.lockList.containsKey(lockable) ) {
+            long lastAccessTime = this.lockTime.get(lockable);
+            if( System.currentTimeMillis() - lastAccessTime < TIME_OUT_LIMIT )
+                throw new ConcurrencyException("Unable to lock "+ lockable);
         }
         lockList.put(lockable, owner);
+        lockTime.put(lockable, System.currentTimeMillis());
         System.out.println(lockList);
     }
 
@@ -51,6 +58,7 @@ public class LockManager {
         }
         System.out.println(lockList);
         lockList.remove(lockable);
+        lockTime.remove(lockable);
     }
 
     public boolean isAvailable(String lockable) {
