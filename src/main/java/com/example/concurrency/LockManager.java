@@ -16,6 +16,7 @@ public class LockManager {
 
     private LockManager() {
         lockList = new HashMap<>();
+        lockTime = new HashMap<>();
     }
 
     public static synchronized LockManager getInstance(){
