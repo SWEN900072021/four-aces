@@ -75,27 +75,6 @@
                     </select>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <label for="airplane">Airplane</label>
-                </td>
-                <td>
-                    <select name="airplane" id="airplane">
-                        <%
-                            List<Airplane> airplanes = AirplaneDataMapper.getInstance().getAll();
-                            for(int i = 0; i < airplanes.size(); i++) {
-                                Airplane airplane = airplanes.get(i);
-                                int airplaneId = airplane.getId();
-                                String type = airplane.getType();
-                                Boolean selected = type.equals(flight.getAirplane().getType());
-                        %>
-                        <option <%=selected ? "selected" : ""%> value=<%=airplaneId%>><%=type%></option>
-                        <%
-                            }
-                        %>
-                    </select>
-                </td>
-            </tr>
         </table>
         <input type = "submit" value = "Save Edit">
     </form>

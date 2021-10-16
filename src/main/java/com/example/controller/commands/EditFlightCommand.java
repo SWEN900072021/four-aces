@@ -38,7 +38,6 @@ public class EditFlightCommand extends AirlineCommand {
                 String flightTime = request.getParameter("flightTime");
                 Airport destination = airportDataMapper.findById(Integer.parseInt(request.getParameter("destination")));
                 Airport source = airportDataMapper.findById(Integer.parseInt(request.getParameter("source")));
-                Airplane airplane = airplaneDataMapper.findById(Integer.parseInt(request.getParameter("airplane")));
                 Flight flight = null;
                 flight = FlightDataMapper.getInstance().findById(flightId);
                 flight.setCode(flightCode);
@@ -46,7 +45,6 @@ public class EditFlightCommand extends AirlineCommand {
                 flight.setTime(flightTime);
                 flight.setSource(source);
                 flight.setDestination(destination);
-                flight.setAirplane(airplane);
                 UnitOfWork.getCurrent().commit();
 
                 LockManager.getInstance().releaseLock("flight-" + flightId, httpSessionId);
