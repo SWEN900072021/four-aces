@@ -64,7 +64,7 @@ public class DeleteFlightCommand extends AirlineCommand {
                 lockManager.releaseLock("flight-" + flightId, httpSessionId);
             } catch (Exception e) {
                 e.printStackTrace();
-                request.getSession().setAttribute("error", "Unable to delete flight. " + e);
+                request.getSession().setAttribute("error", "Flight has been deleted. " + e);
             }
             return null;
         });
