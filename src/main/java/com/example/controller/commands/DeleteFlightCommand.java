@@ -11,6 +11,7 @@ import javax.security.auth.Subject;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.security.PrivilegedAction;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,30 +33,30 @@ public class DeleteFlightCommand extends AirlineCommand {
                 LockManager lockManager = LockManager.getInstance();
 
                 // Find all tickets of the flight
-                HashMap<String, String> params = new HashMap<>();
-                params.put("flight_id", flightId+"");
-                List<Ticket> tickets = ticketDataMapper.find(params);
+                List<Ticket> tickets = new ArrayList<>();
                 try {
-                    // Delete all tickets of the flight
-                    for (Ticket ticket : tickets) {
-                        // Delete all reservations associated with the flight
-                        if (ticket.getReservation() != null) {
-                            int reservationId = ticket.getReservation().getId();
-                            Reservation reservation = reservationDataMapper.findById(reservationId);
-                            UnitOfWork.getCurrent().registerDeleted(reservation);
-                        }
-                        lockManager.acquireLock("ticket-"+ticket.getId(), httpSessionId);
-                        UnitOfWork.getCurrent().registerDeleted(ticket);
-                    }
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("flight_id", flightId+"");
+                    tickets = ticketDataMapper.find(params);
                 } catch (NoRecordFoundException e) {
-                    e.printStackTrace();
+                    System.out.println("Flight " + flightId + " has no ticket.");
+                }
+                // Delete all tickets of the flight
+                for (Ticket ticket : tickets) {
+                    // Delete reservation associated with the ticket
+                    if (ticket.getReservation() != null) {
+                        int reservationId = ticket.getReservation().getId();
+                        Reservation reservation = reservationDataMapper.findById(reservationId);
+                        UnitOfWork.getCurrent().registerDeleted(reservation);
+                    }
+                    lockManager.acquireLock("ticket-"+ticket.getId(), httpSessionId);
+                    UnitOfWork.getCurrent().registerDeleted(ticket);
                 }
                 // Delete flight
                 lockManager.acquireLock("flight-" + flightId, httpSessionId);
                 Flight flight = FlightDataMapper.getInstance().findById(flightId);
                 UnitOfWork.getCurrent().registerDeleted(flight);
                 UnitOfWork.getCurrent().commit();
-
                 // Release lock
                 for (Ticket ticket : tickets) {
                     lockManager.releaseLock("ticket-" + ticket.getId(), httpSessionId);
