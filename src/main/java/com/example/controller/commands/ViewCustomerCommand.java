@@ -29,7 +29,7 @@ public class ViewCustomerCommand extends AirlineCommand {
                     ArrayList<Reservation> reservations = ReservationDataMapper.getInstance().find(condition);
                     ArrayList<Customer> customers = new ArrayList<Customer>();
                     for (Reservation reservation : reservations) {
-                        Customer customer = CustomerDataMapper.getInstance().findById(reservation.getCustomerId());
+                        Customer customer = CustomerDataMapper.getInstance().findById(reservation.getCustomer().getId());
                         customers.add(customer);
                     }
                     request.setAttribute("customers", customers);

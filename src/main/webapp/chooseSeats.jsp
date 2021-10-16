@@ -38,6 +38,13 @@
 
 
 <div align="left">
+    <%
+        if (tickets.size() == 0) {
+    %>
+    <h5> There are no more seats available for this flight. Please try booking another flight </h5>
+    <%
+    } else {
+    %>
     <form action="fourAces?command=SelectSeats" method="post">
         <input type="hidden" name="type" value=<%=type%>>
     <table style="border: 1px solid black; border-collapse: collapse">
@@ -66,7 +73,22 @@
     </table>
         <input type="submit" value="Select Seat">
     </form>
+    <%
+        }
+    %>
+    <a href="<%= request.getContextPath()%>/fourAces?command=CancelBooking">
+        <button>Cancel</button>
+    </a>
 </div>
+
+<%
+    String error = (String) request.getAttribute("error");
+    if( request.getAttribute("error") != null ){
+%>
+<p style="color: red"><%=error%></p>
+<%
+    }
+%>
 </body>
 </html>
 

@@ -14,6 +14,7 @@ public class UnitOfWork {
     private List<DomainObject> deleteObjects = new ArrayList<>();
 
     public static void newCurrent() {
+        System.out.println("SETTING NEW CURRENT");
         setCurrent(new UnitOfWork());
     }
 
@@ -70,4 +71,20 @@ public class UnitOfWork {
         deleteObjects.clear();
     }
 
+    public void abortAll() {
+        newObjects.clear();
+        dirtyObjects.clear();
+        deleteObjects.clear();
+    }
+
+    public DomainObject getNewObjectOf(String className) throws ClassNotFoundException {
+        Class<?> objClass = Class.forName("com.example.domain."+className);
+        for (DomainObject obj : newObjects) {
+            if (objClass.isInstance(obj)) {
+                return obj;
+            }
+        }
+
+        return null;
+    }
 }
