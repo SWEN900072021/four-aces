@@ -50,7 +50,7 @@ public class DeleteFlightCommand extends AirlineCommand {
                         Reservation reservation = reservationDataMapper.findById(reservationId);
                         UnitOfWork.getCurrent().registerDeleted(reservation);
                     }
-                    lockManager.acquireLock("ticket-"+ticket.getId(), httpSessionId);
+                    lockManager.acquireLock("ticket-" + ticket.getId(), httpSessionId);
                     UnitOfWork.getCurrent().registerDeleted(ticket);
                 }
                 // Delete flight
