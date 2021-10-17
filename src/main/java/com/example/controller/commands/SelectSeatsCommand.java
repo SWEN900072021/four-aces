@@ -50,7 +50,7 @@ public class SelectSeatsCommand extends CustomerCommand {
                         LockManager.getInstance().acquireLock("ticket-" + ticketId, new LockManager.LockObserver(request.getSession()) {
                             @Override
                             public void update() {
-                                this.getSession().setAttribute("error", "This flight is being edited by the Airline, Please wait. ");
+                                this.getSession().setAttribute("error", "Booking process fails, please try again.");
                             }
                         });
                         bookingUnitOfWork.registerTicket(ticket);
