@@ -20,8 +20,9 @@ public class ManageUserCommand extends AdminCommand {
     public void processGet() throws ServletException, IOException {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<DomainObject>) () -> {
             try {
-                ArrayList<Airline> airlines = AirlineDataMapper.getInstance().getAll();
-                ArrayList<Customer> customers = CustomerDataMapper.getInstance().getAll();
+                Admin admin = getCurrentUser();
+                ArrayList<Airline> airlines = admin.viewAirlines();
+                ArrayList<Customer> customers = admin.viewCustomers();
                 ArrayList<User> users = new ArrayList<>();
                 users.addAll(airlines);
                 users.addAll(customers);
