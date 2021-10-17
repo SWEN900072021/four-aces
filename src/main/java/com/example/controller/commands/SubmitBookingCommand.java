@@ -27,8 +27,11 @@ public class SubmitBookingCommand extends CustomerCommand {
                 BookingUnitOfWork bookingUnitOfWork = (BookingUnitOfWork) request.getSession().getAttribute("bookingUnitOfWork");
                 bookingUnitOfWork.commit();
                 for (Ticket ticket : bookingUnitOfWork.getAllTickets()) {
-                    LockManager.getInstance().releaseLock("ticket-" + ticket.getId(), httpSessionId);
-                }
+                    LockManager.getInstance().releaseLock("ticket-" + ticket.getId(), new LockManager.LockObserver(request.getSession()) {
+                        @Override
+                        public void update() {
+                        }
+                    });                }
                 bookingUnitOfWork.rollback();
             } catch (Exception e) {
                 error(e);
