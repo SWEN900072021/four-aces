@@ -66,12 +66,13 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
     @Override
     public void setPreparedStatement(PreparedStatement ps, Reservation obj) throws SQLException {
         ps.setInt(1, obj.getCustomer().getId());
-        if (obj.getGoFlight().getId() != null) {
+        if (obj.getGoFlight() != null) {
             ps.setInt(2, obj.getGoFlight().getId());
         } else {
             ps.setNull(2, Types.NULL);
         }
-        if (obj.getReturnFlight().getId() != null) {
+        if (obj.getReturnFlight() != null) {
+
             ps.setInt(3, obj.getReturnFlight().getId());
         } else {
             ps.setNull(3, Types.NULL);
