@@ -16,7 +16,7 @@ public class LockManager {
     private HashMap<String, Long> lockTime;
     private HashMap<String, ArrayList<LockObserver>> observers;
 
-    public static final long TIME_OUT_LIMIT = 30*60*1000; // 30 minutes
+    public static final long TIME_OUT_LIMIT = 60*1000; // 1 minutes
 
     private static LockManager _instance;
 
