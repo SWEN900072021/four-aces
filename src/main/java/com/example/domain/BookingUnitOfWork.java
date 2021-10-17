@@ -66,10 +66,6 @@ public class BookingUnitOfWork {
         this.currentPassenger = null;
     }
 
-    public Passenger getCurrentPassenger() {
-        return currentPassenger;
-    }
-
     public void setCurrentPassenger(Passenger currentPassenger) {
         this.currentPassenger = currentPassenger;
     }

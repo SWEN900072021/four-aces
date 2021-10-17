@@ -50,10 +50,6 @@ public class Ticket extends DomainObject{
         return this.seatNumber;
     }
 
-    public Boolean isAvailable() {
-        return (passenger == null);
-    }
-
     public void setPassenger(Passenger passenger) {
         this.passenger = passenger;
         UnitOfWork.getCurrent().registerDirty(this);

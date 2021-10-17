@@ -56,9 +56,6 @@ public class Reservation extends DomainObject {
         UnitOfWork.getCurrent().registerDirty(this);
     }
 
-    public void bookTicket(Integer ticket) {
-    }
-
     public Flight getReturnFlight() {
         return this.returnFlight;
     }

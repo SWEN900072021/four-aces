@@ -35,19 +35,4 @@ public class Passenger extends DomainObject {
         return idNumber;
     }
 
-    public void setfirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setlastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setIdType(String idType) {
-        this.idType = idType;
-    }
-
-    public void setIdNumber(String idNumber) {
-        this.idNumber = idNumber;
-    }
 }

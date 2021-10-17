@@ -20,13 +20,4 @@ public class Airport extends DomainObject{
         return this.address;
     }
 
-    public void setReferenceCode(String referenceCode){
-        this.referenceCode = referenceCode;
-        UnitOfWork.getCurrent().registerDirty(this);
-    }
-
-    public void setAddress(String address){
-        this.address = address;
-        UnitOfWork.getCurrent().registerDirty(this);
-    }
 }
