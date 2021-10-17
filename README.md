@@ -29,4 +29,5 @@ email: xueqi.guan@gmail.com
 password: guanxueqi
 
 # Part 3
+Release tag: 
 Please follow the testing guide in the last section of the report the test the app.
