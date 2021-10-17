@@ -1,6 +1,7 @@
 package com.example.controller.commands;
 
 import com.example.datasource.AirplaneDataMapper;
+import com.example.datasource.FlightDataMapper;
 import com.example.domain.*;
 
 import javax.security.auth.Subject;
@@ -18,9 +19,18 @@ public class CreateTicketCommand extends AirlineCommand {
     public void processPost() throws ServletException, IOException {
         Subject.doAs(aaEnforcer.getSubject(), (PrivilegedAction<Object>) () -> {
             try {
-                UnitOfWork.newCurrent();
                 int flightId = Integer.parseInt(request.getParameter("flightId"));
                 int airplaneId = Integer.parseInt(request.getParameter("airplaneId"));
+
+                Flight flight = FlightDataMapper.getInstance().findById(flightId);
+                List<Ticket> tickets = flight.getAvailableTickets();
+                // Check if tickets have been created
+                if (tickets.size() > 0) {
+                    request.getSession().setAttribute("error", "Tickets have been created. ");
+                    return null;
+                }
+
+                UnitOfWork.newCurrent();
                 AirplaneDataMapper airplaneDataMapper = AirplaneDataMapper.getInstance();
                 Airplane airplane = airplaneDataMapper.findById(airplaneId);
                 List<Seat> seats = airplane.getSeats();
