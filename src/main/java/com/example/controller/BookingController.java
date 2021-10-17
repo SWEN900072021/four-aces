@@ -7,6 +7,7 @@ import com.example.datasource.TicketDataMapper;
 import com.example.domain.*;
 import com.example.exception.NoRecordFoundException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ public class BookingController {
     public List<Flight> getReturnFlights(Flight flight) throws Exception {
         int origin = flight.getDestination().getId();
         int destination = flight.getSource().getId();
+        int airlineId = flight.getAirline().getId();
 
         HashMap<String, String> params = new HashMap<>();
         params.put("origin", Integer.toString(origin));
@@ -33,6 +35,12 @@ public class BookingController {
             returnFlights = FlightDataMapper.getInstance().find(params);
         }catch (NoRecordFoundException e){
             returnFlights = new ArrayList<>();
+        }
+        ArrayList<Flight> result = new ArrayList<>();
+        for (Flight f : returnFlights) {
+            if (f.getAirline().getId() == airlineId) {
+                result.add(f);
+            }
         }
         return returnFlights;
     }
