@@ -133,6 +133,10 @@ public class Flight extends DomainObject {
         UnitOfWork.getCurrent().registerDirty(this);
     }
 
+    public void setStopovers(List<Airport> stopovers) {
+        this.stopovers = stopovers;
+    }
+
     public void setAirplane(Airplane airplane) {
         this.airplane = airplane;
         UnitOfWork.getCurrent().registerDirty(this);

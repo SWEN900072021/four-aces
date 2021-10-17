@@ -13,6 +13,8 @@ import javax.security.auth.Subject;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.security.PrivilegedAction;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditFlightCommand extends AirlineCommand {
 
@@ -38,7 +40,23 @@ public class EditFlightCommand extends AirlineCommand {
                 String flightTime = request.getParameter("flightTime");
                 Airport destination = airportDataMapper.findById(Integer.parseInt(request.getParameter("destination")));
                 Airport source = airportDataMapper.findById(Integer.parseInt(request.getParameter("source")));
-                Airplane airplane = airplaneDataMapper.findById(Integer.parseInt(request.getParameter("airplane")));
+                String stopover1 = request.getParameter("stopover1");
+                String stopover2 = request.getParameter("stopover2");
+                String stopover3 = request.getParameter("stopover3");
+                List<Airport> stopovers = new ArrayList<>();
+                if (stopover1 != "") {
+                    Airport stopover1Airport = airportDataMapper.findById(Integer.parseInt(stopover1));
+                    stopovers.add(stopover1Airport);
+                }
+                if (stopover2 != "") {
+                    Airport stopover2Airport = airportDataMapper.findById(Integer.parseInt(stopover2));
+                    stopovers.add(stopover2Airport);
+                }
+                if (stopover3 != "") {
+                    Airport stopover3Airport = airportDataMapper.findById(Integer.parseInt(stopover3));
+                    stopovers.add(stopover3Airport);
+                }
+
                 Flight flight = null;
                 flight = FlightDataMapper.getInstance().findById(flightId);
                 flight.setCode(flightCode);
@@ -46,7 +64,7 @@ public class EditFlightCommand extends AirlineCommand {
                 flight.setTime(flightTime);
                 flight.setSource(source);
                 flight.setDestination(destination);
-                flight.setAirplane(airplane);
+                flight.setStopovers(stopovers);
                 UnitOfWork.getCurrent().commit();
 
                 LockManager.getInstance().releaseLock("flight-" + flightId, httpSessionId);
