@@ -46,14 +46,14 @@ public class DeleteFlightCommand extends AirlineCommand {
                     }
                     // Delete all tickets of the flight
                     for (Ticket ticket : tickets) {
-                        // Delete all reservations associated with the flight
+                        lockManager.hardAcquireLock("ticket-"+ticket.getId(), "airline-"+getCurrentUser().getId());
+                        UnitOfWork.getCurrent().registerDeleted(ticket);
+                        // Delete all reservations associated with the ticket
                         if (ticket.getReservation() != null) {
                             int reservationId = ticket.getReservation().getId();
                             Reservation reservation = reservationDataMapper.findById(reservationId);
                             UnitOfWork.getCurrent().registerDeleted(reservation);
                         }
-                        lockManager.hardAcquireLock("ticket-"+ticket.getId(), "airline-"+getCurrentUser().getId());
-                        UnitOfWork.getCurrent().registerDeleted(ticket);
                     }
                     // Delete flight
                     lockManager.acquireLock("flight-" + flightId, httpSessionId);
