@@ -12,6 +12,7 @@ import javax.security.auth.Subject;
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.security.PrivilegedAction;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,14 +30,16 @@ public class DeleteFlightCommand extends AirlineCommand {
                 UnitOfWork.newCurrent();
                 TicketDataMapper ticketDataMapper = TicketDataMapper.getInstance();
                 ReservationDataMapper reservationDataMapper = ReservationDataMapper.getInstance();
+
                 String httpSessionId = request.getSession(true).getId();
                 LockManager lockManager = LockManager.getInstance();
 
                 // Find all tickets of the flight
-                HashMap<String, String> params = new HashMap<>();
-                params.put("flight_id", flightId+"");
-                List<Ticket> tickets = ticketDataMapper.find(params);
+                List<Ticket> tickets = new ArrayList<>();
                 try {
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("flight_id", flightId+"");
+                    tickets = ticketDataMapper.find(params);
                     // Delete all tickets of the flight
                     for (Ticket ticket : tickets) {
                         // Delete all reservations associated with the flight
@@ -64,7 +67,7 @@ public class DeleteFlightCommand extends AirlineCommand {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                request.getSession().setAttribute("error", "Unable to delete flight. " + e);
+                request.getSession().setAttribute("error", "Unable to delete flight or flight has been deleted. " + e);
             }
             return null;
         });

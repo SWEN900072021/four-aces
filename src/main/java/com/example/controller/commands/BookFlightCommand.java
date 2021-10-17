@@ -58,7 +58,7 @@ public class BookFlightCommand extends CustomerCommand {
             }
             return null;
         });
-        forward("/viewFlight.jsp");
+        //forward("/viewFlight.jsp");
     }
 
 }

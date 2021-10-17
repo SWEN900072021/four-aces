@@ -47,7 +47,7 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
         Customer customer = CustomerDataMapper.getInstance().findById(customerId);
         Flight goFlight;
         if (resultSet.getString("go_flight") != null) {
-            int goFlightId = resultSet.getInt("return_flight");
+            int goFlightId = resultSet.getInt("go_flight");
             goFlight = FlightDataMapper.getInstance().findById(goFlightId);
         } else {
             goFlight = null;
@@ -66,12 +66,13 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
     @Override
     public void setPreparedStatement(PreparedStatement ps, Reservation obj) throws SQLException {
         ps.setInt(1, obj.getCustomer().getId());
-        if (obj.getGoFlight().getId() != null) {
+        if (obj.getGoFlight() != null) {
             ps.setInt(2, obj.getGoFlight().getId());
         } else {
             ps.setNull(2, Types.NULL);
         }
-        if (obj.getReturnFlight().getId() != null) {
+        if (obj.getReturnFlight() != null) {
+
             ps.setInt(3, obj.getReturnFlight().getId());
         } else {
             ps.setNull(3, Types.NULL);
@@ -79,10 +80,17 @@ public class ReservationDataMapper extends AbstractDataMapper<Reservation> {
     }
 
     public Reservation find(Reservation reservation) throws SQLException, NoRecordFoundException {
-        Reservation result = find("WHERE customer_id='" + reservation.getCustomer().getId() +
-                "' AND go_flight= '" + reservation.getGoFlight().getId() +
-                "' AND return_flight= '" + reservation.getReturnFlight().getId() +
-                "'").get(0);
+        Reservation result;
+        if (reservation.isReturning()) {
+            result = find("WHERE customer_id='" + reservation.getCustomer().getId() +
+                    "' AND go_flight= '" + reservation.getGoFlight().getId() +
+                    "' AND return_flight= '" + reservation.getReturnFlight().getId() +
+                    "'").get(0);
+        } else {
+            result = find("WHERE customer_id='" + reservation.getCustomer().getId() +
+                    "' AND go_flight= '" + reservation.getGoFlight().getId() +
+                    "' AND return_flight IS NULL").get(0);
+        }
         return result;
     }
 }
