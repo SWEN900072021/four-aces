@@ -37,9 +37,13 @@ public class DeleteFlightCommand extends AirlineCommand {
                 // Find all tickets of the flight
                 List<Ticket> tickets = new ArrayList<>();
                 try {
-                    HashMap<String, String> params = new HashMap<>();
-                    params.put("flight_id", flightId+"");
-                    tickets = ticketDataMapper.find(params);
+                    try {
+                        HashMap<String, String> params = new HashMap<>();
+                        params.put("flight_id", flightId+"");
+                        tickets = ticketDataMapper.find(params);
+                    } catch (NoRecordFoundException e) {
+                        System.out.println("Flight " + flightId + " has no ticket.");
+                    }
                     // Delete all tickets of the flight
                     for (Ticket ticket : tickets) {
                         // Delete all reservations associated with the flight
