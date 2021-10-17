@@ -29,6 +29,7 @@ public class DeleteFlightCommand extends AirlineCommand {
                 UnitOfWork.newCurrent();
                 TicketDataMapper ticketDataMapper = TicketDataMapper.getInstance();
                 ReservationDataMapper reservationDataMapper = ReservationDataMapper.getInstance();
+
                 String httpSessionId = request.getSession(true).getId();
                 LockManager lockManager = LockManager.getInstance();
 
