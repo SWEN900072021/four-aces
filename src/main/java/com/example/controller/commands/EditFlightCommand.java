@@ -38,8 +38,6 @@ public class EditFlightCommand extends AirlineCommand {
                 String flightCode = request.getParameter("flightCode");
                 String flightDate = request.getParameter("flightDate");
                 String flightTime = request.getParameter("flightTime");
-                Airport destination = airportDataMapper.findById(Integer.parseInt(request.getParameter("destination")));
-                Airport source = airportDataMapper.findById(Integer.parseInt(request.getParameter("source")));
                 String stopover1 = request.getParameter("stopover1");
                 String stopover2 = request.getParameter("stopover2");
                 String stopover3 = request.getParameter("stopover3");
@@ -62,8 +60,6 @@ public class EditFlightCommand extends AirlineCommand {
                 flight.setCode(flightCode);
                 flight.setDate(flightDate);
                 flight.setTime(flightTime);
-                flight.setSource(source);
-                flight.setDestination(destination);
                 flight.setStopovers(stopovers);
                 UnitOfWork.getCurrent().commit();
 
