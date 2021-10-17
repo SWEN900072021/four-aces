@@ -50,9 +50,9 @@
                     </td>
                     <td><%= flight.getTime()%>
                     </td>
-                    <td><%= flight.getSource().getReferenceCode()%>
+                    <td><%= flight.getSource().getAddress()%>
                     </td>
-                    <td><%= flight.getDestination().getReferenceCode()%>
+                    <td><%= flight.getDestination().getAddress()%>
                     </td>
                     <td><%= flight.getStopoverAirportsString()%>
                     </td>

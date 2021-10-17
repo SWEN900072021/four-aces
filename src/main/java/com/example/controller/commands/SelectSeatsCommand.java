@@ -7,6 +7,7 @@ import com.example.datasource.PassengerDataMapper;
 import com.example.datasource.TicketDataMapper;
 import com.example.domain.*;
 import com.example.exception.ConcurrencyException;
+import com.example.exception.TRSException;
 
 import javax.security.auth.Subject;
 import javax.servlet.ServletException;
@@ -26,6 +27,10 @@ public class SelectSeatsCommand extends CustomerCommand {
             @Override
             public Object run() {
                 try {
+                    String errMsg = (String) request.getSession().getAttribute("error");
+                    if (errMsg != null) {
+                        throw new TRSException(errMsg);
+                    }
                     String httpSessionId = request.getSession(true).getId();
                     String type = request.getParameter("type");
                     int ticketId = Integer.parseInt(request.getParameter("select"));
@@ -38,7 +43,28 @@ public class SelectSeatsCommand extends CustomerCommand {
                     Reservation reservation = bookingUnitOfWork.getReservation();
                     Ticket ticket = TicketDataMapper.getInstance().findById(ticketId);
                     boolean returning = reservation.isReturning();
-                    if (ticket.getPassenger() != null) {
+                    try {
+                        if (ticket.getPassenger() != null) {
+                            throw new ConcurrencyException("");
+                        }
+                        LockManager.getInstance().acquireLock("ticket-" + ticketId, new LockManager.LockObserver(request.getSession()) {
+                            @Override
+                            public void update() {
+                                this.getSession().setAttribute("error", "This flight is being edited by the Airline, Please wait. ");
+                            }
+                        });
+                        bookingUnitOfWork.registerTicket(ticket);
+                        if (type.equals("go") && returning) {
+                            List<Ticket> tickets = BookingController.getInstance().getAvailableTickets(reservation.getReturnFlight());
+                            request.setAttribute("tickets", tickets);
+                            request.setAttribute("type", "return");
+                            request.setAttribute("returning", returning);
+                            //request.setAttribute("passenger",passenger);
+                            forward("/chooseSeats.jsp");
+                        } else {
+                            forward("/addPassenger.jsp");
+                        }
+                    } catch (ConcurrencyException e) {
                         request.setAttribute("type", type);
                         List<Ticket> tickets;
                         if (type.equals("go")) {
@@ -49,38 +75,16 @@ public class SelectSeatsCommand extends CustomerCommand {
                         request.setAttribute("tickets", tickets);
                         request.setAttribute("returning", returning);
                         request.setAttribute("error", "The seat you selected has been taken. Please select another seat.");
-                        forward("/chooseSeats.jsp" );
-                    } else {
-                        try {
-                            LockManager.getInstance().acquireLock("ticket-" + ticketId, httpSessionId);
-                            bookingUnitOfWork.registerTicket(ticket);
-                            if (type.equals("go") && returning) {
-                                List<Ticket> tickets = BookingController.getInstance().getAvailableTickets(reservation.getReturnFlight());
-                                request.setAttribute("tickets", tickets);
-                                request.setAttribute("type", "return");
-                                request.setAttribute("returning", returning);
-                                //request.setAttribute("passenger",passenger);
-                                forward("/chooseSeats.jsp");
-                            } else {
-                                forward("/addPassenger.jsp");
-                            }
-                        } catch (ConcurrencyException e) {
-                            request.setAttribute("type", type);
-                            List<Ticket> tickets;
-                            if (type.equals("go")) {
-                                tickets = BookingController.getInstance().getAvailableTickets(reservation.getGoFlight());
-                            } else {
-                                tickets = BookingController.getInstance().getAvailableTickets(reservation.getReturnFlight());
-                            }
-                            request.setAttribute("tickets", tickets);
-                            request.setAttribute("returning", returning);
-                            request.setAttribute("error", "The seat you selected has been taken. Please select another seat.");
-                            forward("/chooseSeats.jsp");
-                        }
+                        forward("/chooseSeats.jsp");
                     }
 
                 } catch (Exception e) {
                     error(e);
+                    try {
+                        forward("/chooseSeats.jsp");
+                    } catch (ServletException | IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
                 return null;
             }

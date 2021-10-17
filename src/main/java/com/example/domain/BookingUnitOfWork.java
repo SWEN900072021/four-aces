@@ -83,5 +83,9 @@ public class BookingUnitOfWork {
         }
         return result;
     }
+
+    public ArrayList<Passenger> getPassengers(){
+        return new ArrayList<>(passengerTickets.keySet());
+    }
 }
 

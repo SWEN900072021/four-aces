@@ -82,8 +82,8 @@
 </div>
 
 <%
-    String error = (String) request.getAttribute("error");
-    if( request.getAttribute("error") != null ){
+    String error = (String) session.getAttribute("error");
+    if( error != null ){
 %>
 <p style="color: red"><%=error%></p>
 <%
