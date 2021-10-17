@@ -45,15 +45,28 @@ public class DeleteFlightCommand extends AirlineCommand {
                         System.out.println("Flight " + flightId + " has no ticket.");
                     }
                     // Delete all tickets of the flight
+                    List<Integer> reservationIds = new ArrayList<>();
                     for (Ticket ticket : tickets) {
                         lockManager.hardAcquireLock("ticket-"+ticket.getId(), "airline-"+getCurrentUser().getId());
                         UnitOfWork.getCurrent().registerDeleted(ticket);
-                        // Delete all reservations associated with the ticket
+                        // Find all reservations associated with the ticket
                         if (ticket.getReservation() != null) {
                             int reservationId = ticket.getReservation().getId();
-                            Reservation reservation = reservationDataMapper.findById(reservationId);
-                            UnitOfWork.getCurrent().registerDeleted(reservation);
+                            reservationIds.add(reservationId);
                         }
+                    }
+                    // Delete all reservations associated with the ticket
+                    for (int reservationId : reservationIds) {
+                        // Get tickets with this reservation id
+                        HashMap<String, String> params = new HashMap<>();
+                        params.put("reservation_id", Integer.toString(reservationId));
+                        List<Ticket> tix = TicketDataMapper.getInstance().find(params);
+                        for (Ticket ticket : tix) {
+                            ticket.setPassenger(null);
+                            ticket.setReservation(null);
+                        }
+                        Reservation reservation = reservationDataMapper.findById(reservationId);
+                        UnitOfWork.getCurrent().registerDeleted(reservation);
                     }
                     // Delete flight
                     lockManager.acquireLock("flight-" + flightId, httpSessionId);
