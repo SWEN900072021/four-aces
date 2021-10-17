@@ -7,6 +7,7 @@ import com.example.datasource.PassengerDataMapper;
 import com.example.datasource.TicketDataMapper;
 import com.example.domain.*;
 import com.example.exception.ConcurrencyException;
+import com.example.exception.TRSException;
 
 import javax.security.auth.Subject;
 import javax.servlet.ServletException;
@@ -26,6 +27,10 @@ public class SelectSeatsCommand extends CustomerCommand {
             @Override
             public Object run() {
                 try {
+                    String errMsg = (String) request.getSession().getAttribute("error");
+                    if (errMsg != null){
+                        throw new TRSException(errMsg);
+                    }
                     String httpSessionId = request.getSession(true).getId();
                     String type = request.getParameter("type");
                     int ticketId = Integer.parseInt(request.getParameter("select"));
@@ -39,7 +44,13 @@ public class SelectSeatsCommand extends CustomerCommand {
                     Ticket ticket = TicketDataMapper.getInstance().findById(ticketId);
                     boolean returning = reservation.isReturning();
                     try {
-                        LockManager.getInstance().acquireLock("ticket-"+ticketId, httpSessionId);
+                        System.out.println(request.getSession().getId());
+                        LockManager.getInstance().acquireLock("ticket-"+ticketId, new LockManager.LockObserver(request.getSession()) {
+                            @Override
+                            public void update() {
+                                this.getSession().setAttribute("error","This flight is being edited by the Airline, Please wait. ");
+                            }
+                        });
                         bookingUnitOfWork.registerTicket(ticket);
                         if (type.equals("go") && returning) {
                             List<Ticket> tickets = BookingController.getInstance().getAvailableTickets(reservation.getReturnFlight());
@@ -67,6 +78,11 @@ public class SelectSeatsCommand extends CustomerCommand {
 
                 } catch (Exception e) {
                     error(e);
+                    try {
+                        forward("/chooseSeats.jsp");
+                    } catch (ServletException | IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
                 return null;
             }

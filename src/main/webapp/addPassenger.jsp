@@ -58,6 +58,13 @@
 <a href="<%= request.getContextPath()%>/fourAces?command=CancelBooking">
     <button>Cancel</button>
 </a>
-
+<%
+    String error = (String) session.getAttribute("error");
+    if( error != null ){
+%>
+<p style="color: red"><%=error%></p>
+<%
+    }
+%>
 </body>
 </html>

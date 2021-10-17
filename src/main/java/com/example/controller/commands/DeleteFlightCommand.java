@@ -5,6 +5,7 @@ import com.example.datasource.FlightDataMapper;
 import com.example.datasource.ReservationDataMapper;
 import com.example.datasource.TicketDataMapper;
 import com.example.domain.*;
+import com.example.exception.ConcurrencyException;
 import com.example.exception.NoRecordFoundException;
 
 import javax.security.auth.Subject;
@@ -44,23 +45,23 @@ public class DeleteFlightCommand extends AirlineCommand {
                             Reservation reservation = reservationDataMapper.findById(reservationId);
                             UnitOfWork.getCurrent().registerDeleted(reservation);
                         }
-                        lockManager.acquireLock("ticket-"+ticket.getId(), httpSessionId);
+                        lockManager.hardAcquireLock("ticket-"+ticket.getId(), "airline-"+getCurrentUser().getId());
                         UnitOfWork.getCurrent().registerDeleted(ticket);
                     }
-                } catch (NoRecordFoundException e) {
-                    e.printStackTrace();
+                    // Delete flight
+                    lockManager.acquireLock("flight-" + flightId, httpSessionId);
+                    Flight flight = FlightDataMapper.getInstance().findById(flightId);
+                    UnitOfWork.getCurrent().registerDeleted(flight);
+                    UnitOfWork.getCurrent().commit();
+                } catch (NoRecordFoundException | ConcurrencyException e) {
+                    throw e;
+                } finally {
+                    // Release lock
+                    for (Ticket ticket : tickets) {
+                        lockManager.releaseLock("ticket-" + ticket.getId(), "airline-"+getCurrentUser().getId());
+                    }
+                    lockManager.releaseLock("flight-" + flightId, httpSessionId);
                 }
-                // Delete flight
-                lockManager.acquireLock("flight-" + flightId, httpSessionId);
-                Flight flight = FlightDataMapper.getInstance().findById(flightId);
-                UnitOfWork.getCurrent().registerDeleted(flight);
-                UnitOfWork.getCurrent().commit();
-
-                // Release lock
-                for (Ticket ticket : tickets) {
-                    lockManager.releaseLock("ticket-" + ticket.getId(), httpSessionId);
-                }
-                lockManager.releaseLock("flight-" + flightId, httpSessionId);
             } catch (Exception e) {
                 e.printStackTrace();
                 request.getSession().setAttribute("error", "Unable to delete flight. " + e);
