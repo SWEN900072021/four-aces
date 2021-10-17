@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.example.domain</OriginalElement>
+  <nodes>
+    <node x="3759.0" y="201.0">com.example.domain.Airport</node>
+    <node x="5498.0" y="1323.0">com.example.domain.UnitOfWork</node>
+    <node x="4574.0" y="1001.0">com.example.domain.Admin</node>
+    <node x="6091.0" y="979.0">com.example.domain.Passenger</node>
+    <node x="5031.5" y="956.5">com.example.domain.Airline</node>
+    <node x="5245.5" y="601.0">com.example.domain.Seat</node>
+    <node x="4312.0" y="990.0">com.example.domain.Customer</node>
+    <node x="4153.5" y="291.0">com.example.domain.Flight</node>
+    <node x="5548.0" y="20.5">com.example.domain.DomainObject</node>
+    <node x="4628.5" y="616.5">com.example.domain.User</node>
+    <node x="6420.0" y="912.0">com.example.domain.BookingUnitOfWork</node>
+    <node x="5893.5" y="1577.0">com.example.domain.Ticket</node>
+    <node x="5249.0" y="390.0">com.example.domain.Airplane</node>
+    <node x="3497.5" y="945.5">com.example.domain.Reservation</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.example.domain.User" target="com.example.domain.UnitOfWork" relationship="DEPENDENCY">
+      <point x="71.5" y="40.0" />
+      <point x="4880.0" y="740.0" />
+      <point x="4880.0" y="1380.0" />
+      <point x="-122.0" y="-60.0" />
+    </edge>
+    <edge source="com.example.domain.Flight" target="com.example.domain.Airplane" relationship="TO_ONE">
+      <point x="106.5" y="-5.0" />
+      <point x="0.0" y="-5.0" />
+    </edge>
+    <edge source="com.example.domain.Reservation" target="com.example.domain.Flight" relationship="TO_ONE">
+      <point x="25.0" y="-94.5" />
+      <point x="3625.0" y="645.0" />
+      <point x="4245.0" y="645.0" />
+      <point x="-15.0" y="149.0" />
+    </edge>
+    <edge source="com.example.domain.Flight" target="com.example.domain.Airport" relationship="DEPENDENCY">
+      <point x="-10.0" y="-149.0" />
+      <point x="4250.0" y="230.0" />
+      <point x="81.0" y="-10.0" />
+    </edge>
+    <edge source="com.example.domain.Airport" target="com.example.domain.DomainObject" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="3840.0" y="70.0" />
+      <point x="-72.0" y="10.0" />
+    </edge>
+    <edge source="com.example.domain.BookingUnitOfWork" target="com.example.domain.Passenger" relationship="TO_MANY">
+      <point x="-180.0" y="0.0" />
+      <point x="69.0" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.Customer" target="com.example.domain.User" relationship="GENERALIZATION">
+      <point x="0.0" y="-50.0" />
+      <point x="4380.0" y="700.0" />
+      <point x="-71.5" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.Reservation" target="com.example.domain.DomainObject" relationship="GENERALIZATION">
+      <point x="0.0" y="-94.5" />
+      <point x="3600.0" y="60.0" />
+      <point x="-72.0" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.Admin" target="com.example.domain.User" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="0.0" y="83.5" />
+    </edge>
+    <edge source="com.example.domain.Ticket" target="com.example.domain.Reservation" relationship="DEPENDENCY">
+      <point x="-86.5" y="-25.0" />
+      <point x="3605.0" y="1635.0" />
+      <point x="5.0" y="94.5" />
+    </edge>
+    <edge source="com.example.domain.BookingUnitOfWork" target="com.example.domain.Passenger" relationship="DEPENDENCY">
+      <point x="0.0" y="10.0" />
+      <point x="69.0" y="10.0" />
+    </edge>
+    <edge source="com.example.domain.Airplane" target="com.example.domain.Seat" relationship="CREATE">
+      <point x="0.0" y="50.0" />
+      <point x="0.0" y="-39.0" />
+    </edge>
+    <edge source="com.example.domain.Flight" target="com.example.domain.Airplane" relationship="DEPENDENCY">
+      <point x="106.5" y="5.0" />
+      <point x="-71.0" y="5.0" />
+    </edge>
+    <edge source="com.example.domain.BookingUnitOfWork" target="com.example.domain.Passenger" relationship="TO_ONE">
+      <point x="0.0" y="-10.0" />
+      <point x="69.0" y="-10.0" />
+    </edge>
+    <edge source="com.example.domain.Admin" target="com.example.domain.UnitOfWork" relationship="DEPENDENCY">
+      <point x="0.0" y="39.0" />
+      <point x="4700.0" y="1400.0" />
+      <point x="-122.0" y="-40.0" />
+    </edge>
+    <edge source="com.example.domain.Airline" target="com.example.domain.UnitOfWork" relationship="DEPENDENCY">
+      <point x="0.0" y="83.5" />
+      <point x="5160.0" y="1360.0" />
+      <point x="-122.0" y="-80.0" />
+    </edge>
+    <edge source="com.example.domain.Ticket" target="com.example.domain.UnitOfWork" relationship="DEPENDENCY">
+      <point x="-20.0" y="-83.0" />
+      <point x="5960.0" y="1440.0" />
+      <point x="122.0" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.Customer" target="com.example.domain.UnitOfWork" relationship="DEPENDENCY">
+      <point x="0.0" y="50.0" />
+      <point x="4380.0" y="1410.0" />
+      <point x="-122.0" y="-30.0" />
+    </edge>
+    <edge source="com.example.domain.Flight" target="com.example.domain.UnitOfWork" relationship="DEPENDENCY">
+      <point x="0.0" y="149.0" />
+      <point x="4260.0" y="1420.0" />
+      <point x="-122.0" y="-20.0" />
+    </edge>
+    <edge source="com.example.domain.UnitOfWork" target="com.example.domain.DomainObject" relationship="DEPENDENCY">
+      <point x="5.0" y="-117.0" />
+      <point x="5.0" y="39.5" />
+    </edge>
+    <edge source="com.example.domain.Reservation" target="com.example.domain.Customer" relationship="DEPENDENCY">
+      <point x="102.5" y="5.0" />
+      <point x="-68.0" y="5.0" />
+    </edge>
+    <edge source="com.example.domain.Reservation" target="com.example.domain.UnitOfWork" relationship="DEPENDENCY">
+      <point x="20.0" y="94.5" />
+      <point x="3620.0" y="1440.0" />
+      <point x="-122.0" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.UnitOfWork" target="com.example.domain.DomainObject" relationship="TO_MANY">
+      <point x="-5.0" y="-117.0" />
+      <point x="-5.0" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.Ticket" target="com.example.domain.Reservation" relationship="TO_ONE">
+      <point x="0.0" y="-15.0" />
+      <point x="3595.0" y="1645.0" />
+      <point x="-5.0" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.User" target="com.example.domain.DomainObject" relationship="GENERALIZATION">
+      <point x="71.5" y="0.0" />
+      <point x="5600.0" y="700.0" />
+      <point x="-20.0" y="39.5" />
+    </edge>
+    <edge source="com.example.domain.Airline" target="com.example.domain.Flight" relationship="TO_MANY">
+      <point x="5.0" y="-83.5" />
+      <point x="5165.0" y="455.0" />
+      <point x="106.5" y="15.0" />
+    </edge>
+    <edge source="com.example.domain.Airline" target="com.example.domain.User" relationship="GENERALIZATION">
+      <point x="-128.5" y="-20.0" />
+      <point x="4980.0" y="1020.0" />
+      <point x="4980.0" y="720.0" />
+      <point x="71.5" y="20.0" />
+    </edge>
+    <edge source="com.example.domain.Reservation" target="com.example.domain.Flight" relationship="DEPENDENCY">
+      <point x="15.0" y="-94.5" />
+      <point x="3615.0" y="635.0" />
+      <point x="4235.0" y="635.0" />
+      <point x="-25.0" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.Airport" target="com.example.domain.UnitOfWork" relationship="DEPENDENCY">
+      <point x="0.0" y="39.0" />
+      <point x="3840.0" y="1430.0" />
+      <point x="-122.0" y="-10.0" />
+    </edge>
+    <edge source="com.example.domain.Flight" target="com.example.domain.DomainObject" relationship="GENERALIZATION">
+      <point x="0.0" y="-149.0" />
+      <point x="4260.0" y="80.0" />
+      <point x="-72.0" y="20.0" />
+    </edge>
+    <edge source="com.example.domain.Flight" target="com.example.domain.Airline" relationship="TO_ONE">
+      <point x="106.5" y="25.0" />
+      <point x="5155.0" y="465.0" />
+      <point x="-5.0" y="-83.5" />
+    </edge>
+    <edge source="com.example.domain.Ticket" target="com.example.domain.DomainObject" relationship="GENERALIZATION">
+      <point x="0.0" y="-83.0" />
+      <point x="5980.0" y="80.0" />
+      <point x="72.0" y="20.0" />
+    </edge>
+    <edge source="com.example.domain.Reservation" target="com.example.domain.Customer" relationship="TO_ONE">
+      <point x="102.5" y="-5.0" />
+      <point x="0.0" y="-5.0" />
+    </edge>
+    <edge source="com.example.domain.BookingUnitOfWork" target="com.example.domain.Reservation" relationship="TO_ONE">
+      <point x="5.0" y="-128.0" />
+      <point x="6605.0" y="-5.0" />
+      <point x="3295.0" y="-5.0" />
+      <point x="3295.0" y="1045.0" />
+      <point x="-102.5" y="5.0" />
+    </edge>
+    <edge source="com.example.domain.Flight" target="com.example.domain.Airline" relationship="DEPENDENCY">
+      <point x="106.5" y="35.0" />
+      <point x="5145.0" y="475.0" />
+      <point x="-15.0" y="-83.5" />
+    </edge>
+    <edge source="com.example.domain.Airline" target="com.example.domain.Flight" relationship="DEPENDENCY">
+      <point x="15.0" y="-83.5" />
+      <point x="5175.0" y="445.0" />
+      <point x="106.5" y="5.0" />
+    </edge>
+    <edge source="com.example.domain.Flight" target="com.example.domain.Ticket" relationship="DEPENDENCY">
+      <point x="-106.5" y="0.0" />
+      <point x="3320.0" y="440.0" />
+      <point x="3320.0" y="1660.0" />
+      <point x="-86.5" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.Admin" target="com.example.domain.Airline" relationship="DEPENDENCY">
+      <point x="126.0" y="0.0" />
+      <point x="-128.5" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.Flight" target="com.example.domain.Airport" relationship="TO_ONE">
+      <point x="-20.0" y="-149.0" />
+      <point x="4240.0" y="240.0" />
+      <point x="81.0" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.Passenger" target="com.example.domain.DomainObject" relationship="GENERALIZATION">
+      <point x="0.0" y="-61.0" />
+      <point x="6160.0" y="60.0" />
+      <point x="72.0" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.Airplane" target="com.example.domain.DomainObject" relationship="GENERALIZATION">
+      <point x="71.0" y="0.0" />
+      <point x="5580.0" y="440.0" />
+      <point x="-40.0" y="39.5" />
+    </edge>
+    <edge source="com.example.domain.Ticket" target="com.example.domain.Passenger" relationship="TO_ONE">
+      <point x="86.5" y="-15.0" />
+      <point x="6165.0" y="1645.0" />
+      <point x="5.0" y="61.0" />
+    </edge>
+    <edge source="com.example.domain.Admin" target="com.example.domain.Customer" relationship="DEPENDENCY">
+      <point x="-126.0" y="0.0" />
+      <point x="68.0" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.Flight" target="com.example.domain.Airport" relationship="TO_MANY">
+      <point x="-30.0" y="-149.0" />
+      <point x="4230.0" y="250.0" />
+      <point x="81.0" y="10.0" />
+    </edge>
+    <edge source="com.example.domain.BookingUnitOfWork" target="com.example.domain.Ticket" relationship="DEPENDENCY">
+      <point x="0.0" y="128.0" />
+      <point x="6600.0" y="1660.0" />
+      <point x="86.5" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.Ticket" target="com.example.domain.Passenger" relationship="DEPENDENCY">
+      <point x="86.5" y="-25.0" />
+      <point x="6155.0" y="1635.0" />
+      <point x="-5.0" y="0.0" />
+    </edge>
+    <edge source="com.example.domain.BookingUnitOfWork" target="com.example.domain.Reservation" relationship="DEPENDENCY">
+      <point x="-5.0" y="-128.0" />
+      <point x="6595.0" y="5.0" />
+      <point x="3305.0" y="5.0" />
+      <point x="3305.0" y="1035.0" />
+      <point x="0.0" y="-5.0" />
+    </edge>
+    <edge source="com.example.domain.Airline" target="com.example.domain.Passenger" relationship="DEPENDENCY">
+      <point x="128.5" y="0.0" />
+      <point x="-69.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Orthogonal Groups" zoom="1.1564065617379737" showDependencies="true" x="3729.9525461806493" y="1058.5167476529366" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

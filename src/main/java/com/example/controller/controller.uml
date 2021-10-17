@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.example.controller</OriginalElement>
+  <nodes>
+    <node x="511.13151569776176" y="929.5">com.example.controller.commands.LoginCommand</node>
+    <node x="1327.5" y="861.0">com.example.controller.commands.ViewFlightCommand</node>
+    <node x="1407.0" y="101.0">com.example.controller.commands.GetAirportCommand</node>
+    <node x="1535.0" y="230.0">com.example.controller.commands.ManageAirlineCommand</node>
+    <node x="1411.0" y="1241.0">com.example.controller.commands.SubmitBookingCommand</node>
+    <node x="70.0" y="578.5">com.example.controller.commands.UnknownCommand</node>
+    <node x="277.5524260177257" y="1009.5">com.example.controller.commands.RegisterCommand</node>
+    <node x="2398.5" y="1101.0">com.example.controller.commands.SearchFlightsCommand</node>
+    <node x="1314.5" y="1661.0">com.example.controller.commands.AddPassengerCommand</node>
+    <node x="1572.5" y="1341.0">com.example.controller.commands.PreviousFlightsCommand</node>
+    <node x="460.5" y="1642.5">com.example.controller.commands.EditFlightCommand</node>
+    <node x="1074.0" y="1436.5">com.example.controller.DBController</node>
+    <node x="2149.5" y="1089.5">com.example.controller.commands.CustomerCommand</node>
+    <node x="460.5" y="1546.5">com.example.controller.commands.ViewPassengerCommand</node>
+    <node x="1413.5" y="981.0">com.example.controller.commands.CancelBookingCommand</node>
+    <node x="1550.0" y="1467.0">com.example.controller.BookingController</node>
+    <node x="-10.0" y="330.0">com.example.controller.FrontServlet</node>
+    <node x="693.4999999999999" y="1546.5">com.example.controller.commands.ViewCustomerCommand</node>
+    <node x="420.5" y="1169.5">com.example.controller.commands.AirlineCommand</node>
+    <node x="676.5" y="1310.5">com.example.controller.commands.CreateFlightCommand</node>
+    <node x="1262.5" y="1090.0">com.example.controller.commands.ManagePassengerCommand</node>
+    <node x="2017.5" y="241.0">com.example.controller.commands.CreateAirportCommand</node>
+    <node x="460.5" y="1428.5">com.example.controller.commands.DeleteFlightCommand</node>
+    <node x="1799.0" y="89.5">com.example.controller.commands.AdminCommand</node>
+    <node x="1780.5" y="301.0">com.example.controller.commands.ManageUserCommand</node>
+    <node x="2143.5" y="101.0">com.example.controller.commands.ManageCustomerCommand</node>
+    <node x="460.5" y="1310.5">com.example.controller.commands.CreateTicketCommand</node>
+    <node x="675.5" y="1428.5">com.example.controller.commands.GetFlightCommand</node>
+    <node x="1586.0" y="1721.0">com.example.controller.commands.BookFlightCommand</node>
+    <node x="1663.5" y="921.0">com.example.controller.commands.ViewBookedFlightCommand</node>
+    <node x="739.0" y="468.0">com.example.controller.commands.FrontCommand</node>
+    <node x="1204.5001502178159" y="-10.5">com.example.controller.commands.LogoutCommand</node>
+    <node x="1166.0" y="1781.0">com.example.controller.commands.UpcomingFlightsCommand</node>
+    <node x="1925.0" y="961.0">com.example.controller.commands.SelectSeatsCommand</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.example.controller.commands.GetAirportCommand" target="com.example.controller.commands.AdminCommand" relationship="GENERALIZATION">
+      <point x="93.0" y="0.0" />
+      <point x="-81.0" y="0.0" />
+    </edge>
+    <edge source="com.example.controller.commands.CreateTicketCommand" target="com.example.controller.commands.AirlineCommand" relationship="GENERALIZATION">
+      <point x="-53.5" y="-39.0" />
+      <point x="5.0" y="50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.LoginCommand" target="com.example.controller.commands.FrontCommand" relationship="GENERALIZATION">
+      <point x="-77.5" y="0.0" />
+      <point x="483.5" y="980.0" />
+      <point x="483.5" y="700.25" />
+      <point x="-201.0" y="60.25" />
+    </edge>
+    <edge source="com.example.controller.commands.FrontCommand" target="com.example.controller.commands.RegisterCommand" relationship="DEPENDENCY">
+      <point x="6.75" y="172.0" />
+      <point x="946.75" y="1061.0" />
+      <point x="85.5" y="1.0" />
+    </edge>
+    <edge source="com.example.controller.commands.GetAirportCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="0.0" y="39.0" />
+      <point x="1500.0" y="630.0" />
+      <point x="201.0" y="-10.0" />
+    </edge>
+    <edge source="com.example.controller.commands.UnknownCommand" target="com.example.controller.commands.FrontCommand" relationship="GENERALIZATION">
+      <point x="90.0" y="0.0" />
+      <point x="-201.0" y="0.0" />
+    </edge>
+    <edge source="com.example.controller.commands.FrontCommand" target="com.example.controller.commands.LoginCommand" relationship="TO_ONE">
+      <point x="-201.0" y="70.25" />
+      <point x="588.6315156977618" y="710.25" />
+      <point x="0.0" y="-50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.AddPassengerCommand" target="com.example.controller.BookingController" relationship="DEPENDENCY">
+      <point x="0.0" y="-39.0" />
+      <point x="1420.0" y="1545.0" />
+      <point x="-130.0" y="5.0" />
+    </edge>
+    <edge source="com.example.controller.commands.PreviousFlightsCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="-107.5" y="0.0" />
+      <point x="1036.75" y="1380.0" />
+      <point x="96.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.SearchFlightsCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="0.0" y="-39.0" />
+      <point x="2500.0" y="680.0" />
+      <point x="201.0" y="40.0" />
+    </edge>
+    <edge source="com.example.controller.commands.AddPassengerCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="-105.5" y="0.5" />
+      <point x="1026.75" y="1700.5" />
+      <point x="86.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.PreviousFlightsCommand" target="com.example.controller.BookingController" relationship="DEPENDENCY">
+      <point x="0.0" y="39.0" />
+      <point x="0.0" y="-73.0" />
+    </edge>
+    <edge source="com.example.controller.commands.CustomerCommand" target="com.example.controller.commands.FrontCommand" relationship="GENERALIZATION">
+      <point x="5.0" y="-50.5" />
+      <point x="2245.0" y="859.0" />
+      <point x="1096.75" y="859.0" />
+      <point x="156.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.FrontServlet" target="com.example.controller.commands.UnknownCommand" relationship="CREATE">
+      <point x="0.0" y="50.0" />
+      <point x="0.0" y="-61.5" />
+    </edge>
+    <edge source="com.example.controller.commands.EditFlightCommand" target="com.example.controller.commands.AirlineCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-28.0" />
+      <point x="550.0" y="1615.0" />
+      <point x="430.5" y="1615.0" />
+      <point x="-69.5" y="50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.FrontCommand" target="com.example.controller.commands.LogoutCommand" relationship="DEPENDENCY">
+      <point x="201.0" y="-30.0" />
+      <point x="1344.5" y="610.0" />
+      <point x="1344.5" y="40.0" />
+      <point x="82.5" y="0.0" />
+    </edge>
+    <edge source="com.example.controller.commands.BookFlightCommand" target="com.example.controller.commands.CustomerCommand" relationship="GENERALIZATION">
+      <point x="94.0" y="0.0" />
+      <point x="2245.0" y="1760.0" />
+      <point x="5.0" y="50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.ManageCustomerCommand" target="com.example.controller.commands.AdminCommand" relationship="GENERALIZATION">
+      <point x="-116.5" y="0.0" />
+      <point x="81.0" y="0.0" />
+    </edge>
+    <edge source="com.example.controller.commands.AirlineCommand" target="com.example.controller.commands.FrontCommand" relationship="GENERALIZATION">
+      <point x="79.5" y="0.0" />
+      <point x="956.75" y="1220.0" />
+      <point x="16.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.AdminCommand" target="com.example.controller.commands.FrontCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-50.5" />
+      <point x="1880.0" y="-12.5" />
+      <point x="1405.0" y="-12.5" />
+      <point x="1405.0" y="620.0" />
+      <point x="201.0" y="-20.0" />
+    </edge>
+    <edge source="com.example.controller.commands.ViewBookedFlightCommand" target="com.example.controller.commands.CustomerCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="39.0" />
+      <point x="1780.0" y="1130.0" />
+      <point x="-90.5" y="-10.0" />
+    </edge>
+    <edge source="com.example.controller.commands.BookFlightCommand" target="com.example.controller.BookingController" relationship="DEPENDENCY">
+      <point x="0.0" y="-39.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="com.example.controller.commands.SelectSeatsCommand" target="com.example.controller.commands.CustomerCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="39.0" />
+      <point x="2020.0" y="1120.0" />
+      <point x="-90.5" y="-20.0" />
+    </edge>
+    <edge source="com.example.controller.commands.GetFlightCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="88.0" y="0.0" />
+      <point x="976.75" y="1467.5" />
+      <point x="36.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.ViewCustomerCommand" target="com.example.controller.commands.AirlineCommand" relationship="GENERALIZATION">
+      <point x="74.50000000000011" y="-28.0" />
+      <point x="873.5" y="1299.8333333333335" />
+      <point x="525.0" y="1299.8333333333335" />
+      <point x="25.0" y="50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.ViewPassengerCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="0.0" y="-28.0" />
+      <point x="567.0" y="1508.5" />
+      <point x="986.75" y="1508.5" />
+      <point x="46.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.UpcomingFlightsCommand" target="com.example.controller.BookingController" relationship="DEPENDENCY">
+      <point x="0.0" y="-39.0" />
+      <point x="1280.0" y="1535.0" />
+      <point x="-130.0" y="-5.0" />
+    </edge>
+    <edge source="com.example.controller.commands.PreviousFlightsCommand" target="com.example.controller.commands.CustomerCommand" relationship="GENERALIZATION">
+      <point x="107.5" y="0.0" />
+      <point x="2225.0" y="1380.0" />
+      <point x="-15.0" y="50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.AddPassengerCommand" target="com.example.controller.commands.CustomerCommand" relationship="GENERALIZATION">
+      <point x="105.5" y="0.0" />
+      <point x="2235.0" y="1700.0" />
+      <point x="-5.0" y="50.5" />
+    </edge>
+    <edge source="com.example.controller.FrontServlet" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="170.0" y="1.0" />
+      <point x="935.0" y="381.0" />
+      <point x="-5.0" y="-172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.ManageAirlineCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="0.0" y="50.0" />
+      <point x="1640.0" y="640.0" />
+      <point x="201.0" y="0.0" />
+    </edge>
+    <edge source="com.example.controller.commands.FrontCommand" target="com.example.controller.commands.LoginCommand" relationship="DEPENDENCY">
+      <point x="-201.0" y="80.25" />
+      <point x="679.5" y="720.25" />
+      <point x="679.5" y="979.0" />
+      <point x="77.5" y="-1.0" />
+    </edge>
+    <edge source="com.example.controller.commands.CreateTicketCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="0.0" y="-39.0" />
+      <point x="558.5" y="1294.5" />
+      <point x="966.75" y="1294.5" />
+      <point x="26.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.RegisterCommand" target="com.example.controller.commands.FrontCommand" relationship="GENERALIZATION">
+      <point x="-85.5" y="0.0" />
+      <point x="312.5" y="1060.0" />
+      <point x="312.5" y="680.25" />
+      <point x="-201.0" y="40.25" />
+    </edge>
+    <edge source="com.example.controller.commands.EditFlightCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="89.5" y="0.0" />
+      <point x="996.75" y="1670.5" />
+      <point x="56.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.CreateFlightCommand" target="com.example.controller.commands.AirlineCommand" relationship="GENERALIZATION">
+      <point x="-5.0" y="-39.0" />
+      <point x="769.0" y="1284.5" />
+      <point x="535.0" y="1284.5" />
+      <point x="35.0" y="50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.FrontCommand" target="com.example.controller.commands.RegisterCommand" relationship="TO_ONE">
+      <point x="-201.0" y="50.25" />
+      <point x="363.0524260177257" y="690.25" />
+      <point x="0.0" y="-50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.UpcomingFlightsCommand" target="com.example.controller.commands.CustomerCommand" relationship="GENERALIZATION">
+      <point x="114.0" y="0.0" />
+      <point x="2255.0" y="1820.0" />
+      <point x="15.0" y="50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.SearchFlightsCommand" target="com.example.controller.commands.CustomerCommand" relationship="GENERALIZATION">
+      <point x="-101.5" y="0.0" />
+      <point x="90.5" y="0.0" />
+    </edge>
+    <edge source="com.example.controller.commands.ViewBookedFlightCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="-116.5" y="0.0" />
+      <point x="1076.75" y="960.0" />
+      <point x="136.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.FrontCommand" target="com.example.controller.commands.LogoutCommand" relationship="TO_ONE">
+      <point x="5.0" y="-172.0" />
+      <point x="945.0" y="40.0" />
+      <point x="-82.5" y="0.0" />
+    </edge>
+    <edge source="com.example.controller.commands.ManageAirlineCommand" target="com.example.controller.commands.AdminCommand" relationship="GENERALIZATION">
+      <point x="105.0" y="0.0" />
+      <point x="1875.0" y="280.0" />
+      <point x="-5.0" y="50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.ManageUserCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="0.0" y="39.0" />
+      <point x="1880.0" y="650.0" />
+      <point x="201.0" y="10.0" />
+    </edge>
+    <edge source="com.example.controller.commands.CancelBookingCommand" target="com.example.controller.commands.CustomerCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="39.0" />
+      <point x="1520.0" y="1140.0" />
+      <point x="-90.5" y="0.0" />
+    </edge>
+    <edge source="com.example.controller.commands.CreateAirportCommand" target="com.example.controller.commands.AdminCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="2120.0" y="150.75" />
+      <point x="81.0" y="10.75" />
+    </edge>
+    <edge source="com.example.controller.commands.SubmitBookingCommand" target="com.example.controller.commands.CustomerCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="1520.0" y="1160.0" />
+      <point x="-90.5" y="20.0" />
+    </edge>
+    <edge source="com.example.controller.commands.ViewPassengerCommand" target="com.example.controller.commands.AirlineCommand" relationship="GENERALIZATION">
+      <point x="91.5" y="-28.0" />
+      <point x="658.5" y="1305.1666666666665" />
+      <point x="515.0" y="1305.1666666666665" />
+      <point x="15.0" y="50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.ViewCustomerCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="103.5" y="-28.0" />
+      <point x="-37.500000000000114" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.ManagePassengerCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="-117.5" y="0.0" />
+      <point x="1056.75" y="1140.0" />
+      <point x="116.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.ManageUserCommand" target="com.example.controller.commands.AdminCommand" relationship="GENERALIZATION">
+      <point x="5.0" y="-39.0" />
+      <point x="5.0" y="50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.CreateFlightCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="31.25" y="-39.0" />
+      <point x="-134.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.UpcomingFlightsCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="-114.0" y="0.0" />
+      <point x="1006.75" y="1820.0" />
+      <point x="66.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.CreateAirportCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="0.0" y="39.0" />
+      <point x="2120.0" y="660.0" />
+      <point x="201.0" y="20.0" />
+    </edge>
+    <edge source="com.example.controller.commands.ViewFlightCommand" target="com.example.controller.commands.CustomerCommand" relationship="GENERALIZATION">
+      <point x="92.5" y="0.0" />
+      <point x="2235.0" y="900.0" />
+      <point x="-5.0" y="-50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.ManageCustomerCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="0.0" y="39.0" />
+      <point x="2260.0" y="670.0" />
+      <point x="201.0" y="30.0" />
+    </edge>
+    <edge source="com.example.controller.commands.BookFlightCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="-94.0" y="0.0" />
+      <point x="1016.75" y="1760.0" />
+      <point x="76.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.DeleteFlightCommand" target="com.example.controller.commands.AirlineCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="558.0" y="1413.5" />
+      <point x="440.5" y="1413.5" />
+      <point x="-59.5" y="50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.LogoutCommand" target="com.example.controller.commands.FrontCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="50.5" />
+      <point x="1287.0001502178159" y="600.0" />
+      <point x="201.0" y="-40.0" />
+    </edge>
+    <edge source="com.example.controller.commands.SubmitBookingCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="-109.0" y="0.0" />
+      <point x="1046.75" y="1280.0" />
+      <point x="106.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.CancelBookingCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="-106.5" y="0.0" />
+      <point x="1066.75" y="1020.0" />
+      <point x="126.75" y="172.0" />
+    </edge>
+    <edge source="com.example.controller.commands.ManagePassengerCommand" target="com.example.controller.commands.CustomerCommand" relationship="GENERALIZATION">
+      <point x="117.5" y="10.0" />
+      <point x="-90.5" y="10.0" />
+    </edge>
+    <edge source="com.example.controller.commands.GetFlightCommand" target="com.example.controller.commands.AirlineCommand" relationship="GENERALIZATION">
+      <point x="0.0" y="-39.0" />
+      <point x="763.5" y="1403.5" />
+      <point x="450.5" y="1403.5" />
+      <point x="-49.5" y="50.5" />
+    </edge>
+    <edge source="com.example.controller.commands.ViewFlightCommand" target="com.example.controller.commands.FrontCommand" relationship="DEPENDENCY">
+      <point x="-92.5" y="0.0" />
+      <point x="1086.75" y="900.0" />
+      <point x="146.75" y="172.0" />
+    </edge>
+  </edges>
+  <settings layout="Compact" zoom="0.7036997885835096" showDependencies="true" x="978.8201892744479" y="318.0545290671473" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
