@@ -32,3 +32,6 @@ password: guanxueqi
 Release tag: https://github.com/SWEN900072021/four-aces/releases/tag/SWEN90007_2021_Part3_four-aces
 
 Please follow the testing guide in the last section of the report the test the app.
+
+# Part 4
+Release tag: https://github.com/SWEN900072021/four-aces/releases/tag/SWEN90007_2021_Part4_four-aces
