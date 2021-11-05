@@ -34,10 +34,6 @@ public class LockManager {
         return _instance;
     }
 
-    public HashMap<String, String> getLockList(){
-        return this.lockList;
-    }
-
     /**
      * Acquire the lock by adding the lock into the lock list
      * @param lockable, the name and id of the lockable item, e.g., flight-1
